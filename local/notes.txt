@@ -41,4 +41,13 @@ git pull
 git log
 git merge sriram-dev
 
+git push -u <remote-name> <branch-name>
+git push -u origin sriram-dev
+git add .
+
+git commit --amend -m 'Notes added for description and some configuration details'
+git push --force origin sriram-dev
+
+git reset
+// Changed //
 ** updated sofar***
