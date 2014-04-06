@@ -19,3 +19,26 @@ Project Properties -> Build -> Make Command -> sh -c "cmake -DCMAKE_BUILD_TYPE=D
 Project Properties -> Build -> Working Directory -> ./build
 Project Properties -> Run -> Run Command -> ./main -t -L20 test.mps
 Project Properties -> Run -> Run Directory -> ./build/local
+
+GIT commands:
+````````````````
+git remote set-url origin https://github.com/sriram-mahavadi/extlp.git
+git remote add origin https://github.com/sriram-mahavadi/extlp.git
+git remote show origin
+
+vim .gitignore
+.gitignore 
+build/*
+
+git add
+git commit -m 'Parser for mps files completed. Data structures in memory implemented'
+git push [ Master (non-fast forward) Merging with master branch]
+# creating 
+git checkout -b sriram-dev
+git master
+git branch
+git pull
+git log
+git merge sriram-dev
+
+** updated sofar***
