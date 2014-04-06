@@ -1,0 +1,21 @@
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/// Notes for the project: Includes configuration and 
+/// ways to kick-start with this project
+/////////////////////////////////////////////////////////////////
+
+Development Configuration:
+`````````````````````````
+Ubuntu 12.04 LTS
+g++ (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
+cmake version 2.8.7
+STXXL v1.4.99 
+NetBeans IDE 7.4
+
+
+NetBeans Settings:
+``````````````````
+Project Properties -> Build -> Make Command -> sh -c "cmake -DCMAKE_BUILD_TYPE=Debug .. && make"
+Project Properties -> Build -> Working Directory -> ./build
+Project Properties -> Run -> Run Command -> ./main -t -L20 test.mps
+Project Properties -> Run -> Run Directory -> ./build/local

@@ -15,6 +15,7 @@
 # find all .cpp files in current directory
 file(GLOB source_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp")
 
+#compile and line - replacing only main cpp for execution
 # compile and link
 foreach(file ${source_files})
   # remove .cpp
@@ -22,3 +23,12 @@ foreach(file ${source_files})
   # call macro
   stxxl_build_tool(${file})
 endforeach()
+##########################################################################33
+######## # compile and link
+######## foreach(file ${source_files})
+########   # remove .cpp
+########   string(REGEX REPLACE "\\.cpp$" "" file ${file})
+########   # call macro
+########   stxxl_build_tool(${file})
+########endforeach()
+################################################################################

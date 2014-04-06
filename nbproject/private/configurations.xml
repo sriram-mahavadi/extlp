@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="90">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <df name="build">
+        <df name="CMakeFiles">
+          <df name="CMakeTmp">
+            <df name="CMakeFiles">
+              <df name="cmTryCompileExec.dir">
+              </df>
+            </df>
+          </df>
+          <df name="CompilerIdC">
+            <in>CMakeCCompilerId.c</in>
+          </df>
+          <df name="CompilerIdCXX">
+            <in>CMakeCXXCompilerId.cpp</in>
+          </df>
+          <df name="Continuous.dir">
+          </df>
+          <df name="ContinuousBuild.dir">
+          </df>
+          <df name="ContinuousConfigure.dir">
+          </df>
+          <df name="ContinuousCoverage.dir">
+          </df>
+          <df name="ContinuousMemCheck.dir">
+          </df>
+          <df name="ContinuousStart.dir">
+          </df>
+          <df name="ContinuousSubmit.dir">
+          </df>
+          <df name="ContinuousTest.dir">
+          </df>
+          <df name="ContinuousUpdate.dir">
+          </df>
+          <df name="Experimental.dir">
+          </df>
+          <df name="ExperimentalBuild.dir">
+          </df>
+          <df name="ExperimentalConfigure.dir">
+          </df>
+          <df name="ExperimentalCoverage.dir">
+          </df>
+          <df name="ExperimentalMemCheck.dir">
+          </df>
+          <df name="ExperimentalStart.dir">
+          </df>
+          <df name="ExperimentalSubmit.dir">
+          </df>
+          <df name="ExperimentalTest.dir">
+          </df>
+          <df name="ExperimentalUpdate.dir">
+          </df>
+          <df name="Export">
+            <df name="lib">
+              <df name="cmake">
+                <df name="stxxl">
+                </df>
+              </df>
+            </df>
+          </df>
+          <df name="git-data">
+          </df>
+          <df name="Nightly.dir">
+          </df>
+          <df name="NightlyBuild.dir">
+          </df>
+          <df name="NightlyConfigure.dir">
+          </df>
+          <df name="NightlyCoverage.dir">
+          </df>
+          <df name="NightlyMemCheck.dir">
+          </df>
+          <df name="NightlyMemoryCheck.dir">
+          </df>
+          <df name="NightlyStart.dir">
+          </df>
+          <df name="NightlySubmit.dir">
+          </df>
+          <df name="NightlyTest.dir">
+          </df>
+          <df name="NightlyUpdate.dir">
+          </df>
+          <in>TestLargeFiles.c</in>
+        </df>
+        <df name="examples">
+          <df name="algo">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+          <df name="applications">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+          <df name="CMakeFiles">
+          </df>
+          <df name="common">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+          <df name="containers">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+          <df name="stream">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+        </df>
+        <df name="include">
+          <df name="stxxl">
+            <df name="bits">
+              <in>config.h</in>
+            </df>
+          </df>
+        </df>
+        <df name="lib">
+          <df name="CMakeFiles">
+            <df name="stxxl.dir">
+              <df name="algo">
+              </df>
+              <df name="common">
+              </df>
+              <df name="io">
+              </df>
+              <df name="mng">
+              </df>
+            </df>
+          </df>
+        </df>
+        <df name="local">
+          <df name="CMakeFiles">
+            <df name="main.dir">
+            </df>
+            <df name="test1.dir">
+            </df>
+          </df>
+          <df name="input">
+            <df name="largelp">
+            </df>
+            <df name="miplib2010">
+            </df>
+            <df name="soplex">
+            </df>
+          </df>
+        </df>
+        <df name="Testing">
+          <df name="Temporary">
+          </df>
+        </df>
+        <df name="tests">
+          <df name="algo">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+          <df name="CMakeFiles">
+          </df>
+          <df name="common">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+          <df name="containers">
+            <df name="btree">
+              <df name="CMakeFiles">
+              </df>
+            </df>
+            <df name="CMakeFiles">
+            </df>
+          </df>
+          <df name="io">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+          <df name="mng">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+          <df name="stream">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+        </df>
+        <df name="tools">
+          <df name="benchmarks">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+          <df name="CMakeFiles">
+            <df name="stxxl_tool.dir">
+            </df>
+          </df>
+          <df name="extras">
+            <df name="CMakeFiles">
+            </df>
+          </df>
+        </df>
+      </df>
+      <df name="CMakeFiles">
+        <df name="CMakeTmp">
+          <df name="CMakeFiles">
+            <df name="cmTryCompileExec.dir">
+            </df>
+          </df>
+        </df>
+        <df name="CompilerIdC">
+          <in>CMakeCCompilerId.c</in>
+        </df>
+        <df name="CompilerIdCXX">
+          <in>CMakeCXXCompilerId.cpp</in>
+        </df>
+        <df name="git-data">
+        </df>
+        <in>TestLargeFiles.c</in>
+      </df>
+      <df name="doc">
+        <df name="images">
+        </df>
+      </df>
+      <df name="examples">
+        <df name="algo">
+          <df name="CMakeFiles">
+          </df>
+          <in>copy_and_sort_file.cpp</in>
+          <in>phonebills.cpp</in>
+          <in>phonebills_genlog.cpp</in>
+          <in>sort_file.cpp</in>
+        </df>
+        <df name="applications">
+          <df name="CMakeFiles">
+          </df>
+          <in>skew3.cpp</in>
+        </df>
+        <df name="CMakeFiles">
+        </df>
+        <df name="common">
+          <df name="CMakeFiles">
+          </df>
+          <in>cmdline.cpp</in>
+        </df>
+        <df name="containers">
+          <df name="CMakeFiles">
+          </df>
+          <in>copy_file.cpp</in>
+          <in>deque1.cpp</in>
+          <in>deque2.cpp</in>
+          <in>map1.cpp</in>
+          <in>matrix1.cpp</in>
+          <in>pqueue1.cpp</in>
+          <in>pqueue2.cpp</in>
+          <in>queue1.cpp</in>
+          <in>queue2.cpp</in>
+          <in>sequence1.cpp</in>
+          <in>sorter1.cpp</in>
+          <in>sorter2.cpp</in>
+          <in>stack1.cpp</in>
+          <in>stack2.cpp</in>
+          <in>vector1.cpp</in>
+          <in>vector2.cpp</in>
+          <in>vector_buf.cpp</in>
+        </df>
+        <df name="stream">
+          <df name="CMakeFiles">
+          </df>
+          <in>stream1.cpp</in>
+        </df>
+      </df>
+      <df name="include">
+        <df name="stxxl">
+          <df name="bits">
+            <df name="algo">
+              <in>adaptor.h</in>
+              <in>async_schedule.h</in>
+              <in>inmemsort.h</in>
+              <in>intksort.h</in>
+              <in>ksort.h</in>
+              <in>losertree.h</in>
+              <in>random_shuffle.h</in>
+              <in>run_cursor.h</in>
+              <in>scan.h</in>
+              <in>sort.h</in>
+              <in>sort_base.h</in>
+              <in>sort_helper.h</in>
+              <in>stable_ksort.h</in>
+            </df>
+            <df name="common">
+              <in>addressable_queues.h</in>
+              <in>aligned_alloc.h</in>
+              <in>binary_buffer.h</in>
+              <in>cmdline.h</in>
+              <in>condition_variable.h</in>
+              <in>counting_ptr.h</in>
+              <in>error_handling.h</in>
+              <in>exceptions.h</in>
+              <in>exithandler.h</in>
+              <in>is_sorted.h</in>
+              <in>log.h</in>
+              <in>mutex.h</in>
+              <in>new_alloc.h</in>
+              <in>onoff_switch.h</in>
+              <in>rand.h</in>
+              <in>seed.h</in>
+              <in>semaphore.h</in>
+              <in>settings.h</in>
+              <in>simple_vector.h</in>
+              <in>state.h</in>
+              <in>timer.h</in>
+              <in>tmeta.h</in>
+              <in>tuple.h</in>
+              <in>types.h</in>
+              <in>uint_types.h</in>
+              <in>utils.h</in>
+            </df>
+            <df name="compat">
+              <in>hash_map.h</in>
+              <in>type_traits.h</in>
+              <in>unique_ptr.h</in>
+            </df>
+            <df name="containers">
+              <df name="btree">
+                <in>btree.h</in>
+                <in>iterator.h</in>
+                <in>iterator_map.h</in>
+                <in>leaf.h</in>
+                <in>node.h</in>
+                <in>node_cache.h</in>
+                <in>root_node.h</in>
+              </df>
+              <in>deque.h</in>
+              <in>map.h</in>
+              <in>matrix.h</in>
+              <in>matrix_arithmetic.h</in>
+              <in>matrix_low_level.h</in>
+              <in>pager.h</in>
+              <in>pq_ext_merger.h</in>
+              <in>pq_helpers.h</in>
+              <in>pq_losertree.h</in>
+              <in>pq_mergers.h</in>
+              <in>priority_queue.h</in>
+              <in>queue.h</in>
+              <in>sequence.h</in>
+              <in>sorter.h</in>
+              <in>stack.h</in>
+              <in>vector.h</in>
+            </df>
+            <df name="io">
+              <in>boostfd_file.h</in>
+              <in>completion_handler.h</in>
+              <in>create_file.h</in>
+              <in>disk_queued_file.h</in>
+              <in>disk_queues.h</in>
+              <in>file.h</in>
+              <in>fileperblock_file.h</in>
+              <in>io.h</in>
+              <in>iostats.h</in>
+              <in>mem_file.h</in>
+              <in>mmap_file.h</in>
+              <in>request.h</in>
+              <in>request_interface.h</in>
+              <in>request_operations.h</in>
+              <in>request_queue.h</in>
+              <in>request_queue_impl_1q.h</in>
+              <in>request_queue_impl_qwqr.h</in>
+              <in>request_queue_impl_worker.h</in>
+              <in>request_with_state.h</in>
+              <in>request_with_waiters.h</in>
+              <in>serving_request.h</in>
+              <in>simdisk_file.h</in>
+              <in>syscall_file.h</in>
+              <in>ufs_file_base.h</in>
+              <in>wbtl_file.h</in>
+              <in>wfs_file_base.h</in>
+              <in>wincall_file.h</in>
+            </df>
+            <df name="mng">
+              <in>adaptor.h</in>
+              <in>bid.h</in>
+              <in>block_alloc.h</in>
+              <in>block_alloc_interleaved.h</in>
+              <in>block_manager.h</in>
+              <in>block_prefetcher.h</in>
+              <in>block_scheduler.h</in>
+              <in>buf_istream.h</in>
+              <in>buf_istream_reverse.h</in>
+              <in>buf_ostream.h</in>
+              <in>buf_writer.h</in>
+              <in>config.h</in>
+              <in>disk_allocator.h</in>
+              <in>prefetch_pool.h</in>
+              <in>read_write_pool.h</in>
+              <in>typed_block.h</in>
+              <in>write_pool.h</in>
+            </df>
+            <df name="stream">
+              <in>choose.h</in>
+              <in>sort_stream.h</in>
+              <in>sorted_runs.h</in>
+              <in>stream.h</in>
+              <in>unique.h</in>
+            </df>
+            <df name="utils">
+              <in>malloc.h</in>
+            </df>
+            <in>config.h</in>
+            <in>defines.h</in>
+            <in>deprecated.h</in>
+            <in>libstxxl.h</in>
+            <in>msvc_compatibility.h</in>
+            <in>namespace.h</in>
+            <in>noncopyable.h</in>
+            <in>parallel.h</in>
+            <in>singleton.h</in>
+            <in>unused.h</in>
+            <in>verbose.h</in>
+            <in>version.h</in>
+          </df>
+          <in>version.h</in>
+        </df>
+        <in>stxxl.h</in>
+      </df>
+      <df name="lib">
+        <df name="algo">
+          <in>async_schedule.cpp</in>
+        </df>
+        <df name="CMakeFiles">
+        </df>
+        <df name="common">
+          <in>cmdline.cpp</in>
+          <in>exithandler.cpp</in>
+          <in>log.cpp</in>
+          <in>rand.cpp</in>
+          <in>seed.cpp</in>
+          <in>utils.cpp</in>
+          <in>verbose.cpp</in>
+          <in>version.cpp</in>
+        </df>
+        <df name="io">
+          <in>boostfd_file.cpp</in>
+          <in>create_file.cpp</in>
+          <in>disk_queued_file.cpp</in>
+          <in>file.cpp</in>
+          <in>fileperblock_file.cpp</in>
+          <in>iostats.cpp</in>
+          <in>mem_file.cpp</in>
+          <in>mmap_file.cpp</in>
+          <in>request.cpp</in>
+          <in>request_queue_impl_1q.cpp</in>
+          <in>request_queue_impl_qwqr.cpp</in>
+          <in>request_queue_impl_worker.cpp</in>
+          <in>request_with_state.cpp</in>
+          <in>request_with_waiters.cpp</in>
+          <in>serving_request.cpp</in>
+          <in>simdisk_file.cpp</in>
+          <in>syscall_file.cpp</in>
+          <in>ufs_file_base.cpp</in>
+          <in>ufs_platform.h</in>
+          <in>wbtl_file.cpp</in>
+          <in>wfs_file_base.cpp</in>
+          <in>wincall_file.cpp</in>
+        </df>
+        <df name="mng">
+          <in>block_manager.cpp</in>
+          <in>config.cpp</in>
+          <in>disk_allocator.cpp</in>
+        </df>
+      </df>
+      <df name="local">
+        <df name="CMakeFiles">
+        </df>
+        <df name="Utils">
+        </df>
+        <in>Console.h</in>
+        <in>ExtLPCol.h</in>
+        <in>ExtLPMatrix.h</in>
+        <in>Fraction.h</in>
+        <in>GlobalDefines.h</in>
+        <in>LPCol.h</in>
+        <in>LPParser.h</in>
+        <in>LPProblem.h</in>
+        <in>LPRow.h</in>
+        <in>LPSolver.h</in>
+        <in>MPSParser.h</in>
+        <in>MixedFraction.h</in>
+        <in>PackedVector.h</in>
+        <in>PackedVectorUtil.h</in>
+        <in>ReadFileUtil.h</in>
+        <in>ReadLPUtil.h</in>
+        <in>ReadMPSUtil.h</in>
+        <in>Timer.h</in>
+        <in>main.cpp</in>
+        <in>mpsinput.h</in>
+        <in>notes.txt</in>
+        <in>test1.cpp</in>
+      </df>
+      <df name="misc">
+        <df name="cmake">
+          <in>TestFileOffsetBits.c</in>
+          <in>TestWindowsFSeek.c</in>
+        </df>
+      </df>
+      <df name="Testing">
+        <df name="Temporary">
+        </df>
+      </df>
+      <df name="tests">
+        <df name="algo">
+          <df name="CMakeFiles">
+          </df>
+          <in>test_asch.cpp</in>
+          <in>test_bad_cmp.cpp</in>
+          <in>test_ksort.cpp</in>
+          <in>test_ksort_all_parameters.cpp</in>
+          <in>test_parallel_sort.cpp</in>
+          <in>test_random_shuffle.cpp</in>
+          <in>test_scan.cpp</in>
+          <in>test_sort.cpp</in>
+          <in>test_sort_all_parameters.cpp</in>
+          <in>test_sort_all_parameters.h</in>
+          <in>test_stable_ksort.cpp</in>
+          <in>test_stable_ksort_all_parameters.cpp</in>
+        </df>
+        <df name="CMakeFiles">
+        </df>
+        <df name="common">
+          <df name="CMakeFiles">
+          </df>
+          <in>test_binary_buffer.cpp</in>
+          <in>test_cmdline.cpp</in>
+          <in>test_counting_ptr.cpp</in>
+          <in>test_globals.cpp</in>
+          <in>test_log2.cpp</in>
+          <in>test_manyunits.cpp</in>
+          <in>test_manyunits2.cpp</in>
+          <in>test_random.cpp</in>
+          <in>test_tuple.cpp</in>
+          <in>test_uint_types.cpp</in>
+        </df>
+        <df name="containers">
+          <df name="btree">
+            <df name="CMakeFiles">
+            </df>
+            <in>test_btree.cpp</in>
+            <in>test_const_scan.cpp</in>
+            <in>test_corr_insert_erase.cpp</in>
+            <in>test_corr_insert_find.cpp</in>
+            <in>test_corr_insert_scan.cpp</in>
+          </df>
+          <df name="CMakeFiles">
+          </df>
+          <in>map_test_handlers.h</in>
+          <in>test_deque.cpp</in>
+          <in>test_ext_merger.cpp</in>
+          <in>test_ext_merger2.cpp</in>
+          <in>test_iterators.cpp</in>
+          <in>test_many_stacks.cpp</in>
+          <in>test_map.cpp</in>
+          <in>test_map_random.cpp</in>
+          <in>test_matrix.cpp</in>
+          <in>test_migr_stack.cpp</in>
+          <in>test_pqueue.cpp</in>
+          <in>test_queue.cpp</in>
+          <in>test_queue2.cpp</in>
+          <in>test_sequence.cpp</in>
+          <in>test_sorter.cpp</in>
+          <in>test_stack.cpp</in>
+          <in>test_vector.cpp</in>
+          <in>test_vector_buf.cpp</in>
+          <in>test_vector_export.cpp</in>
+          <in>test_vector_sizes.cpp</in>
+        </df>
+        <df name="io">
+          <df name="CMakeFiles">
+          </df>
+          <in>test_cancel.cpp</in>
+          <in>test_io.cpp</in>
+          <in>test_io_sizes.cpp</in>
+          <in>test_mmap.cpp</in>
+          <in>test_sim_disk.cpp</in>
+        </df>
+        <df name="mng">
+          <df name="CMakeFiles">
+          </df>
+          <in>test_aligned.cpp</in>
+          <in>test_block_alloc_strategy.cpp</in>
+          <in>test_block_manager.cpp</in>
+          <in>test_block_manager1.cpp</in>
+          <in>test_block_manager2.cpp</in>
+          <in>test_block_scheduler.cpp</in>
+          <in>test_bmlayer.cpp</in>
+          <in>test_buf_streams.cpp</in>
+          <in>test_config.cpp</in>
+          <in>test_pool_pair.cpp</in>
+          <in>test_prefetch_pool.cpp</in>
+          <in>test_read_write_pool.cpp</in>
+          <in>test_write_pool.cpp</in>
+        </df>
+        <df name="stream">
+          <df name="CMakeFiles">
+          </df>
+          <in>test_loop.cpp</in>
+          <in>test_materialize.cpp</in>
+          <in>test_naive_transpose.cpp</in>
+          <in>test_push_sort.cpp</in>
+          <in>test_sorted_runs.cpp</in>
+          <in>test_stream.cpp</in>
+          <in>test_stream1.cpp</in>
+        </df>
+      </df>
+      <df name="tools">
+        <df name="benchmarks">
+          <df name="CMakeFiles">
+          </df>
+          <in>app_config.h</in>
+          <in>benchmark_naive_matrix.cpp</in>
+          <in>berkeley_db_benchmark.cpp</in>
+          <in>matrix_benchmark.cpp</in>
+          <in>monotonic_pq.cpp</in>
+          <in>pq_benchmark.cpp</in>
+          <in>stack_benchmark.cpp</in>
+          <in>tpie_stack_benchmark.cpp</in>
+        </df>
+        <df name="CMakeFiles">
+        </df>
+        <df name="extras">
+          <df name="CMakeFiles">
+          </df>
+          <in>benchmark_disk_and_flash.cpp</in>
+          <in>iobench_scatter_in_place.cpp</in>
+          <in>pq_param.cpp</in>
+        </df>
+        <in>benchmark_disks.cpp</in>
+        <in>benchmark_disks_random.cpp</in>
+        <in>benchmark_files.cpp</in>
+        <in>benchmark_pqueue.cpp</in>
+        <in>benchmark_sort.cpp</in>
+        <in>create_files.cpp</in>
+        <in>mallinfo.cpp</in>
+        <in>mlock.cpp</in>
+        <in>stxxl_tool.cpp</in>
+      </df>
+    </df>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <platform>2</platform>
+      </toolsSet>
+      <compile>
+        <compiledirpicklist>
+          <compiledirpicklistitem>.</compiledirpicklistitem>
+          <compiledirpicklistitem>${AUTO_FOLDER}</compiledirpicklistitem>
+        </compiledirpicklist>
+        <compiledir>${AUTO_FOLDER}</compiledir>
+        <compilecommandpicklist>
+          <compilecommandpicklistitem>${MAKE} ${ITEM_NAME}.o</compilecommandpicklistitem>
+          <compilecommandpicklistitem>${AUTO_COMPILE}</compilecommandpicklistitem>
+        </compilecommandpicklist>
+        <compilecommand>${AUTO_COMPILE}</compilecommand>
+      </compile>
+      <dbx_gdbdebugger version="1">
+        <gdb_pathmaps>
+        </gdb_pathmaps>
+        <gdb_interceptlist>
+          <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
+        </gdb_interceptlist>
+        <gdb_options>
+          <DebugOptions>
+          </DebugOptions>
+        </gdb_options>
+        <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
+      </dbx_gdbdebugger>
+      <nativedebugger version="1">
+        <engine>gdb</engine>
+      </nativedebugger>
+      <runprofile version="9">
+        <runcommandpicklist>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>./test1</runcommandpicklistitem>
+          <runcommandpicklistitem>./main -t -L20 test.mps</runcommandpicklistitem>
+          <runcommandpicklistitem>./main -t -L20 input/afiro.mps</runcommandpicklistitem>
+          <runcommandpicklistitem>./main -t -L20 input/soplex/afiro.mps</runcommandpicklistitem>
+        </runcommandpicklist>
+        <runcommand>./main -t -L20 input/soplex/afiro.mps</runcommand>
+        <rundir>./build/local</rundir>
+        <buildfirst>false</buildfirst>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+  </confs>
+</configurationDescriptor>

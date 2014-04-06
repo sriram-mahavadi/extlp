@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="90">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <df name="lib">
+        <df name="algo">
+          <in>async_schedule.cpp</in>
+        </df>
+        <df name="common">
+          <in>cmdline.cpp</in>
+          <in>exithandler.cpp</in>
+          <in>log.cpp</in>
+          <in>rand.cpp</in>
+          <in>seed.cpp</in>
+          <in>utils.cpp</in>
+          <in>verbose.cpp</in>
+          <in>version.cpp</in>
+        </df>
+        <df name="io">
+          <in>boostfd_file.cpp</in>
+          <in>create_file.cpp</in>
+          <in>disk_queued_file.cpp</in>
+          <in>file.cpp</in>
+          <in>fileperblock_file.cpp</in>
+          <in>iostats.cpp</in>
+          <in>mem_file.cpp</in>
+          <in>mmap_file.cpp</in>
+          <in>request.cpp</in>
+          <in>request_queue_impl_1q.cpp</in>
+          <in>request_queue_impl_qwqr.cpp</in>
+          <in>request_queue_impl_worker.cpp</in>
+          <in>request_with_state.cpp</in>
+          <in>request_with_waiters.cpp</in>
+          <in>serving_request.cpp</in>
+          <in>simdisk_file.cpp</in>
+          <in>syscall_file.cpp</in>
+          <in>ufs_file_base.cpp</in>
+          <in>wbtl_file.cpp</in>
+          <in>wfs_file_base.cpp</in>
+          <in>wincall_file.cpp</in>
+        </df>
+        <df name="mng">
+          <in>block_manager.cpp</in>
+          <in>config.cpp</in>
+          <in>disk_allocator.cpp</in>
+        </df>
+      </df>
+      <df name="local">
+        <in>main.cpp</in>
+        <in>notes.txt</in>
+        <in>test1.cpp</in>
+      </df>
+      <df name="tools">
+        <in>benchmark_disks.cpp</in>
+        <in>benchmark_disks_random.cpp</in>
+        <in>benchmark_files.cpp</in>
+        <in>benchmark_pqueue.cpp</in>
+        <in>benchmark_sort.cpp</in>
+        <in>create_files.cpp</in>
+        <in>mallinfo.cpp</in>
+        <in>mlock.cpp</in>
+        <in>stxxl_tool.cpp</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>CMakeLists.txt</itemPath>
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>./build</buildCommandWorkingDir>
+          <buildCommand>sh -c "cmake -DCMAKE_BUILD_TYPE=Debug .. &amp;&amp; make"
+</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>include</pElem>
+              <pElem>build/include</pElem>
+            </incDir>
+            <preprocessorList>
+              <Elem>_FILE_OFFSET_BITS=64</Elem>
+              <Elem>_LARGEFILE_SOURCE</Elem>
+              <Elem>_LARGE_FILES</Elem>
+              <Elem>_OPENMP=200805</Elem>
+              <Elem>_PTHREADS=1</Elem>
+              <Elem>_REENTRANT=1</Elem>
+            </preprocessorList>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+      <folder path="0/lib">
+        <ccTool>
+          <incDir>
+            <pElem>build/lib</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/local">
+        <ccTool>
+          <incDir>
+            <pElem>build/local</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/tools">
+        <ccTool>
+          <incDir>
+            <pElem>build/tools</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="lib/algo/async_schedule.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/common/cmdline.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/common/exithandler.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/common/log.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/common/rand.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/common/seed.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/common/utils.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/common/verbose.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/common/version.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/boostfd_file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/create_file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/disk_queued_file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/fileperblock_file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/iostats.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/mem_file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/mmap_file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/request.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/request_queue_impl_1q.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/request_queue_impl_qwqr.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/request_queue_impl_worker.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/request_with_state.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/request_with_waiters.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/serving_request.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/simdisk_file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/syscall_file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/ufs_file_base.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/wbtl_file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/wfs_file_base.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/io/wincall_file.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/mng/block_manager.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/mng/config.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="lib/mng/disk_allocator.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="local/main.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="local/notes.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/test1.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="tools/benchmark_disks.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="tools/benchmark_disks_random.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="tools/benchmark_files.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="tools/benchmark_pqueue.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="tools/benchmark_sort.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="tools/create_files.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="tools/mallinfo.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="tools/mlock.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+      <item path="tools/stxxl_tool.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool>
+        </ccTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
