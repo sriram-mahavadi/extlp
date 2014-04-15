@@ -184,7 +184,8 @@ endReadRows:
         col.setObj(0.0F);
         //    vec.clear();
 
-        int i = 0, lines = 0;
+        int i = 0;
+//        int lines = 0;
         while (mps.readLine()) {
 //            DEBUG_PARSER("Lines Read: " << lines++ << "; Columns Read: " << i)
             if (mps.field0() != 0) {
@@ -357,12 +358,12 @@ endReadRows:
                 }
             }
         }
-endReadRhsWithError:
+//endReadRhsWithError:
         mps.syntaxError();
 endReadRhs:
         mps.setRhsName(rhsname);
     }
-    bool readMPS(std::istream &is, std::vector<std::string> &rowNames, std::vector<std::string> &colNames) {
+    bool readMPS(std::istream &is) {
         //MPS
         DEBUG_PARSER("Reading MPS File");
         MPSInput mpsInput(is);

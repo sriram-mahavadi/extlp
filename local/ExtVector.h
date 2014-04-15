@@ -23,10 +23,18 @@ private:
      * Blocking structure. -- TO DO --     
      */
     real_vector vctDisk;
-    int nnz;
-    int realSize;
+    unsigned int nnz;
+    unsigned int realSize;
     bool isVctPacked; // TO DO - Shift the packed identifier bit to physical memory
 public:
+    /// Donot explicitly call this constructor
+    /// unless very much necessary
+    ExtVector(){
+        nnz = 0;
+        realSize = 0;
+    }
+    /// Always use this constructor for storing packed vector 
+    /// into the disk
     ExtVector(PackedVector &vctPacked) {
         // 1 extra element to specify if the vector is packed or not
         vctDisk.resize(vctPacked.getUnPackedSize() + 1);

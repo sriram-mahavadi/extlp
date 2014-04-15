@@ -28,25 +28,32 @@
 // Storing 4 KB = 1<<12 block size by default
 #define BLOCK_SIZE 1<<12;
 typedef stxxl::VECTOR_GENERATOR<REAL>::result real_vector;
+typedef stxxl::VECTOR_GENERATOR<REAL>::result real_vector;
 
+//////////// - Defining map for storing rownames and colnames
 #define DATA_NODE_BLOCK_SIZE (4096)
 #define DATA_LEAF_BLOCK_SIZE (4096)
 
 //! [comparator]
-
-struct CompareGreater {
-
+struct CompareGreaterInt {
     bool operator () (const int& a, const int& b) const {
         return a > b;
     }
-
     static int max_value() {
         return std::numeric_limits<int>::min();
     }
 };
+struct CompareGreaterString {
+    bool operator () (const std::string& a, const std::string& b) const {
+        return a > b;
+    }
+    static std::string max_value() {
+        return "";
+    }
+};
 // template parameter <KeyType, DataType, CompareType, RawNodeSize, RawLeafSize, PDAllocStrategy (optional)>
-typedef stxxl::map<int, char, CompareGreater, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> int_map;
-
+typedef stxxl::map<int, char, CompareGreaterInt, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> int_map;
+typedef stxxl::map<std::string, unsigned int, CompareGreaterString, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> name_map;
 
 
 ///////////////////////////////////////////////////////////////////////////
