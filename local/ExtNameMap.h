@@ -51,11 +51,18 @@ public:
 //        else Console::println(b);
         name_map myMap((name_map::node_block_type::raw_size)*3, (name_map::leaf_block_type::raw_size)*3);
         ExtNameMap strMap(myMap);
-        string arrTest[] = {"hello", "this", "is", "a", "simple", "test"};
-        unsigned int i, testSize = 6;
+        string arrTest[] = {"hello", "this", "is", "a", "simple", "test", "tryokdddddddddddddddddddddddddddddddddddddddddddddutthissizestringyouhero"};
+        unsigned int i, testSize = 7;
         for(i=0; i<testSize; i++){
             Console::println("Inserting: " + arrTest[i]);
             strMap.set(arrTest[i], i);
+        }
+        for(i=testSize; i<1000000; i++){        /// Inserting 1 million strings
+            
+            std::stringstream strStream;
+            strStream<<(i*100);
+//            Console::println("Inserting: " + strStream.str());
+            strMap.set(strStream.str(), i);
         }
         strMap.displayMap();
         Console::println("------------ *** --------------");

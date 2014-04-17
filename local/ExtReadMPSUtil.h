@@ -386,7 +386,9 @@ endReadRows:
                 //            DEBUG_PARSER("Reading New Column");
                 if (colname[0] != '\0') {
                     col.setColVector(vec);
+                    //                    DEBUG_PARSER("Reading ColName: "<<colname<<"; "<<col.getName());
                     ExtColVector extCol(col);
+                    //                    DEBUG_PARSER("Reading ColName: "<<colname<<"; "<<extCol.getName());
                     extDataSet.vctCols.push_back(extCol);
                     //                    arrCol.push_back(col);
                 }
@@ -528,14 +530,14 @@ endReadRows:
                     if (!extDataSet.mapRowName.contains(mps.field4()))
                         mps.entryIgnored("RHS", mps.field1(), "row", mps.field4());
                     else {
-//                        idx = mapRowNumber[mps.field4()];
+                        //                        idx = mapRowNumber[mps.field4()];
                         idx = extDataSet.mapRowName.get(mps.field4());
                         val = atof(mps.field5());
                         // LE or EQ
                         //                    if (rset.rhs(idx) < infinity)
                         //                        rset.rhs_w(idx) = val;
-//                        if (arrRow[idx].rhs() < INFINITY_VALUE)
-                        if(extDataSet.vctRows[idx].getRhs()<INFINITY_VALUE)
+                        //                        if (arrRow[idx].rhs() < INFINITY_VALUE)
+                        if (extDataSet.vctRows[idx].getRhs() < INFINITY_VALUE)
                             extDataSet.vctRows[idx].setRhs(val);
                         // GE or EQ
                         //                    if (rset.lhs(idx) > -infinity)
@@ -550,6 +552,7 @@ endReadRows:
         mps.syntaxError();
 endReadRhs:
         mps.setRhsName(rhsname);
+        extDataSet.setRhsName(rhsname);
     }
     bool readMPS(std::istream &is, ExtLPDSSet &extDataSet) {
         //MPS
@@ -630,8 +633,8 @@ endReadRhs:
         std::stringstream titleStream;
         titleStream << setw(10) << "Row/Col" << ": ";
         for (j = 0; j < extDataSet.vctCols.size(); j++)
-            titleStream << setw(10) << extDataSet.vctCols[i].getName() << ", ";
-        titleStream << setw(10) << mpsInput.rhsName() << ", ";
+            titleStream << setw(10) << extDataSet.vctCols[j].getName() << ", ";
+        titleStream << setw(10) << extDataSet.getRhsName() << ", ";
         DEBUG_PARSER(titleStream.str());
 
         std::stringstream objStream;
@@ -650,7 +653,7 @@ endReadRhs:
             rowStream << setw(10) << extDataSet.vctRows[i].getName() << ": ";
             for (j = 0; j < extDataSet.vctCols.size(); j++) {
                 //                mapColNumber[]
-                rowStream << setw(10) << extDataSet.vctCols[i].getRowElement(i) << ", ";
+                rowStream << setw(10) << extDataSet.vctCols[j].getRowElement(i) << ", ";
             }
             rowStream << setw(10) << extDataSet.vctRows[i].getRhs() << ", ";
             DEBUG_PARSER(rowStream.str());

@@ -252,8 +252,22 @@ public:
     /// 
     void setRealSize(unsigned int p_realSize) {
         realSize = p_realSize;
+        if(status==UNPACKED)
+            vctUnpacked.reserve(p_realSize);
     }
 
+    void clear(){
+        if(isPacked()){
+            vctPacked.clear();
+            nnz=0;
+        }else{
+            vctUnpacked.clear();
+            vctUnpacked.reserve(realSize);
+            nnz=0;
+        }
+        
+    }
+    
     ///
     void displayVector() {
         Console::println("********* Vector Display ************");

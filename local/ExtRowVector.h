@@ -41,8 +41,8 @@ public:
     /// Construct LPRow with a vector ready to hold \p defDim nonzeros
     /// The ExtRowVector is constructed from the existing PackedRowVector
     /// from the memory
-    explicit ExtRowVector(PackedRowVector packedRowVector)
-    : left(0), right(INFINITY_VALUE), vctPack(packedRowVector.getPackedVector()),
+    explicit ExtRowVector(PackedRowVector &packedRowVector)
+    : left(packedRowVector.getLhs()), right(packedRowVector.getRhs()), vctPack(packedRowVector.getPackedVector()),
     name(packedRowVector.getName()) {
     }
 

@@ -33,8 +33,8 @@ public:
      *  nonzeros.
      */
     explicit ExtColVector(PackedColVector& vctPack)
-    : up(INFINITY_VALUE), low(0), object(0), vctCol(vctPack.getPackedVector()),
-    name(vctPack.getName()) {
+    : up(vctPack.upper()), low(vctPack.lower()), object(vctPack.obj()),
+    vctCol(vctPack.getPackedVector()), name(vctPack.getName()) {
     }
 
     //------------------------------------

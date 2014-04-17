@@ -95,8 +95,10 @@ public:
     //      return vec;
     //   }
 
+   
     /// access constraint column vector.
     void setColVector(const std::vector<REAL>& p_vec) {
+        vctCol.clear();
         vctCol.setRealSize(p_vec.size());
         for(unsigned int i=0; i<p_vec.size(); i++){
                 vctCol.add(i, p_vec[i]);

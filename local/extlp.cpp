@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
         filename = argv[optidx];
         DEBUG_SIMPLE("Accepted Input File: " << filename);
         ReadFileUtil inputReader;
-        inputReader.readFile(filename); // Reading using physical memory
+//        inputReader.readFile(filename); // Reading using physical memory
         ///////////// - Initializing data structures
         std::vector<ExtRowVector> vctRows; // Set of Rows
         std::vector<ExtColVector> vctCols; // Set of Columns
@@ -109,12 +109,12 @@ int main(int argc, char *argv[]) {
         ExtNameMap mapColName(myColMap);
         ExtLPDSSet extDataSet(vctRows, vctCols, vctRhs, vctObj,
                 vctCacheRows, vctCacheCols, mapRowName, mapColName);
-        inputReader.readFileUsingDisk(filename, extDataSet);
+//        inputReader.readFileUsingDisk(filename, extDataSet);
 
         ///////////////////// --- Test Sections
-        PackedVector::test();
+//        PackedVector::test();
         ExtVector::test();
-        ExtNameMap::test();
+//        ExtNameMap::test();
 
         //        ExtLPMatrix matrix;
         std::cout << (stxxl::stats_data(*Stats) - stats_begin);

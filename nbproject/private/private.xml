@@ -16,7 +16,6 @@
             <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtLPDSSet.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/ReadMPSUtil.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/examples/algo/phonebills.cpp</file>
-            <file>file:/home/sriram/technology/thesisilp/extlp/build/local/input/soplex/afiro.mps</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/LPRow.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/ReadLPUtil.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/notes.txt</file>
@@ -32,6 +31,7 @@
             <file>file:/home/sriram/technology/thesisilp/extlp/local/MixedFraction.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/Console.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtColVector.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/PackedVector.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtVector.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/PackedRowVector.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtRowVector.h</file>

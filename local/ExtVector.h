@@ -37,7 +37,9 @@ public:
     /// into the disk
     ExtVector(PackedVector &vctPacked) {
         // 1 extra element to specify if the vector is packed or not
-        vctDisk.resize(vctPacked.getUnPackedSize() + 1);
+        vctDisk.reserve(vctPacked.getUnPackedSize() + 1);
+        DEBUG("Vector Unpacked Size: "<<vctPacked.getUnPackedSize() + 1);
+        DEBUG("ExtVector Size: "<<vctDisk.capacity());
         nnz = vctPacked.getPackedSize();
         realSize = vctPacked.getUnPackedSize();
         if (vctPacked.getSparsity() < 0.5f) {
@@ -54,7 +56,7 @@ public:
             vctDisk[i] = 1; // Vector is packed
             for (i = 0; i < vctPacked.size(); i++) {
                 PackedElement element = vctPacked.get(i);
-                vctDisk[2 * i + 1] = element.index;
+                vctDisk[2 * i + 1] = (REAL)element.index;
                 vctDisk[2 * i + 2] = element.value;
             }
         }
@@ -139,22 +141,27 @@ public:
         REAL arrTest[] = {1.0, 2.0, 5.0, 6.0, 0.0, 0.0, 0.0, 0.0, 7.1, 0.0, 0.0, 8.2, 6};
         unsigned int testSize = sizeof (arrTest) / sizeof (REAL);
         PackedVector vctPack(testSize);
+        vctPack.setRealSize(10000000);
         unsigned int i;
         for (i = 0; i < testSize; i++) {
-            vctPack.add(i, arrTest[i]);
+            vctPack.add(i, (REAL)arrTest[i]);
             //            vctPack.displayVector();
+        }
+        for(i=testSize; i<10000000; i++){ // Adding 1 mil numbers
+            vctPack.add(i, i);
         }
         
         Console::println("Original Vector: ");
-        vctPack.displayVector();
+//        vctPack.displayVector();
         // Saving vctPack1 to disk
         ExtVector extVector(vctPack);
         Console::println("Value of index 2: ", extVector.getAbsoluteIndexElement(2));
         Console::println("Value of index 4: ", extVector.getAbsoluteIndexElement(4));
-        extVector.displayVector();
+//        extVector.displayVector();
         Console::println("Value of index 2: ", extVector.getAbsoluteIndexElement(2));
         Console::println("Value of index 4: ", extVector.getAbsoluteIndexElement(4));
-        PackedVector vctResult(testSize, extVector.isPacked());
+//        PackedVector vctResult(testSize, extVector.isPacked());
+        PackedVector vctResult(10000000, extVector.isPacked());
         extVector.storePackedVector(vctResult);
 
         Console::println("External Stored Vector: ");
