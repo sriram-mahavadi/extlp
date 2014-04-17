@@ -29,9 +29,9 @@ private:
 public:
     /// Donot explicitly call this constructor
     /// unless very much necessary
-    ExtVector(){
+    ExtVector(int p_realSize = 0) {
         nnz = 0;
-        realSize = 0;
+        realSize = p_realSize;
     }
     /// Always use this constructor for storing packed vector 
     /// into the disk
@@ -59,11 +59,26 @@ public:
             }
         }
     }
-    int size() {
+    REAL getAbsoluteIndexElement(unsigned int absoluteIndex) {
+        unsigned int i = 0;
+        if (isPacked()) {
+//            DEBUG("getAbsoluteIndexElement(): Packed ExtVector");
+            for (i = 0; i < nnz; i++) {
+                unsigned int index = vctDisk[2 * i + 1];
+                REAL value = vctDisk[2 * i + 2];
+                if(index==absoluteIndex)
+                    return value;
+            }
+        } else{
+            return vctDisk[absoluteIndex+1];
+        }
+        return 0.0F;
+    }
+    int size() const {
         // Removing 1 element size for the packed identifier
         return (isPacked()) ? nnz : vctDisk.size() - 1;
     }
-    bool isPacked() {
+    bool isPacked() const {
         return (vctDisk[0] == 1);
     }
 
@@ -79,16 +94,16 @@ public:
         } else { // otherwise. if it is unpacked.
             unsigned int i;
             for (i = 0; i < realSize; i++) {
-                vctPacked.add(i, vctDisk[i+1]);
+                vctPacked.add(i, vctDisk[i + 1]);
             }
         }
 
     }
-     /// Get the sparsity of the vector
+    /// Get the sparsity of the vector
     float getSparsity() {
-        return (float) (realSize-nnz) / realSize;
+        return (float) (realSize - nnz) / realSize;
     }
-    
+
     ///
     void displayVector() {
         Console::println("********* ExtVector Display ************");
@@ -99,11 +114,11 @@ public:
             unsigned int i;
             for (i = 0; i < nnz; i++) {
                 std::stringstream packedStr;
-                packedStr << "Index: " << vctDisk[2*i+1];
-                packedStr << ", Value: " << vctDisk[2*i+2];
+                packedStr << "Index: " << vctDisk[2 * i + 1];
+                packedStr << ", Value: " << vctDisk[2 * i + 2];
                 Console::println(packedStr.str());
             }
-        } else{
+        } else {
             Console::println("Status is: Unpacked");
             Console::println("Vector size is: ", size());
             Console::println("Sparsity is: ", getSparsity());
@@ -111,10 +126,10 @@ public:
             for (i = 0; i < realSize; i++) {
                 std::stringstream packedStr;
                 packedStr << "Index: " << i;
-                packedStr << ", Value: " << vctDisk[i+1];
+                packedStr << ", Value: " << vctDisk[i + 1];
                 Console::println(packedStr.str());
             }
-        } 
+        }
         Console::println(" ----------- *** --------------");
     }
     /// Testing the functionality of the Vector
@@ -129,14 +144,19 @@ public:
             vctPack.add(i, arrTest[i]);
             //            vctPack.displayVector();
         }
+        
         Console::println("Original Vector: ");
         vctPack.displayVector();
         // Saving vctPack1 to disk
         ExtVector extVector(vctPack);
+        Console::println("Value of index 2: ", extVector.getAbsoluteIndexElement(2));
+        Console::println("Value of index 4: ", extVector.getAbsoluteIndexElement(4));
         extVector.displayVector();
+        Console::println("Value of index 2: ", extVector.getAbsoluteIndexElement(2));
+        Console::println("Value of index 4: ", extVector.getAbsoluteIndexElement(4));
         PackedVector vctResult(testSize, extVector.isPacked());
         extVector.storePackedVector(vctResult);
-        
+
         Console::println("External Stored Vector: ");
         vctResult.displayVector();
     }

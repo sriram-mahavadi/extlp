@@ -7,9 +7,12 @@
 
 #ifndef READLPUTIL_H
 #define	READLPUTIL_H
+
+#include "ExtLPDSSet.h"
+
 class ReadLPUtil {
 public:
-    bool readLPF(std::istream &is, std::vector<std::string> &rowNames, std::vector<std::string> &colNames) {
+    bool readLPF(std::istream &is) {
         std::cout << "Reading lpf file\n";
         return false;
     }

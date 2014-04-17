@@ -7,6 +7,11 @@
 
 #ifndef READMPSUTIL_H
 #define	READMPSUTIL_H
+
+#include "GlobalDefines.h"
+#include "mpsinput.h"
+#include "LPCol.h"
+
 class ReadMPSUtil {
 public:
     /// Process NAME section.
@@ -194,7 +199,11 @@ endReadRows:
 
                 if (colname[0] != '\0') {
                     col.setColVector(vec);
+                    if(col.obj()!=0.0F)
+                        DEBUG_PARSER("Before Adding into vector: "<<col.obj());
                     arrCol.push_back(col);
+                    if(arrCol[arrCol.size()-1].obj()!=0.0F)
+                        DEBUG_PARSER("After Adding into vector: "<<col.obj());
                 }
                 mps.setSection(MPSInput::RHS);
                 return;
@@ -208,7 +217,11 @@ endReadRows:
                 //            DEBUG_PARSER("Reading New Column");
                 if (colname[0] != '\0') {
                     col.setColVector(vec);
+                    if(col.obj()!=0.0F)
+                        DEBUG_PARSER("Before Adding into vector: "<<col.obj());
                     arrCol.push_back(col);
+                    if(arrCol[arrCol.size()-1].obj()!=0.0F)
+                        DEBUG_PARSER("After Adding into vector: "<<col.obj());
                 }
                 // save copy of string (make sure string ends with \0)
                 strncpy(colname, mps.field1(), MPSInput::MAX_LINE_LEN - 1);
@@ -236,8 +249,10 @@ endReadRows:
             }
             val = atof(mps.field3());
 
-            if (!strcmp(mps.field2(), mps.objName()))
+            if (!strcmp(mps.field2(), mps.objName())){
+                DEBUG_PARSER("Setting Objective to: "<<mps.field1()<<": "<<val);
                 col.setObj(val);
+            }
             else {
                 // Getting row number for given row
                 //            if ((idx = rnames.number(mps.field2())) < 0)
@@ -254,8 +269,10 @@ endReadRows:
 
                 val = atof(mps.field5());
 
-                if (!strcmp(mps.field4(), mps.objName()))
+                if (!strcmp(mps.field4(), mps.objName())){
+                    DEBUG_PARSER("Setting Objective to: "<<mps.field1()<<": "<<val);
                     col.setObj(val);
+                }
                 else {
                     if (mapRowNumber.find(mps.field4()) == mapRowNumber.end())
                         mps.entryIgnored("Column", mps.field1(), "row", mps.field2());
@@ -356,12 +373,12 @@ endReadRows:
                 }
             }
         }
-endReadRhsWithError:
+//endReadRhsWithError:
         mps.syntaxError();
 endReadRhs:
         mps.setRhsName(rhsname);
     }
-    bool readMPS(std::istream &is, std::vector<std::string> &rowNames, std::vector<std::string> &colNames) {
+    bool readMPS(std::istream &is) {
         //MPS
         DEBUG_PARSER("Reading MPS File");
         MPSInput mpsInput(is);
@@ -450,7 +467,7 @@ endReadRhs:
         objTitle = objTitle + mpsInput.objName();
         objStream << setw(10) << objTitle << ": ";
         for (i = 0; i < arrCol.size(); i++) {
-            objStream << setw(10) << arrCol[j].obj() << ", ";
+            objStream << setw(10) << arrCol[i].obj() << ", ";
         }
         /// Rhs Column in objective constraint
         objStream << setw(10) << 0 << ", ";

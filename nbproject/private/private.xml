@@ -10,9 +10,31 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/PackedColVector.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/include/stxxl/bits/containers/btree/btree.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtLPMatrix.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtLPDSSet.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/ReadMPSUtil.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/examples/algo/phonebills.cpp</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/build/local/input/soplex/afiro.mps</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/LPRow.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/ReadLPUtil.h</file>
             <file>file:/home/sriram/technology/thesisilp/extlp/local/notes.txt</file>
-            <file>file:/home/sriram/technology/thesisilp/extlp/local/main.cpp</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtReadMPSUtil.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/examples/algo/phonebills_genlog.cpp</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/LPCol.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/extlp.cpp</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/myloc.sh</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/slocc.sh</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/ReadFileUtil.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/GlobalDefines.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtNameMap.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/MixedFraction.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/Console.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtColVector.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtVector.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/PackedRowVector.h</file>
+            <file>file:/home/sriram/technology/thesisilp/extlp/local/ExtRowVector.h</file>
         </group>
     </open-files>
 </project-private>

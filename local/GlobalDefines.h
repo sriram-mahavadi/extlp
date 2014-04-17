@@ -28,7 +28,7 @@
 // Storing 4 KB = 1<<12 block size by default
 #define BLOCK_SIZE 1<<12;
 typedef stxxl::VECTOR_GENERATOR<REAL>::result real_vector;
-typedef stxxl::VECTOR_GENERATOR<REAL>::result real_vector;
+typedef stxxl::VECTOR_GENERATOR<std::string>::result string_vector;
 
 //////////// - Defining map for storing rownames and colnames
 #define DATA_NODE_BLOCK_SIZE (4096)

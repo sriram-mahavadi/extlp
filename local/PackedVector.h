@@ -16,7 +16,7 @@
 /// Basic <index, value> pair to represent array/vector in packed form
 struct PackedElement {
 public:
-    int index;
+    unsigned int index;
     REAL value;
 };
 
@@ -40,7 +40,7 @@ public:
 
     VectorStatus status;
     /// Initialization section
-    PackedVector(int p_realSize) {
+    PackedVector(int p_realSize = 0) {
         nnz = 0;
         realSize = p_realSize;
         status = UNINITIALIZED;
@@ -48,8 +48,8 @@ public:
     PackedVector(int p_realSize, bool isPacked) {
         nnz = 0;
         realSize = p_realSize;
-        status = (isPacked)?PACKED:UNPACKED;
-        if(!isPacked)
+        status = (isPacked) ? PACKED : UNPACKED;
+        if (!isPacked)
             vctUnpacked.resize(p_realSize);
     }
     PackedVector(std::vector<REAL> &vct) {
@@ -90,9 +90,9 @@ public:
         validateStatus();
         if (status == UNINITIALIZED)
             return 0;
-        return (float) (realSize-nnz) / realSize;
+        return (float) (realSize - nnz) / realSize;
     }
-    unsigned int size() {
+    unsigned int size() const {
         if (status == PACKED) {
             return nnz;
         } else if (status == UNPACKED) {
@@ -172,7 +172,7 @@ public:
     void add(unsigned int index, REAL value) {
         // Check for non zero condition
         if (value == 0.0)return;
-        
+
         if (status == UNINITIALIZED) {
             status = PACKED;
             PackedElement element;
@@ -199,7 +199,7 @@ public:
     /// When element index is returned to be -1, there is some error
     /// Which is either that vector is unintizlized, array out of bounds,
     /// or that vector status is unknown
-    PackedElement get(unsigned int index) {
+    PackedElement get(unsigned int index) const {
         PackedElement element;
         if (status == UNINITIALIZED) {
             element.index = -1;
@@ -226,13 +226,13 @@ public:
     }
 
     /// checks if the status of the vector is packed
-    bool isPacked() {
+    bool isPacked() const {
         if (status == PACKED)return true;
         return false;
     }
 
     /// checks if the status of the vector is initialized
-    bool isInitialized() {
+    bool isInitialized() const {
         if (status != UNINITIALIZED)return true;
         return false;
     }
@@ -248,7 +248,7 @@ public:
             realSize = p_size;
         }
     }
-
+    
     /// 
     void setRealSize(unsigned int p_realSize) {
         realSize = p_realSize;

@@ -8,7 +8,9 @@
 #ifndef EXTREADMPSUTIL_H
 #define	EXTREADMPSUTIL_H
 #include "GlobalDefines.h"
-
+#include "ExtLPDSSet.h"
+#include "mpsinput.h"
+#include "PackedRowVector.h"
 class ExtReadMPSUtil {
 public:
     /// Process NAME section.
@@ -108,7 +110,7 @@ public:
             std::vector<LPRow> &arrRow,
             std::map<std::string, int> &mapRowNumber) {
         //    LPRow row;
-//        DEBUG_PARSER("Started Importing/Reading Rows")
+        //        DEBUG_PARSER("Started Importing/Reading Rows")
         LPRow row;
         int i = 0;
         while (mps.readLine()) {
@@ -160,7 +162,72 @@ public:
 endReadRowsWithError:
         mps.syntaxError();
 endReadRows:
-//        DEBUG_PARSER("End of Importing/Reading Rows")
+        //        DEBUG_PARSER("End of Importing/Reading Rows")
+        return;
+    }
+
+    /// Process ROWS section. 
+    static void readRows(
+            MPSInput& mps,
+            ExtLPDSSet &extDataSet) {
+        //    LPRow row;
+        //        DEBUG_PARSER("Started Importing/Reading Rows")
+        //        LPRow row;
+        PackedRowVector row;
+        int i = 0;
+        while (mps.readLine()) {
+            if (mps.field0() != 0) {
+                //            MSG_INFO2(spxout << "IMPSRD02 Objective name : " << mps.objName()
+                //                    << std::endl;)
+
+                if (strcmp(mps.field0(), "COLUMNS"))
+                    break;
+
+                mps.setSection(MPSInput::COLUMNS);
+                goto endReadRows;
+            }
+            if (*mps.field1() == 'N') {
+                if (*mps.objName() == '\0') {
+                    mps.setObjName(mps.field2());
+                    extDataSet.setObjName(mps.objName());
+                }
+            } else {
+                //                if (mapRowNumber.find(mps.field2()) != mapRowNumber.end())
+                //                    break;
+                if (extDataSet.mapRowName.contains(mps.field2()))
+                    break;
+                extDataSet.mapRowName.set(mps.field2(), i++);
+                row.setName(mps.field2());
+                //                mapRowNumber[mps.field2()] = i++;
+                //                row.setName(mps.field2());
+                switch (*mps.field1()) {
+                    case 'G':
+                        row.setLhs(0.0);
+                        row.setRhs(INFINITY_VALUE);
+                        break;
+                    case 'E':
+                        row.setLhs(0.0);
+                        row.setRhs(0.0);
+                        break;
+                    case 'L':
+                        row.setLhs(-INFINITY_VALUE);
+                        row.setRhs(0.0);
+                        break;
+                    default:
+                        goto endReadRowsWithError;
+                }
+                //            rset.add(row);
+                //                arrRow.push_back(row);
+                ExtRowVector extRow(row);
+                extDataSet.vctRows.push_back(extRow);
+            }
+            //        assert((*mps.field1() == 'N')
+            //                || (rnames.number(mps.field2()) == rset.num() - 1));
+        }
+endReadRowsWithError:
+        mps.syntaxError();
+endReadRows:
+        //        DEBUG_PARSER("End of Importing/Reading Rows")
         return;
     }
 
@@ -172,7 +239,7 @@ endReadRows:
             std::vector<LPCol> &arrCol,
             std::map<std::string, int> &mapColNumber
             ) {
-//        DEBUG_PARSER("Started Reading Columns")
+        //        DEBUG_PARSER("Started Reading Columns")
         REAL val;
         //    int idx;
         char colname[MPSInput::MAX_LINE_LEN] = {'\0'};
@@ -180,14 +247,14 @@ endReadRows:
         //    DSVector vec;
         std::vector<REAL> vec(arrRow.size());
 
-//        DEBUG_PARSER("Size of vector while Initialization: " << vec.size());
+        //        DEBUG_PARSER("Size of vector while Initialization: " << vec.size());
         col.setObj(0.0F);
         //    vec.clear();
 
         int i = 0;
-//        int lines = 0;
+        //        int lines = 0;
         while (mps.readLine()) {
-//            DEBUG_PARSER("Lines Read: " << lines++ << "; Columns Read: " << i)
+            //            DEBUG_PARSER("Lines Read: " << lines++ << "; Columns Read: " << i)
             if (mps.field0() != 0) {
                 if (strcmp(mps.field0(), "RHS")) {
                     DEBUG_PARSER("Next Section is RHS")
@@ -269,15 +336,130 @@ endReadRows:
                 }
             }
         }
-//        DEBUG_PARSER("End of Reading Columns")
+        //        DEBUG_PARSER("End of Reading Columns")
         mps.syntaxError();
     }
+    /// Process COLUMNS section. 
+    static void readCols(
+            MPSInput& mps,
+            ExtLPDSSet& extDataSet
+            ) {
+        //        DEBUG_PARSER("Started Reading Columns")
+        REAL val;
+        //    int idx;
+        char colname[MPSInput::MAX_LINE_LEN] = {'\0'};
+        //        LPCol col(arrRow.size());
+        PackedColVector col(extDataSet.vctRows.size());
+        //    DSVector vec;
+        //        std::vector<REAL> vec(arrRow.size());
+        std::vector<REAL> vec(extDataSet.vctRows.size());
 
+        //        DEBUG_PARSER("Size of vector while Initialization: " << vec.size());
+        col.setObj(0.0F);
+        //    vec.clear();
+
+        int i = 0;
+        //        int lines = 0;
+        while (mps.readLine()) {
+            //            DEBUG_PARSER("Lines Read: " << lines++ << "; Columns Read: " << i)
+            if (mps.field0() != 0) {
+                if (strcmp(mps.field0(), "RHS")) {
+                    DEBUG_PARSER("Next Section is RHS")
+                    break;
+                }
+
+                if (colname[0] != '\0') {
+                    col.setColVector(vec);
+                    ExtColVector extCol(col);
+                    extDataSet.vctCols.push_back(extCol);
+                    //                    arrCol.push_back(col);
+                }
+                mps.setSection(MPSInput::RHS);
+                return;
+            }
+            if ((mps.field1() == 0) || (mps.field2() == 0) || (mps.field3() == 0))
+                break;
+
+            // new column?
+            if (strcmp(colname, mps.field1())) {
+                // first column?
+                //            DEBUG_PARSER("Reading New Column");
+                if (colname[0] != '\0') {
+                    col.setColVector(vec);
+                    ExtColVector extCol(col);
+                    extDataSet.vctCols.push_back(extCol);
+                    //                    arrCol.push_back(col);
+                }
+                // save copy of string (make sure string ends with \0)
+                strncpy(colname, mps.field1(), MPSInput::MAX_LINE_LEN - 1);
+                colname[MPSInput::MAX_LINE_LEN - 1] = '\0';
+                extDataSet.mapColName.set(colname, i++);
+                //                mapColNumber[colname] = i++;
+                col.setName(colname);
+
+                //            cnames.add(colname);
+                // Initializing back to default values
+                vec.clear();
+                //                vec.resize(arrRow.size());
+                vec.resize(extDataSet.vctRows.size());
+                col.setObj(0.0);
+                col.setLower(0.0);
+                col.setUpper(INFINITY_VALUE);
+
+                //            if (mps.isInteger()) {
+                //                assert(cnames.number(colname) == cset.num());
+                //
+                //                if (intvars != 0)
+                //                    intvars->addIdx(cnames.number(colname));
+                //
+                //                // For Integer variable the default bounds are 0/1 
+                //                col.setUpper(1.0);
+                //            }
+            }
+            val = atof(mps.field3());
+
+            if (!strcmp(mps.field2(), mps.objName()))
+                col.setObj(val);
+            else {
+                // Getting row number for given row
+                //            if ((idx = rnames.number(mps.field2())) < 0)
+                //                if (mapRowNumber.find(mps.field2()) == mapRowNumber.end())
+                if (!extDataSet.mapRowName.contains(mps.field2()))
+                    mps.entryIgnored("Column", mps.field1(), "row", mps.field2());
+                else {
+                    //                    int rowNumber = mapRowNumber[mps.field2()];
+                    int rowNumber = extDataSet.mapRowName.get(mps.field2());
+                    if (val != 0.0)
+                        vec[rowNumber] = val; //.add(idx, val);
+                }
+            }
+            if (mps.field5() != 0) {
+                assert(mps.field4() != 0);
+
+                val = atof(mps.field5());
+
+                if (!strcmp(mps.field4(), mps.objName()))
+                    col.setObj(val);
+                else {
+                    //                    if (mapRowNumber.find(mps.field4()) == mapRowNumber.end())
+                    if (!extDataSet.mapRowName.contains(mps.field4()))
+                        mps.entryIgnored("Column", mps.field1(), "row", mps.field4());
+                    else {
+                        //                        int rowNumber = mapRowNumber[mps.field4()];
+                        int rowNumber = extDataSet.mapRowName.get(mps.field4());
+                        if (val != 0.0)
+                            vec[rowNumber] = val; //.add(idx, val);
+                    }
+                }
+            }
+        }
+        //        DEBUG_PARSER("End of Reading Columns")
+        mps.syntaxError();
+    }
     /// Process RHS section. 
     static void readRhs(
             MPSInput& mps,
-            std::vector<LPRow> &arrRow,
-            std::map<std::string, int> &mapRowNumber
+            ExtLPDSSet& extDataSet
             ) {
         char rhsname[MPSInput::MAX_LINE_LEN] = {'\0'};
         char addname[MPSInput::MAX_LINE_LEN] = {'\0'};
@@ -321,71 +503,78 @@ endReadRows:
                 }
             } else {
                 //            if ((idx = rnames.number(mps.field2())) < 0)
-                if (mapRowNumber.find(mps.field2()) == mapRowNumber.end())
+                //                if (mapRowNumber.find(mps.field2()) == mapRowNumber.end())
+                if (!extDataSet.mapRowName.contains(mps.field2()))
                     mps.entryIgnored("RHS", mps.field1(), "row", mps.field2());
                 else {
-                    idx = mapRowNumber[mps.field2()];
+                    idx = extDataSet.mapRowName.get(mps.field2());
                     val = atof(mps.field3());
                     // LE or EQ
                     //                if (rset.rhs(idx) < infinity)
                     //                    rset.rhs_w(idx) = val;
-                    if (arrRow[idx].rhs() < INFINITY_VALUE)
-                        arrRow[idx].setRhs(val);
+                    //                    if (arrRow[idx].rhs() < INFINITY_VALUE)
+                    if (extDataSet.vctRows[idx].getRhs() < INFINITY_VALUE)
+                        extDataSet.vctRows[idx].setRhs(val);
                     // GE or EQ
-                    if (arrRow[idx].lhs() > -INFINITY_VALUE)
-                        arrRow[idx].setLhs(val);
+                    //                    if (arrRow[idx].lhs() > -INFINITY_VALUE)
+                    if (extDataSet.vctRows[idx].getLhs() > -INFINITY_VALUE)
+                        extDataSet.vctRows[idx].setLhs(val);
                     //                if (rset.lhs(idx) > -infinity)
                     //                    rset.lhs_w(idx) = val;
                 }
                 if (mps.field5() != 0) {
                     //                if ((idx = rnames.number(mps.field4())) < 0)
-                    if (mapRowNumber.find(mps.field4()) == mapRowNumber.end())
+                    //                    if (mapRowNumber.find(mps.field4()) == mapRowNumber.end())
+                    if (!extDataSet.mapRowName.contains(mps.field4()))
                         mps.entryIgnored("RHS", mps.field1(), "row", mps.field4());
                     else {
-                        idx = mapRowNumber[mps.field4()];
+//                        idx = mapRowNumber[mps.field4()];
+                        idx = extDataSet.mapRowName.get(mps.field4());
                         val = atof(mps.field5());
                         // LE or EQ
                         //                    if (rset.rhs(idx) < infinity)
                         //                        rset.rhs_w(idx) = val;
-                        if (arrRow[idx].rhs() < INFINITY_VALUE)
-                            arrRow[idx].setRhs(val);
+//                        if (arrRow[idx].rhs() < INFINITY_VALUE)
+                        if(extDataSet.vctRows[idx].getRhs()<INFINITY_VALUE)
+                            extDataSet.vctRows[idx].setRhs(val);
                         // GE or EQ
                         //                    if (rset.lhs(idx) > -infinity)
                         //                        rset.lhs_w(idx) = val;
-                        if (arrRow[idx].lhs() > -INFINITY_VALUE)
-                            arrRow[idx].setLhs(val);
+                        if (extDataSet.vctRows[idx].getLhs() > -INFINITY_VALUE)
+                            extDataSet.vctRows[idx].setLhs(val);
                     }
                 }
             }
         }
-//endReadRhsWithError:
+        //endReadRhsWithError:
         mps.syntaxError();
 endReadRhs:
         mps.setRhsName(rhsname);
     }
-    bool readMPS(std::istream &is) {
+    bool readMPS(std::istream &is, ExtLPDSSet &extDataSet) {
         //MPS
-        DEBUG_PARSER("Reading MPS File");
+
+        DEBUG_PARSER("Reading MPS File!!!");
         MPSInput mpsInput(is);
+        DEBUG_PARSER("Reading Problem Name!!!");
         readName(mpsInput);
+        extDataSet.setProbName(mpsInput.probName());
         //    mpsSectionData = mpsSectionData + "Name: " + mpsInput.probName() + "\r\n";
         if (mpsInput.section() == MPSInput::OBJSEN) {
+            DEBUG_PARSER("Reading Objective Sense!!!");
             readObjsen(mpsInput);
-            DEBUG_PARSER("In ObjSen Section Data!!!");
+            extDataSet.setObjSense(mpsInput.objSense());
             //        mpsSectionData = mpsSectionData + "ObjSense: " + (mpsInput.objSense() ? "Min" : "Max") + "\r\n";
         }
         if (mpsInput.section() == MPSInput::OBJNAME) {
+            DEBUG_PARSER("Reading Objective Name!!!");
             readObjname(mpsInput);
-            DEBUG_PARSER("In ObjName Section Data!!!");
+            extDataSet.setObjName(mpsInput.objName());
             //        mpsSectionData = mpsSectionData + "ObjName: " + mpsInput.objName() + "\r\n";
         }
-        // TODO: Temporarily setting up in std vector
-        // To switch to STXXL library for storage... :)
-        std::map<std::string, int> mapRowNumber;
-        std::vector<LPRow> arrRow;
         if (mpsInput.section() == MPSInput::ROWS) {
-            readRows(mpsInput, arrRow, mapRowNumber);
-            DEBUG_PARSER("In Rows Section Data!!!");
+            DEBUG_PARSER("Reading the Rows Section Data!!!");
+            readRows(mpsInput, extDataSet);
             //        ///////////////////////////////////////////////////////////////
             //        /// Debugging the logic and results
             //        ////////////////////////////////////////////////////////////////
@@ -408,17 +597,15 @@ endReadRhs:
         }
 
         //   addedRows(rset.num());
-        std::map<std::string, int> mapColNumber;
-        std::vector<LPCol> arrCol;
         if (mpsInput.section() == MPSInput::COLUMNS) {
-            //        readCols(mpsInput, arrRow, mapRowNumber, arrCol, mapColNumber, p_intvars);
-            readCols(mpsInput, arrRow, mapRowNumber, arrCol, mapColNumber);
-            DEBUG_PARSER("In Cols Section Data!!!");
+            DEBUG_PARSER("Reading Columns Section Data!!!");
+            //            readCols(mpsInput, arrRow, mapRowNumber, arrCol, mapColNumber);
+            readCols(mpsInput, extDataSet);
         }
 
         if (mpsInput.section() == MPSInput::RHS) {
-            readRhs(mpsInput, arrRow, mapRowNumber);
-            DEBUG_PARSER("In Rhs Section Data!!!");
+            DEBUG_PARSER("Reading Rhs Section Data!!!");
+            readRhs(mpsInput, extDataSet);
         }
         ///////////////////////////////////////////////////////////////
         /// Debugging the logic and results
@@ -434,16 +621,16 @@ endReadRhs:
         //        //mpsSectionData = mpsSectionData + itrMapRow->first.c_str() + " : " + itrMapRow->second + "r\n";
         //        itrMapCol++;
         //    }
-        DEBUG_SIMPLE("Number of Columns imported: " << arrCol.size());
-        DEBUG_SIMPLE("Number of Rows imported: " << arrRow.size());
-        DEBUG_PARSER("Problem Name: " << mpsInput.probName());
+        DEBUG_SIMPLE("Number of Rows imported: " << extDataSet.vctRows.size());
+        DEBUG_SIMPLE("Number of Columns imported: " << extDataSet.vctCols.size());
+        DEBUG_PARSER("Problem Name: " << extDataSet.getProbName());
         DEBUG_PARSER("Partial Simplex Tableau is shown as follows: ");
         unsigned int i = 0, j = 0;
 
         std::stringstream titleStream;
         titleStream << setw(10) << "Row/Col" << ": ";
-        for (j = 0; j < arrCol.size(); j++)
-            titleStream << setw(10) << arrCol[j].getName() << ", ";
+        for (j = 0; j < extDataSet.vctCols.size(); j++)
+            titleStream << setw(10) << extDataSet.vctCols[i].getName() << ", ";
         titleStream << setw(10) << mpsInput.rhsName() << ", ";
         DEBUG_PARSER(titleStream.str());
 
@@ -451,21 +638,21 @@ endReadRhs:
         std::string objTitle("OBJ-");
         objTitle = objTitle + mpsInput.objName();
         objStream << setw(10) << objTitle << ": ";
-        for (i = 0; i < arrCol.size(); i++) {
-            objStream << setw(10) << arrCol[j].obj() << ", ";
+        for (i = 0; i < extDataSet.vctCols.size(); i++) {
+            objStream << setw(10) << extDataSet.vctCols[i].obj() << ", ";
         }
         /// Rhs Column in objective constraint
         objStream << setw(10) << 0 << ", ";
         DEBUG_PARSER(objStream.str());
-        for (i = 0; i < arrRow.size(); i++) {
+        for (i = 0; i < extDataSet.vctRows.size(); i++) {
             //            string rowName(arrRow[i].)
             std::stringstream rowStream;
-            rowStream << setw(10) << arrRow[i].getName() << ": ";
-            for (j = 0; j < arrCol.size(); j++) {
+            rowStream << setw(10) << extDataSet.vctRows[i].getName() << ": ";
+            for (j = 0; j < extDataSet.vctCols.size(); j++) {
                 //                mapColNumber[]
-                rowStream << setw(10) << arrCol[j].getRowElement(i) << ", ";
+                rowStream << setw(10) << extDataSet.vctCols[i].getRowElement(i) << ", ";
             }
-            rowStream << setw(10) << arrRow[i].rhs() << ", ";
+            rowStream << setw(10) << extDataSet.vctRows[i].getRhs() << ", ";
             DEBUG_PARSER(rowStream.str());
         }
         /////////////////////////////////////////////////////////////////////////

@@ -22,7 +22,6 @@
 #include "LPCol.h"
 #include "Console.h"
 #include "Timer.h"
-#include "ExtLPCol.h"
 #include "ExtLPMatrix.h"
 #include "PackedVector.h"
 #include "PackedVectorUtil.h"
@@ -30,6 +29,7 @@
 #include "ExtVector.h"
 #include "ExtNameMap.h"
 #include "ExtLPDSSet.h"
+
 int main(int argc, char *argv[]) {
     //    printUsage(argv);
     //    Resolving the problem of writing my own copy constructor for LPCol 
@@ -91,13 +91,31 @@ int main(int argc, char *argv[]) {
         filename = argv[optidx];
         DEBUG_SIMPLE("Accepted Input File: " << filename);
         ReadFileUtil inputReader;
-        //        inputReader.readFile(filename);
-        inputReader.readFileUsingDisk(filename);
-        ExtLPCol col;
-        col.displayElements();
+        inputReader.readFile(filename); // Reading using physical memory
+        ///////////// - Initializing data structures
+        std::vector<ExtRowVector> vctRows; // Set of Rows
+        std::vector<ExtColVector> vctCols; // Set of Columns
+        //    ExtVector &vctRhs;
+        //    ExtVector &vctObj;
+        PackedVector vctRhs; // Better to try and fit rhs 
+        PackedVector vctObj; // and obj in memory as they are freq used
+        std::vector<PackedRowVector> vctCacheRows;
+        std::vector<PackedColVector> vctCacheCols;
+        //        REAL * cacheMatrix[4]; // Try to cache B^-1
+        // Names of the Rows and Cols involved in the 
+        name_map myRowMap((name_map::node_block_type::raw_size)*3, (name_map::leaf_block_type::raw_size)*3);
+        name_map myColMap((name_map::node_block_type::raw_size)*3, (name_map::leaf_block_type::raw_size)*3);
+        ExtNameMap mapRowName(myRowMap);
+        ExtNameMap mapColName(myColMap);
+        ExtLPDSSet extDataSet(vctRows, vctCols, vctRhs, vctObj,
+                vctCacheRows, vctCacheCols, mapRowName, mapColName);
+        inputReader.readFileUsingDisk(filename, extDataSet);
+
+        ///////////////////// --- Test Sections
         PackedVector::test();
         ExtVector::test();
         ExtNameMap::test();
+
         //        ExtLPMatrix matrix;
         std::cout << (stxxl::stats_data(*Stats) - stats_begin);
         Console::println("Program Completed Execution!!!");

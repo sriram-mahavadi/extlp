@@ -10,39 +10,88 @@
 
 #include "ExtVector.h"
 #include "ExtNameMap.h"
+#include "ExtRowVector.h"
+#include "ExtColVector.h"
+#include "PackedRowVector.h"
+#include "PackedColVector.h"
 /**
  * Contains the total set of problem inputs or data structures
  * that will be required at each step of simplex method
  */
+enum ObjSense {
+    MIN, MAX
+};
 class ExtLPDSSet {
 private:
-    std::vector<ExtVector> &vctCols;
-    std::vector<ExtVector> &vctRows;
+    std::string probName;
+    ObjSense objSense;
+    std::string objName;
+    std::string rhsName;
+public:
+    /// Data structures are accessed across the project and only one instance of them
+    /// is  maintained through out. Make sure we only keep sending the reference of
+    /// ExtLPDSSet object.
+    std::vector<ExtRowVector> &vctRows;
+    std::vector<ExtColVector> &vctCols;
+    // Now Rhs and Obj are parts of RowVector and ColVector respectively
     //    ExtVector &vctRhs;
     //    ExtVector &vctObj;
     PackedVector &vctRhs; // Better to try and fit rhs 
     PackedVector &vctObj; // and obj in memory as they are freq used
-    std::vector<PackedVector> &vctCacheCols;
-    std::vector<PackedVector> &vctCacheRows;
+    std::vector<PackedRowVector> &vctCacheRows;
+    std::vector<PackedColVector> &vctCacheCols;
     REAL *cacheMatrix[4]; // Try to cache B^-1
 
     // Names of the Rows and Cols involved in the 
     ExtNameMap &mapRowName;
     ExtNameMap &mapColName;
 
-public:
     /// Initialization 
     /// Better decide the data structures from the main itself.
     ExtLPDSSet(
-            std::vector<ExtVector> &p_vctCols, std::vector<ExtVector> &p_vctRows,
+            std::vector<ExtRowVector> &p_vctRows, std::vector<ExtColVector> &p_vctCols,
             PackedVector &p_vctRhs, PackedVector &p_vctObj,
-            std::vector<PackedVector> &p_vctCacheCols,
-            std::vector<PackedVector> &p_vctCacheRows,
+            std::vector<PackedRowVector> &p_vctCacheRows,
+            std::vector<PackedColVector> &p_vctCacheCols,
             ExtNameMap &p_mapRowName, ExtNameMap &p_mapColName
             ) :
-    vctCols(p_vctCols), vctRows(p_vctRows), vctRhs(p_vctRhs),
-    vctObj(p_vctObj), vctCacheCols(p_vctCacheCols), vctCacheRows(p_vctCacheRows),
+    vctRows(p_vctRows), vctCols(p_vctCols), vctRhs(p_vctRhs),
+    vctObj(p_vctObj), vctCacheRows(p_vctCacheRows), vctCacheCols(p_vctCacheCols),
     mapRowName(p_mapRowName), mapColName(p_mapColName) {
+    }
+    std::string getProbName() {
+        return probName;
+    }
+
+    /// returns true if the problem is minimization problem
+    bool getObjSenseAsBool() {
+        return (objSense == MIN);
+    }
+    ObjSense getObjSense() {
+        return objSense;
+    }
+    std::string getObjName() {
+        return objName;
+    }
+    std::string getRhsName(){
+        return rhsName;
+    }
+    void setProbName(std::string p_probName) {
+        probName = p_probName;
+    }
+    void setObjSense(ObjSense p_objSense) {
+        objSense = p_objSense;
+    }
+
+    /// parameter isMin=true when the problem is minimization, false otherwise
+    void setObjSense(bool isMin) {
+        objSense = (isMin) ? MIN : MAX;
+    }
+    void setObjName(std::string p_objName) {
+        objName = p_objName;
+    }
+    void setRhsName(std::string p_rhsName){
+        rhsName = p_rhsName;
     }
 };
 

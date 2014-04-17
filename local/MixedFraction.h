@@ -13,7 +13,7 @@ class MixedFraction{
     Fraction fraction;
     
     MixedFraction(){
-        fraction.
+        
     }
 };
 
