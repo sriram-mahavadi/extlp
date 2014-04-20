@@ -10,6 +10,8 @@
 #include <stxxl/map>
 #include <stxxl/vector>
 #include <stxxl/map>
+#include "GlobalDebug.h"
+#include "FixedString.h"
 
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -48,58 +50,43 @@ struct CompareGreaterString {
         return a > b;
     }
     static std::string max_value() {
-        return "";
+        return std::string(MAX_KEY_LEN, std::numeric_limits<unsigned char>::max());
     }
 };
+//struct CompareGreaterFixedString {
+//    bool operator () (const FixedString& a, const FixedString& b) const {
+//        return FixedStringUtil::getNormalString(a) > FixedStringUtil::getNormalString(b);
+//    }
+//    static FixedString max_value() {
+//        return FixedStringUtil::getMaxFixedString();
+//    }
+//};
+//std::string getFixedLengthString(const std::string &strVariable)
+//{
+//    std::ostringstream ostr;
+//    ostr << std::setfill('0') << std::setw(MAX_KEY_LEN) << strVariable;
+//    return ostr.str();
+//}
+//struct CompareGreaterCharArray {
+//    bool operator () (const std::string& a, const std::string& b) const {
+//        return a < b;
+//    }
+//    //    static std::string max_value() {
+//    //        return "";
+//    //    }
+//    static char[] max_value() {
+//        //return std::string(MAX_KEY_LEN, std::numeric_limits<unsigned char>::max());
+//        return std::string(MAX_KEY_LEN, std::numeric_limits<unsigned char>::max());
+//    }
+//};
 // template parameter <KeyType, DataType, CompareType, RawNodeSize, RawLeafSize, PDAllocStrategy (optional)>
-typedef stxxl::map<int, char, CompareGreaterInt, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> int_map;
+typedef stxxl::map<int, int, CompareGreaterInt, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> int_map;
 typedef stxxl::map<std::string, unsigned int, CompareGreaterString, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> name_map;
+//typedef stxxl::map<FixedString, unsigned int, CompareGreaterFixedString, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> fixed_name_map;
+typedef stxxl::map<FixedString, unsigned int, comp_Fixed_String, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> fixed_name_map;
 
 
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-// Console output/Debug operations that are useful across the project  ////
-///////////////////////////////////////////////////////////////////////////
-// Used for development purpose debugging
-#define COMMON_DEBUG true
-// Development purpose debug only related to parsing
-#define PARSER_DEBUG true
-// Simple debugging messages also may be visible to users
-#define SIMPLE_DEBUG true
-// Warning messages from all across the project
-#define WARNING_DEBUG true
-// Error messages from all across the project
-#define ERROR_DEBUG true
 
-#define DEBUG(x) \
-if(COMMON_DEBUG == true){ \
-        std::cout <<"COMMON MSG- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
-        std::cout.flush();\
-}
-
-#define DEBUG_SIMPLE(x) \
-if(SIMPLE_DEBUG == true){ \
-        std::cout << "*** " << x << " ***"<<std::endl;\
-        std::cout.flush();\
-}
-
-#define DEBUG_PARSER(x) \
-if(PARSER_DEBUG == true){ \
-	std::cout <<"PARSER MSG- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
-        std::cout.flush();\
-}
-
-#define DEBUG_ERROR(x) \
-if(ERROR_DEBUG == true){ \
-        std::cout <<"GENERAL ERR- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
-        std::cout.flush();\
-}
-
-#define DEBUG_WARNING(x) \
-if(WARNING_DEBUG == true){ \
-        std::cout <<"GENERAL WRN- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
-        std::cout.flush();\
-}
 
 #endif	/* GLOBALDEFINES_H */
 

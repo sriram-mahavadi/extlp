@@ -56,6 +56,9 @@
         <in>ExtRowVectorSet.h</in>
         <in>ExtStringVector.h</in>
         <in>ExtVector.h</in>
+        <in>FixedString.h</in>
+        <in>FixedStringUtil.h</in>
+        <in>GlobalDebug.h</in>
         <in>PackedColVector.h</in>
         <in>PackedRowVector.h</in>
         <in>extlp.cpp</in>
@@ -295,6 +298,12 @@
       <item path="local/ExtStringVector.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="local/ExtVector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/FixedString.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/FixedStringUtil.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/GlobalDebug.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="local/PackedColVector.h" ex="false" tool="3" flavor2="0">
       </item>

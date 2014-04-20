@@ -12,15 +12,23 @@ class Console {
 public:
     static void println(std::string x) {
         std::cout << x << "\r\n";
+        std::cout.flush();
     }
     static void println(std::string x, REAL r) {
         std::cout << x << r << "\r\n";
+        std::cout.flush();
+    }
+    static void println(std::string x, std::string r) {
+        std::cout << x << r << "\r\n";
+        std::cout.flush();
     }
     static void print(std::string x) {
         std::cout << x;
+        std::cout.flush();
     }
     static void print(std::string x, REAL r) {
         std::cout << x << r;
+        std::cout.flush();
     }
 
 

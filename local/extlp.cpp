@@ -29,6 +29,7 @@
 #include "ExtVector.h"
 #include "ExtNameMap.h"
 #include "ExtLPDSSet.h"
+#include "ExtStringVector.h"
 
 int main(int argc, char *argv[]) {
     //    printUsage(argv);
@@ -91,7 +92,7 @@ int main(int argc, char *argv[]) {
         filename = argv[optidx];
         DEBUG_SIMPLE("Accepted Input File: " << filename);
         ReadFileUtil inputReader;
-//        inputReader.readFile(filename); // Reading using physical memory
+        //        inputReader.readFile(filename); // Reading using physical memory
         ///////////// - Initializing data structures
         std::vector<ExtRowVector> vctRows; // Set of Rows
         std::vector<ExtColVector> vctCols; // Set of Columns
@@ -103,22 +104,24 @@ int main(int argc, char *argv[]) {
         std::vector<PackedColVector> vctCacheCols;
         //        REAL * cacheMatrix[4]; // Try to cache B^-1
         // Names of the Rows and Cols involved in the 
-        name_map myRowMap((name_map::node_block_type::raw_size)*3, (name_map::leaf_block_type::raw_size)*3);
-        name_map myColMap((name_map::node_block_type::raw_size)*3, (name_map::leaf_block_type::raw_size)*3);
+        fixed_name_map myRowMap((fixed_name_map::node_block_type::raw_size)*3, (fixed_name_map::leaf_block_type::raw_size)*3);
+        fixed_name_map myColMap((fixed_name_map::node_block_type::raw_size)*3, (fixed_name_map::leaf_block_type::raw_size)*3);
         ExtNameMap mapRowName(myRowMap);
         ExtNameMap mapColName(myColMap);
         ExtLPDSSet extDataSet(vctRows, vctCols, vctRhs, vctObj,
                 vctCacheRows, vctCacheCols, mapRowName, mapColName);
-//        inputReader.readFileUsingDisk(filename, extDataSet);
+        inputReader.readFileUsingDisk(filename, extDataSet);
 
         ///////////////////// --- Test Sections
-//        PackedVector::test();
-        ExtVector::test();
-//        ExtNameMap::test();
+        //        PackedVector::test();
+        //        ExtVector::test();
+        //        FixedStringUtil::test();
+        //        ExtNameMap::test();
+        //        ExtStringVector::test();
 
-        //        ExtLPMatrix matrix;
         std::cout << (stxxl::stats_data(*Stats) - stats_begin);
         Console::println("Program Completed Execution!!!");
+        std::cout.flush();
     } catch (int) {
         std::cout << "Error dude";
     }

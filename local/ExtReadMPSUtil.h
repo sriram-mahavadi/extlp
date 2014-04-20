@@ -626,8 +626,13 @@ endReadRhs:
         //    }
         DEBUG_SIMPLE("Number of Rows imported: " << extDataSet.vctRows.size());
         DEBUG_SIMPLE("Number of Columns imported: " << extDataSet.vctCols.size());
-        DEBUG_PARSER("Problem Name: " << extDataSet.getProbName());
-        DEBUG_PARSER("Partial Simplex Tableau is shown as follows: ");
+        DEBUG_SIMPLE("Writing Simplex Tableau to the Log!!!");
+        
+        DEBUG_FILE(" -------------------------_ LP Problem -----------------------------");
+        DEBUG_FILE("Number of Rows imported: " << extDataSet.vctRows.size());
+        DEBUG_FILE("Number of Columns imported: " << extDataSet.vctCols.size());
+        DEBUG_FILE("Problem Name: " << extDataSet.getProbName());
+        DEBUG_FILE("Partial Simplex Tableau is shown as follows: ");
         unsigned int i = 0, j = 0;
 
         std::stringstream titleStream;
@@ -635,7 +640,7 @@ endReadRhs:
         for (j = 0; j < extDataSet.vctCols.size(); j++)
             titleStream << setw(10) << extDataSet.vctCols[j].getName() << ", ";
         titleStream << setw(10) << extDataSet.getRhsName() << ", ";
-        DEBUG_PARSER(titleStream.str());
+        DEBUG_FILE(titleStream.str());
 
         std::stringstream objStream;
         std::string objTitle("OBJ-");
@@ -646,7 +651,7 @@ endReadRhs:
         }
         /// Rhs Column in objective constraint
         objStream << setw(10) << 0 << ", ";
-        DEBUG_PARSER(objStream.str());
+        DEBUG_FILE(objStream.str());
         for (i = 0; i < extDataSet.vctRows.size(); i++) {
             //            string rowName(arrRow[i].)
             std::stringstream rowStream;
@@ -656,8 +661,9 @@ endReadRhs:
                 rowStream << setw(10) << extDataSet.vctCols[j].getRowElement(i) << ", ";
             }
             rowStream << setw(10) << extDataSet.vctRows[i].getRhs() << ", ";
-            DEBUG_PARSER(rowStream.str());
+            DEBUG_FILE(rowStream.str());
         }
+        DEBUG_FILE(" -------------------------_ *** -----------------------------");
         /////////////////////////////////////////////////////////////////////////
 
 

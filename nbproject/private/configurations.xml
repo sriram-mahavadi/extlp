@@ -483,7 +483,10 @@
         <in>ExtRowVectorSet.h</in>
         <in>ExtStringVector.h</in>
         <in>ExtVector.h</in>
+        <in>FixedString.h</in>
+        <in>FixedStringUtil.h</in>
         <in>Fraction.h</in>
+        <in>GlobalDebug.h</in>
         <in>GlobalDefines.h</in>
         <in>LPCol.h</in>
         <in>LPParser.h</in>
