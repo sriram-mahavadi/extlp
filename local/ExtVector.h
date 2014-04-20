@@ -35,9 +35,9 @@ public:
     }
     /// Always use this constructor for storing packed vector 
     /// into the disk
-    ExtVector(PackedVector &vctPacked):vctDisk(vctPacked.getUnPackedSize()+1) {
+    ExtVector(PackedVector &vctPacked) : vctDisk(vctPacked.getUnPackedSize() + 1) {
         // 1 extra element to specify if the vector is packed or not
-//        vctDisk.reserve(vctPacked.getUnPackedSize() + 1);
+        //        vctDisk.reserve(vctPacked.getUnPackedSize() + 1);
         //        DEBUG("Vector Unpacked Size: "<<vctPacked.getUnPackedSize() + 1);
         //        DEBUG("ExtVector Size: "<<vctDisk.capacity());
         nnz = vctPacked.getPackedSize();
@@ -63,12 +63,12 @@ public:
     }
     REAL getAbsoluteIndexElement(unsigned int absoluteIndex) {
         unsigned int i = 0;
-//        DEBUG("NNZ: "<<nnz<<", Size: "<<vctDisk.size()<<", Index: "<<absoluteIndex<<", Real Size: "<<realSize);
+        //        DEBUG("NNZ: "<<nnz<<", Size: "<<vctDisk.size()<<", Index: "<<absoluteIndex<<", Real Size: "<<realSize);
         bool isSafe = (isPacked() && (2 * (nnz - 1) + 2) < vctDisk.size());
         isSafe = isSafe || (!isPacked() && (absoluteIndex + 1) < vctDisk.size());
         assert(isSafe);
         if (isPacked()) {
-//            DEBUG("getAbsoluteIndexElement(): Packed ExtVector");
+            //            DEBUG("getAbsoluteIndexElement(): Packed ExtVector");
             for (i = 0; i < nnz; i++) {
                 unsigned int index = vctDisk[2 * i + 1];
                 REAL value = vctDisk[2 * i + 2];
@@ -77,7 +77,7 @@ public:
             }
             return 0.0F;
         } else {
-//            DEBUG("getAbsoluteIndexElement(): UnPacked ExtVector");
+            //            DEBUG("getAbsoluteIndexElement(): UnPacked ExtVector");
             return vctDisk[absoluteIndex + 1];
         }
     }
@@ -139,6 +139,8 @@ public:
         }
         Console::println(" ----------- *** --------------");
     }
+    void displayStorageStatus() {
+    }
     /// Testing the functionality of the Vector
     static void test() {
         // Sparse case
@@ -158,17 +160,23 @@ public:
 
         Console::println("Original Vector: ");
         //        vctPack.displayVector();
-        // Saving vctPack1 to disk
-        ExtVector extVector(vctPack);
-        Console::println("Value of index 2: ", extVector.getAbsoluteIndexElement(2));
-        Console::println("Value of index 4: ", extVector.getAbsoluteIndexElement(4));
+        // PackedVector to ExtVector
+//        ExtVector extVector(vctPack);
+//        Console::println("Value of index 2: ", extVector.getAbsoluteIndexElement(2));
+//        Console::println("Value of index 4: ", extVector.getAbsoluteIndexElement(4));
         //        extVector.displayVector();
-        Console::println("Value of index 2: ", extVector.getAbsoluteIndexElement(2));
-        Console::println("Value of index 4: ", extVector.getAbsoluteIndexElement(4));
+        /// ExtVector to PackedVector
         //        PackedVector vctResult(testSize, extVector.isPacked());
-        PackedVector vctResult(10000000, extVector.isPacked());
-        extVector.storePackedVector(vctResult);
-
+        //        PackedVector vctResult(10000000, extVector.isPacked());
+        //        extVector.storePackedVector(vctResult);
+        std::vector<ExtVector*> vctExtStorage;
+        /// Mutilple ExtVector Test
+        int noTrials = 1000; /// Approx 8GB
+        for(int j=0; j<noTrials; j++){
+            ExtVector* tempVector = new ExtVector(vctPack);
+            vctExtStorage.push_back(tempVector);
+            Console::println("Number of Vectors Added: ", j);
+        }
         Console::println("External Stored Vector Recieved Back: ");
         //        vctResult.displayVector();
     }

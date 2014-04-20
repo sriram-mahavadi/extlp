@@ -38,10 +38,11 @@ public:
         nameMap[fixedStringKey] = value;
         //        nameMap.insert(std::pair<std::string, unsigned int>(key, value));
     }
-    //    void set(const FixedString &key, unsigned int value) {
-    //        nameMap[key] = value;
-    //        //        nameMap.insert(std::pair<std::string, unsigned int>(key, value));
-    //    }
+    void displayStorageStatus() {
+        std::stringstream strStream;
+        nameMap.print_statistics(strStream);
+        Console::println(strStream.str());
+    }
     void displayMap() {
         Console::println("*** Map ***");
         for (fixed_name_map::iterator itr = nameMap.begin(); itr != nameMap.end(); itr++) {
