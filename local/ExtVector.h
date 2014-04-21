@@ -82,8 +82,11 @@ public:
         }
     }
     int size() const {
-        // Removing 1 element size for the packed identifier
+        // Removing 1 element size for the packed 
         return (isPacked()) ? nnz : vctDisk.size() - 1;
+    }
+    unsigned int getDiskStorageCapacity(){
+        return vctDisk.raw_capacity();
     }
     bool isPacked() const {
         return (vctDisk[0] == 1);
@@ -148,20 +151,21 @@ public:
         REAL arrTest[] = {1.0, 2.0, 5.0, 6.0, 0.0, 0.0, 0.0, 0.0, 7.1, 0.0, 0.0, 8.2, 6};
         unsigned int testSize = sizeof (arrTest) / sizeof (REAL);
         PackedVector vctPack(testSize);
-        vctPack.setRealSize(10000000);
+        vctPack.setRealSize(100000000);
         unsigned int i;
         for (i = 0; i < testSize; i++) {
             vctPack.add(i, (REAL) arrTest[i]);
             //            vctPack.displayVector();
         }
-        for (i = testSize; i < 10000000; i++) { // Adding 1 mil numbers
+        for (i = testSize; i < 100000000; i++) { // Adding 1 mil numbers
             vctPack.add(i, i);
         }
-
+        // Takes up space of 8*2*(10^7) => 160MB sofar :)
         Console::println("Original Vector: ");
         //        vctPack.displayVector();
         // PackedVector to ExtVector
 //        ExtVector extVector(vctPack);
+//        DEBUG("Vector Size(in bytes): "<<extVector.getDiskStorageCapacity());
 //        Console::println("Value of index 2: ", extVector.getAbsoluteIndexElement(2));
 //        Console::println("Value of index 4: ", extVector.getAbsoluteIndexElement(4));
         //        extVector.displayVector();
@@ -174,9 +178,13 @@ public:
         int noTrials = 1000; /// Approx 8GB
         for(int j=0; j<noTrials; j++){
             ExtVector* tempVector = new ExtVector(vctPack);
+            // 230-160 => 70MB for unpacking in this case
             vctExtStorage.push_back(tempVector);
             Console::println("Number of Vectors Added: ", j);
         }
+        // Each ExtVector when getting typecasted could increase the size
+        // temporarily for now as PackedVector can unpack/pack and increase size
+        // Each vector has 32KB cache hence total of 32MB cache is expected
         Console::println("External Stored Vector Recieved Back: ");
         //        vctResult.displayVector();
     }

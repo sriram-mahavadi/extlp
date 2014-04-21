@@ -92,29 +92,30 @@ int main(int argc, char *argv[]) {
         filename = argv[optidx];
         ///////////// - Reading File Section
         DEBUG_SIMPLE("Accepted Input File: " << filename);
-        ReadFileUtil inputReader;
-        //        inputReader.readFile(filename); // Reading using physical memory
-        ///////////// - Initializing data structures
-        std::vector<ExtRowVector> vctRows; // Set of Rows
-        std::vector<ExtColVector> vctCols; // Set of Columns
-        //    ExtVector &vctRhs;
-        //    ExtVector &vctObj;
-        PackedVector vctRhs; // Better to try and fit rhs 
-        PackedVector vctObj; // and obj in memory as they are freq used
-        std::vector<PackedRowVector> vctCacheRows;
-        std::vector<PackedColVector> vctCacheCols;
-        //        REAL * cacheMatrix[4]; // Try to cache B^-1
-        // Names of the Rows and Cols involved in the 
-        fixed_name_map myRowMap((fixed_name_map::node_block_type::raw_size)*3, (fixed_name_map::leaf_block_type::raw_size)*3);
-        fixed_name_map myColMap((fixed_name_map::node_block_type::raw_size)*3, (fixed_name_map::leaf_block_type::raw_size)*3);
-        ExtNameMap mapRowName(myRowMap);
-        ExtNameMap mapColName(myColMap);
-        ExtLPDSSet extDataSet(vctRows, vctCols, vctRhs, vctObj,
-                vctCacheRows, vctCacheCols, mapRowName, mapColName);
+        //        ReadFileUtil inputReader;
+        //        //        inputReader.readFile(filename); // Reading using physical memory
+        //        ///////////// - Initializing data structures
+        //        std::vector<ExtRowVector> vctRows; // Set of Rows
+        //        std::vector<ExtColVector> vctCols; // Set of Columns
+        //        //    ExtVector &vctRhs;
+        //        //    ExtVector &vctObj;
+        //        PackedVector vctRhs; // Better to try and fit rhs 
+        //        PackedVector vctObj; // and obj in memory as they are freq used
+        //        std::vector<PackedRowVector> vctCacheRows;
+        //        std::vector<PackedColVector> vctCacheCols;
+        //        //        REAL * cacheMatrix[4]; // Try to cache B^-1
+        //        // Names of the Rows and Cols involved in the 
+        //        fixed_name_map myRowMap((fixed_name_map::node_block_type::raw_size)*3, (fixed_name_map::leaf_block_type::raw_size)*3);
+        //        fixed_name_map myColMap((fixed_name_map::node_block_type::raw_size)*3, (fixed_name_map::leaf_block_type::raw_size)*3);
+        //        ExtNameMap mapRowName(myRowMap);
+        //        ExtNameMap mapColName(myColMap);
+        //        ExtLPDSSet extDataSet(vctRows, vctCols, vctRhs, vctObj,
+        //                vctCacheRows, vctCacheCols, mapRowName, mapColName);
 //        inputReader.readFileUsingDisk(filename, extDataSet);
 
         ///////////////////// --- Test Sections
         //        PackedVector::test();
+      
         ExtVector::test();
         //        FixedStringUtil::test();
         //        ExtNameMap::test();
