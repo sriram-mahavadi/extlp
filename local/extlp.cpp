@@ -30,7 +30,7 @@
 #include "ExtNameMap.h"
 #include "ExtLPDSSet.h"
 #include "ExtStringVector.h"
-
+#include "Test.h"
 int main(int argc, char *argv[]) {
     //    printUsage(argv);
     //    Resolving the problem of writing my own copy constructor for LPCol 
@@ -114,13 +114,14 @@ int main(int argc, char *argv[]) {
 //        inputReader.readFileUsingDisk(filename, extDataSet);
 
         ///////////////////// --- Test Sections
-        //        PackedVector::test();
+                PackedVector::test();
       
-        ExtVector::test();
+//        ExtVector::test();
         //        FixedStringUtil::test();
         //        ExtNameMap::test();
         //        ExtStringVector::test();
-
+//        LinkedList::test();
+        Test::testLinkedList();
         //////////////////// --- Statistics Sections
         //        Console::println("--- * Map Statistics * ---");
         //        mapRowName.displayStorageStatus();

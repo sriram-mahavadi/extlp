@@ -1,0 +1,138 @@
+/* 
+ * File:   LinkedList.h
+ * Author: harsha
+ *
+ * Created on 22 April, 2014, 3:03 AM
+ */
+
+#ifndef LINKEDLIST_H
+#define	LINKEDLIST_H
+#include <stdio.h>
+#include <assert.h>
+
+template<class ItemClass>
+class LinkedListNode {
+private:
+    ItemClass item;
+    LinkedListNode<ItemClass>* next;
+public:
+
+    LinkedListNode(ItemClass item) {
+        this->item = item;
+        this->next = NULL;
+    }
+
+    void setNext(LinkedListNode<ItemClass>* next) {
+        this->next = next;
+    }
+
+    void setItem(ItemClass item) {
+        this->item = item;
+    }
+
+    LinkedListNode<ItemClass>* getNext() {
+        return this->next;
+    }
+
+    ItemClass getItem() {
+        return this->item;
+    }
+
+    ItemClass& getItemReference() {
+        return this->item;
+    }
+};
+
+template<class ItemClass>
+class LinkedList {
+private:
+    LinkedListNode<ItemClass>* head;
+    LinkedListNode<ItemClass>* tail;
+    unsigned int size;
+public:
+
+    class iterator {
+    private:
+        LinkedListNode<ItemClass>* ptr;
+    public:
+        void operator=(LinkedListNode<ItemClass>* ptr) {
+            this->ptr = ptr;
+        }
+
+        void operator=(iterator itr) {
+            this->ptr = itr->ptr;
+        }
+
+        iterator& operator++() { // Pre incrementation
+            assert(ptr != NULL);
+            ptr = ptr->getNext();
+            return *this;
+        }
+
+        iterator& operator++(int) { // Post incrementation
+            assert(ptr != NULL);
+            ptr = ptr->getNext();
+            return *this;
+        }
+
+        ItemClass& operator*() {
+            return ptr->getItemReference();
+        }
+
+        bool operator==(const iterator itr) const {
+            if (itr.ptr == this->ptr) return true;
+            return false;
+        }
+
+        bool operator!=(const iterator itr) const {
+            if (itr.ptr != this->ptr) return true;
+            return false;
+        }
+    };
+
+    LinkedList() {
+        head = NULL;
+        tail = NULL;
+        size = 0;
+    }
+
+    void clear() {
+        LinkedListNode<ItemClass>* ptrNode, tmpNode;
+        assert((head == NULL && tail == NULL) || tail->getNext() == NULL);
+        ptrNode = head;
+        while (ptrNode != NULL) {
+            tmpNode = ptrNode;
+            ptrNode = ptrNode->getNext();
+            delete tmpNode;
+        }
+        head = tail = NULL;
+        size = 0;
+    }
+
+    void add(ItemClass item) {
+        LinkedListNode<ItemClass>* newItem = new LinkedListNode<ItemClass>(item);
+        if (tail == NULL) {
+            head = tail = newItem;
+        } else {
+            tail->setNext(newItem);
+            tail = newItem;
+        }
+        size++;
+    }
+
+    iterator begin() {
+        iterator itr;
+        itr = head;
+        return itr;
+    }
+
+    iterator end() {
+        iterator itr;
+        itr = NULL;
+        return itr;
+    }
+};
+
+
+#endif	/* LINKEDLIST_H */
+
