@@ -31,8 +31,8 @@
 #define BLOCK_SIZE 1<<12;
 //typedef stxxl::VECTOR_GENERATOR<REAL>::result real_vector;
 // template parameters<ValueType, PageSize, CachePages, BlockSize, AllocStratg>
-// Here vector caches 2 pages each of 8*4*4kb blocks => 8*32 kb cache overall 
-typedef stxxl::VECTOR_GENERATOR<REAL, 4, 2, 4*1024>::result real_vector;
+// Here vector caches 2 pages each of 4*4kb blocks => 8*32 kb cache overall 
+typedef stxxl::VECTOR_GENERATOR<REAL, 4, 1, 4*1024>::result real_vector;
 
 typedef stxxl::VECTOR_GENERATOR<std::string>::result string_vector;
 

@@ -1,6 +1,6 @@
 /* 
  * File:   LinkedList.h
- * Author: harsha
+ * Author: Sriram Mahavadi
  *
  * Created on 22 April, 2014, 3:03 AM
  */
@@ -9,6 +9,8 @@
 #define	LINKEDLIST_H
 #include <stdio.h>
 #include <assert.h>
+
+#include "GlobalDebug.h"
 
 template<class ItemClass>
 class LinkedListNode {
@@ -48,7 +50,7 @@ class LinkedList {
 private:
     LinkedListNode<ItemClass>* head;
     LinkedListNode<ItemClass>* tail;
-    unsigned int size;
+    unsigned int m_size;
 public:
 
     class iterator {
@@ -60,7 +62,7 @@ public:
         }
 
         void operator=(iterator itr) {
-            this->ptr = itr->ptr;
+            this->ptr = itr.ptr;
         }
 
         iterator& operator++() { // Pre incrementation
@@ -93,33 +95,41 @@ public:
     LinkedList() {
         head = NULL;
         tail = NULL;
-        size = 0;
+        m_size = 0;
     }
-
+    ~LinkedList(){
+        clear();
+    }
     void clear() {
-        LinkedListNode<ItemClass>* ptrNode, tmpNode;
+        LinkedListNode< ItemClass >* ptrNode, *tmpNode;
         assert((head == NULL && tail == NULL) || tail->getNext() == NULL);
         ptrNode = head;
+        unsigned int i=0;
         while (ptrNode != NULL) {
             tmpNode = ptrNode;
             ptrNode = ptrNode->getNext();
             delete tmpNode;
+            i++;
         }
+        DEBUG("Deleted "<<i<<" nodes");
         head = tail = NULL;
-        size = 0;
+        m_size = 0;
     }
 
     void add(ItemClass item) {
         LinkedListNode<ItemClass>* newItem = new LinkedListNode<ItemClass>(item);
+//        DEBUG("Size of new Node: "<<sizeof(*newItem));
         if (tail == NULL) {
             head = tail = newItem;
         } else {
             tail->setNext(newItem);
             tail = newItem;
         }
-        size++;
+        m_size++;
     }
-
+    unsigned int size(){
+        return this->m_size;
+    }
     iterator begin() {
         iterator itr;
         itr = head;

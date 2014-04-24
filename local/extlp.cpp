@@ -31,6 +31,7 @@
 #include "ExtLPDSSet.h"
 #include "ExtStringVector.h"
 #include "Test.h"
+#include "PackedVector2.h"
 int main(int argc, char *argv[]) {
     //    printUsage(argv);
     //    Resolving the problem of writing my own copy constructor for LPCol 
@@ -54,10 +55,11 @@ int main(int argc, char *argv[]) {
     //        std::cout<<"Try PrintCol: "<<arrCol[i].getName()<<"...\r\n";
     //                std::cout<<"Try PrintRow: "<<arrRow[i].getName()<<"...\r\n";
     //    }
-
+    std::setvbuf(stdout, NULL, _IONBF, 0); 
+    std::setvbuf(stderr, NULL, _IONBF, 0);
     Console::printVersionInfo();
     const char* filename;
-    std::cout << "Number of arguments: " << argc;
+    CONSOLE_PRINT("Number of arguments: " << argc);
     try {
         int optidx;
         for (optidx = 1; optidx < argc; optidx++) {
@@ -65,11 +67,11 @@ int main(int argc, char *argv[]) {
                 break;
             switch (argv[optidx][1]) {
                 case 't':
-                    std::cout << "timeout";
+                    CONSOLE_PRINT("timeout");
                     break;
 
                 case 'L':
-                    std::cout << "Iterations Limit";
+                    CONSOLE_PRINT("Iterations Limit");
                     break;
                 case 'h':
                 case '?':
@@ -114,25 +116,28 @@ int main(int argc, char *argv[]) {
 //        inputReader.readFileUsingDisk(filename, extDataSet);
 
         ///////////////////// --- Test Sections
-                PackedVector::test();
-      
-//        ExtVector::test();
+//                PackedVector::test();
+//        Test::testPackedVector2();
+//        Test::testExtVector();
+        Test::testExtPackedVector();
+//        Test::testExtVector2();
         //        FixedStringUtil::test();
         //        ExtNameMap::test();
         //        ExtStringVector::test();
-//        LinkedList::test();
-        Test::testLinkedList();
+//        Test::testLinkedList();
         //////////////////// --- Statistics Sections
         //        Console::println("--- * Map Statistics * ---");
         //        mapRowName.displayStorageStatus();
         //        mapColName.displayStorageStatus();
         //        Console::println("--- *** ---");
-        std::cout << (stxxl::stats_data(*Stats) - stats_begin);
-        Console::println("Program Completed Execution!!!");
-        std::cout.flush();
+        CONSOLE_PRINTLN(stxxl::stats_data(*Stats) - stats_begin);
+        CONSOLE_PRINTLN("Program Completed Execution!!!");
+        DEBUG_MEMORY("Memory Left at the end of program.");
     } catch (int) {
         std::cout << "Error dude";
     }
+    std::cout<<std::flush;
+    
     return 0;
 }
 

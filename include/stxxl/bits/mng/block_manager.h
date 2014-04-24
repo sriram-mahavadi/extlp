@@ -184,6 +184,56 @@ public:
 #endif // STXXL_MNG_COUNT_ALLOCATION
 };
 
+// Original copy of new_blocks_int before issue of RC with extending external memory
+//template <class BIDType, class DiskAssignFunctor, class OutputIterator>
+//void block_manager::new_blocks_int(
+//    const unsigned_type nblocks,
+//    const DiskAssignFunctor& functor,
+//    unsigned_type offset,
+//    OutputIterator out)
+//{
+//    typedef BIDType bid_type;
+//    typedef BIDArray<bid_type::t_size> bid_array_type;
+//
+//    simple_vector<int_type> bl(ndisks);
+//    simple_vector<bid_array_type> disk_bids(ndisks);
+//    simple_vector<file*> disk_ptrs(nblocks);
+//
+//    bl.memzero();
+//
+//    for (unsigned_type i = 0; i < nblocks; ++i)
+//    {
+//        unsigned_type disk = functor(offset + i);
+//        disk_ptrs[i] = disk_files[disk];
+//        bl[disk]++;
+//    }
+//
+//    for (unsigned_type i = 0; i < ndisks; ++i)
+//    {
+//        if (bl[i])
+//        {
+//            disk_bids[i].resize(bl[i]);
+//            disk_allocators[i]->new_blocks(disk_bids[i]);
+//        }
+//    }
+//
+//    bl.memzero();
+//
+//    OutputIterator it = out;
+//    for (unsigned_type i = 0; i != nblocks; ++it, ++i)
+//    {
+//        const int disk = disk_ptrs[i]->get_allocator_id();
+//        bid_type bid(disk_ptrs[i], disk_bids[disk][bl[disk]++].offset);
+//        *it = bid;
+//        STXXL_VERBOSE_BLOCK_LIFE_CYCLE("BLC:new    " << FMT_BID(bid));
+//    }
+//
+//#if STXXL_MNG_COUNT_ALLOCATION
+//    m_total_allocation += nblocks * BIDType::size;
+//    m_current_allocation += nblocks * BIDType::size;
+//    m_maximum_allocation = STXXL_MAX(m_maximum_allocation, m_current_allocation);
+//#endif // STXXL_MNG_COUNT_ALLOCATION
+//}
 
 template <class BIDType, class DiskAssignFunctor, class OutputIterator>
 void block_manager::new_blocks_int(
@@ -234,7 +284,6 @@ void block_manager::new_blocks_int(
     m_maximum_allocation = STXXL_MAX(m_maximum_allocation, m_current_allocation);
 #endif // STXXL_MNG_COUNT_ALLOCATION
 }
-
 
 template <unsigned BLK_SIZE>
 void block_manager::delete_block(const BID<BLK_SIZE>& bid)

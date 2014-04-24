@@ -10,10 +10,12 @@
 
 #include "GlobalDefines.h"
 #include "Console.h"
+#include "LinkedList.h"
 
 
 /// Struct needs to be accessed outside by the get() method
 /// Basic <index, value> pair to represent array/vector in packed form
+
 struct PackedElement {
 public:
     unsigned int index;
@@ -23,6 +25,7 @@ public:
 /// Checks if the vector has sparsity>0.5 and stores in packed form if it does
 /// otherwise it will store the complete vector
 /// This is the best form to store on disk to reduce the number of I/O(compressed storage)
+
 class PackedVector {
 private:
     unsigned int nnz; /// Number of non-zeros, define the packed or unpacked form of vector
@@ -32,6 +35,7 @@ private:
     std::vector<PackedElement> vctPacked;
 
 public:
+
     enum VectorStatus {
         UNINITIALIZED, /// Vector status unknown and not yet initialized
         PACKED, /// Vector is in compressed form
@@ -40,11 +44,13 @@ public:
 
     VectorStatus status;
     /// Initialization section
+
     PackedVector(int p_realSize = 0) {
         nnz = 0;
         realSize = p_realSize;
         status = UNINITIALIZED;
     }
+
     PackedVector(int p_realSize, bool isPacked) {
         nnz = 0;
         realSize = p_realSize;
@@ -52,6 +58,7 @@ public:
         if (!isPacked)
             vctUnpacked.resize(p_realSize);
     }
+
     PackedVector(std::vector<REAL> &vct) {
         /// Calculating the number of non-zeros
         /// Adding the elements into Packed form by default
@@ -70,6 +77,7 @@ public:
     }
 
     /// Get the total number of non zeros in the vector
+
     int getPackedSize() {
         validateStatus();
         if (status == UNINITIALIZED)
@@ -78,6 +86,7 @@ public:
     }
 
     /// Get the max capacity of the vector including the zeros
+
     int getUnPackedSize() {
         validateStatus();
         if (status == UNINITIALIZED)
@@ -86,12 +95,14 @@ public:
     }
 
     /// Get the sparsity of the vector
+
     float getSparsity() {
         validateStatus();
         if (status == UNINITIALIZED)
             return 0;
         return (float) (realSize - nnz) / realSize;
     }
+
     unsigned int size() const {
         if (status == PACKED) {
             return nnz;
@@ -105,6 +116,7 @@ public:
             return -1;
         }
     }
+
     void convertToPacked() {
         if (status == PACKED || status == UNINITIALIZED)return;
         status = PACKED;
@@ -122,6 +134,7 @@ public:
         }
         vctUnpacked.clear();
     }
+
     void convertToUnPacked() {
         if (status == UNPACKED || status == UNINITIALIZED)return;
         status = UNPACKED;
@@ -139,6 +152,7 @@ public:
     }
 
     /// Store unpacked vector externally into vctUnpack
+
     void storeUnpackedVector(std::vector<REAL> &vctUnpack) {
         if (status == UNINITIALIZED)return;
         if (status == UNPACKED) {
@@ -159,6 +173,7 @@ public:
 
     /// Best for performing disk read
     /// Main intution is to reduce disk I/O
+
     void convertForDiskWrite() {
         if (nnz > realSize / 2) {
             convertToUnPacked();
@@ -169,6 +184,7 @@ public:
 
     /// Adds into packed form without even checking,
     /// if the index already exists
+
     void add(unsigned int index, REAL value) {
         // Check for non zero condition
         if (value == 0.0)return;
@@ -199,6 +215,7 @@ public:
     /// When element index is returned to be -1, there is some error
     /// Which is either that vector is unintizlized, array out of bounds,
     /// or that vector status is unknown
+
     PackedElement get(unsigned int index) const {
         PackedElement element;
         if (status == UNINITIALIZED) {
@@ -226,18 +243,21 @@ public:
     }
 
     /// checks if the status of the vector is packed
+
     bool isPacked() const {
         if (status == PACKED)return true;
         return false;
     }
 
     /// checks if the status of the vector is initialized
+
     bool isInitialized() const {
         if (status != UNINITIALIZED)return true;
         return false;
     }
 
     ///
+
     void resize(unsigned int p_size) {
         if (status == PACKED) {
             vctPacked.resize(p_size);
@@ -248,27 +268,29 @@ public:
             realSize = p_size;
         }
     }
-    
+
     /// 
+
     void setRealSize(unsigned int p_realSize) {
         realSize = p_realSize;
-        if(status==UNPACKED)
+        if (status == UNPACKED)
             vctUnpacked.reserve(p_realSize);
     }
 
-    void clear(){
-        if(isPacked()){
+    void clear() {
+        if (isPacked()) {
             vctPacked.clear();
-            nnz=0;
-        }else{
+            nnz = 0;
+        } else {
             vctUnpacked.clear();
             vctUnpacked.reserve(realSize);
-            nnz=0;
+            nnz = 0;
         }
-        
+
     }
-    
+
     ///
+
     void displayVector() {
         Console::println("********* Vector Display ************");
         if (status == PACKED) {
@@ -300,11 +322,13 @@ public:
     }
 
     /// Status should take either of the values in the Status enum
+
     void validateStatus() {
         assert(status == PACKED || status == UNINITIALIZED || status == UNPACKED);
     }
 
     /// Testing the functionality of the Vector
+
     static void test() {
         Console::println("*** Testing Packed Vector ***");
         REAL arrTest[] = {1.0, 2.0, 5.0, 6.0, 0.0, 0.0, 0.0, 0.0, 7.1, 0.0, 0.0, 8.2};

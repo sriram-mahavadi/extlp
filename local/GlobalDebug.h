@@ -25,6 +25,10 @@
 // Debugging into File -- Usually formatted output
 // for the developer to validate and verify large output
 #define FILE_DEBUG true
+// For checking the status of both physical and external memory
+// Just a simple pause function for current status validation
+#define MEMORY_DEBUG true
+
 /// ofstream defined for the purpose of file debug
 /// The file is created in the directory of project executable
 std::ofstream outputStream;
@@ -47,6 +51,14 @@ if(PARSER_DEBUG == true){ \
         std::cout.flush();\
 }
 
+#define DEBUG_MEMORY(x) \
+if(MEMORY_DEBUG == true){ \
+        std::cout <<"MEMORY INFO- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
+        std::cout <<"Press any key to continue"<<std::endl;\
+        getchar();\
+        std::cout.flush();\
+}
+
 #define DEBUG_ERROR(x) \
 if(ERROR_DEBUG == true){ \
         std::cout <<"GENERAL ERR- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
@@ -59,6 +71,8 @@ if(WARNING_DEBUG == true){ \
         std::cout.flush();\
 }
 
+
+
 #define DEBUG_FILE(x) \
 if(FILE_DEBUG == true){ \
         if(!outputStream.is_open()){ \
@@ -67,5 +81,16 @@ if(FILE_DEBUG == true){ \
         outputStream<<__FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
         outputStream.flush();\
 }
-#endif	/* GLOBALDEBUG_H */
 
+
+
+#define CONSOLE_PRINT(x) \
+std::cout << x << std::endl;\
+std::cout.flush();
+
+#define CONSOLE_PRINTLN(x) \
+std::cout << x << std::endl;\
+std::cout.flush();
+
+
+#endif	/* GLOBALDEBUG_H */

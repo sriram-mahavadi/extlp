@@ -49,5 +49,9 @@ git commit --amend -m 'Notes added for description and some configuration detail
 git push --force origin sriram-dev
 
 git reset
+
+#Changing git author name:
+https://help.github.com/articles/setting-your-username-in-git
+http://stackoverflow.com/questions/750172/how-do-i-change-the-author-of-a-commit-in-git
 // Changed //
 ** updated sofar***

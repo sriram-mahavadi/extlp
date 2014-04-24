@@ -11,24 +11,21 @@
 class Console {
 public:
     static void println(std::string x) {
-        std::cout << x << "\r\n";
-        std::cout.flush();
+        std::cout << x << std::endl;
     }
     static void println(std::string x, REAL r) {
-        std::cout << x << r << "\r\n";
-        std::cout.flush();
+        std::cout << x << r << std::endl;
     }
     static void println(std::string x, std::string r) {
-        std::cout << x << r << "\r\n";
-        std::cout.flush();
+        std::cout << x << r << std::endl;
     }
     static void print(std::string x) {
         std::cout << x;
-        std::cout.flush();
+        std::cout<<std::flush;
     }
     static void print(std::string x, REAL r) {
         std::cout << x << r;
-        std::cout.flush();
+        std::cout<<std::flush;
     }
 
 
@@ -52,8 +49,8 @@ public:
                 "************************************************************************\n"
                 ;
 
-        Console::println(banner1);
-        Console::println(banner2);
+        CONSOLE_PRINTLN(banner1);
+        CONSOLE_PRINTLN(banner2);
     }
 
     // Prints the usage of console - command line format
