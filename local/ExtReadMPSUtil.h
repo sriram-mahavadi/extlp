@@ -636,31 +636,31 @@ endReadRhs:
         unsigned int i = 0, j = 0;
 
         std::stringstream titleStream;
-        titleStream << setw(10) << "Row/Col" << ": ";
+        titleStream << std::setw(10) << "Row/Col" << ": ";
         for (j = 0; j < extDataSet.vctCols.size(); j++)
-            titleStream << setw(10) << extDataSet.vctCols[j].getName() << ", ";
-        titleStream << setw(10) << extDataSet.getRhsName() << ", ";
+            titleStream << std::setw(10) << extDataSet.vctCols[j].getName() << ", ";
+        titleStream << std::setw(10) << extDataSet.getRhsName() << ", ";
         DEBUG_FILE(titleStream.str());
 
         std::stringstream objStream;
         std::string objTitle("OBJ-");
         objTitle = objTitle + mpsInput.objName();
-        objStream << setw(10) << objTitle << ": ";
+        objStream << std::setw(10) << objTitle << ": ";
         for (i = 0; i < extDataSet.vctCols.size(); i++) {
-            objStream << setw(10) << extDataSet.vctCols[i].obj() << ", ";
+            objStream << std::setw(10) << extDataSet.vctCols[i].obj() << ", ";
         }
         /// Rhs Column in objective constraint
-        objStream << setw(10) << 0 << ", ";
+        objStream << std::setw(10) << 0 << ", ";
         DEBUG_FILE(objStream.str());
         for (i = 0; i < extDataSet.vctRows.size(); i++) {
             //            string rowName(arrRow[i].)
             std::stringstream rowStream;
-            rowStream << setw(10) << extDataSet.vctRows[i].getName() << ": ";
+            rowStream << std::setw(10) << extDataSet.vctRows[i].getName() << ": ";
             for (j = 0; j < extDataSet.vctCols.size(); j++) {
                 //                mapColNumber[]
-                rowStream << setw(10) << extDataSet.vctCols[j].getRowElement(i) << ", ";
+                rowStream << std::setw(10) << extDataSet.vctCols[j].getRowElement(i) << ", ";
             }
-            rowStream << setw(10) << extDataSet.vctRows[i].getRhs() << ", ";
+            rowStream << std::setw(10) << extDataSet.vctRows[i].getRhs() << ", ";
             DEBUG_FILE(rowStream.str());
         }
         DEBUG_FILE(" -------------------------_ *** -----------------------------");

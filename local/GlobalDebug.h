@@ -7,7 +7,7 @@
 
 #ifndef GLOBALDEBUG_H
 #define	GLOBALDEBUG_H
-
+#include <stdio.h>
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // Console output/Debug operations that are useful across the project  ////
@@ -56,6 +56,7 @@ if(MEMORY_DEBUG == true){ \
         std::cout <<"MEMORY INFO- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
         std::cout <<"Press any key to continue"<<std::endl;\
         getchar();\
+        std::cout <<"Please Wait!!!"<<std::endl;\
         std::cout.flush();\
 }
 
@@ -76,7 +77,7 @@ if(WARNING_DEBUG == true){ \
 #define DEBUG_FILE(x) \
 if(FILE_DEBUG == true){ \
         if(!outputStream.is_open()){ \
-                outputStream.open("debug_log.txt", ios::app);\
+                outputStream.open("debug_log.txt", std::ios::app);\
         }\
         outputStream<<__FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
         outputStream.flush();\

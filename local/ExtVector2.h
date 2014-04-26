@@ -7,13 +7,16 @@
 
 #ifndef EXTVECTOR2_H
 #define	EXTVECTOR2_H
-
+#include "ExtStxxlVector.h"
+//! 16MB Cache per vector
+//! Always remember to allocate and deallocate cache pages as necessary
 template<class ItemClass>
-class ExtVector2 : public stxxl::VECTOR_GENERATOR<ItemClass, 4, 2, 4 * 1024>::result{
+class ExtVector2 : public VECTOR_GENERATOR<ItemClass, 4, 2, 2 * 1024 * 1024>::result{
 private:
 //    typedef stxxl::VECTOR_GENERATOR<ItemClass, 4, 2, 4 * 1024>::result item_vector_type;
 //    item_vector_type vctDisk;
 public:
+    //! All the functions are inherited directly from the vector Class
 //    friend class item_vector_type::iterator;
 //    typedef item_vector_type::iterator iterator;
 //    

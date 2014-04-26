@@ -456,31 +456,31 @@ endReadRhs:
         unsigned int i = 0, j = 0;
 
         std::stringstream titleStream;
-        titleStream << setw(10) << "Row/Col" << ": ";
+        titleStream << std::setw(10) << "Row/Col" << ": ";
         for (j = 0; j < arrCol.size(); j++)
-            titleStream << setw(10) << arrCol[j].getName() << ", ";
-        titleStream << setw(10) << mpsInput.rhsName() << ", ";
+            titleStream << std::setw(10) << arrCol[j].getName() << ", ";
+        titleStream << std::setw(10) << mpsInput.rhsName() << ", ";
         DEBUG_PARSER(titleStream.str());
 
         std::stringstream objStream;
         std::string objTitle("OBJ-");
         objTitle = objTitle + mpsInput.objName();
-        objStream << setw(10) << objTitle << ": ";
+        objStream << std::setw(10) << objTitle << ": ";
         for (i = 0; i < arrCol.size(); i++) {
-            objStream << setw(10) << arrCol[i].obj() << ", ";
+            objStream << std::setw(10) << arrCol[i].obj() << ", ";
         }
         /// Rhs Column in objective constraint
-        objStream << setw(10) << 0 << ", ";
+        objStream << std::setw(10) << 0 << ", ";
         DEBUG_PARSER(objStream.str());
         for (i = 0; i < arrRow.size(); i++) {
             //            string rowName(arrRow[i].)
             std::stringstream rowStream;
-            rowStream << setw(10) << arrRow[i].getName() << ": ";
+            rowStream << std::setw(10) << arrRow[i].getName() << ": ";
             for (j = 0; j < arrCol.size(); j++) {
                 //                mapColNumber[]
-                rowStream << setw(10) << arrCol[j].getRowElement(i) << ", ";
+                rowStream << std::setw(10) << arrCol[j].getRowElement(i) << ", ";
             }
-            rowStream << setw(10) << arrRow[i].rhs() << ", ";
+            rowStream << std::setw(10) << arrRow[i].rhs() << ", ";
             DEBUG_PARSER(rowStream.str());
         }
         /////////////////////////////////////////////////////////////////////////

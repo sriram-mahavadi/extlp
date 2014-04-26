@@ -89,7 +89,7 @@ typedef stxxl::map<std::string, unsigned int, CompareGreaterString, DATA_NODE_BL
 //typedef stxxl::map<FixedString, unsigned int, CompareGreaterFixedString, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> fixed_name_map;
 typedef stxxl::map<FixedString, unsigned int, comp_Fixed_String, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> fixed_name_map;
 
-
+stxxl::vector<int> vctInt;
 
 
 #endif	/* GLOBALDEFINES_H */
