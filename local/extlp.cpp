@@ -11,31 +11,27 @@
  **************************************************************************/
 
 //! [example]
-#include <stxxl/bits/containers/matrix.h>
-#include <stxxl/vector>
-#include <iostream>
-#include <vector>
-
-#include "mpsinput.h"
-#include "GlobalDefines.h"
-#include "LPRow.h"
-#include "LPCol.h"
-#include "Console.h"
-#include "ExtLPMatrix.h"
-#include "PackedVector.h"
-#include "PackedVectorUtil.h"
-#include "ReadFileUtil.h"
-#include "ExtVector.h"
-#include "ExtNameMap.h"
-#include "ExtLPDSSet.h"
-#include "ExtStringVector.h"
+//#include <stxxl/bits/containers/matrix.h>
+//#include <stxxl/vector>
+//#include <iostream>
+//#include <vector>
+//
+//#include "mpsinput.h"
+//#include "GlobalDefines.h"
+//#include "LPRow.h"
+//#include "LPCol.h"
+//#include "ExtLPMatrix.h"
+//#include "PackedVectorUtil.h"
+//#include "ReadFileUtil.h"
+//#include "ExtNameMap.h"
+//#include "ExtLPDSSet.h"
 #include "Test.h"
-#include "PackedVector2.h"
-#include "ExtStxxlVector.h"
-
+//#include "PackedVector.h"
+//#include "ExtStxxlVector.h"
+#include "Console.h"
 int main(int argc, char *argv[]) {
     //    printUsage(argv);
-    std::setvbuf(stdout, NULL, _IONBF, 0); 
+    std::setvbuf(stdout, NULL, _IONBF, 0);
     std::setvbuf(stderr, NULL, _IONBF, 0);
     Console::printVersionInfo();
     const char* filename;
@@ -93,18 +89,18 @@ int main(int argc, char *argv[]) {
         //        ExtNameMap mapColName(myColMap);
         //        ExtLPDSSet extDataSet(vctRows, vctCols, vctRhs, vctObj,
         //                vctCacheRows, vctCacheCols, mapRowName, mapColName);
-//        inputReader.readFileUsingDisk(filename, extDataSet);
+        //        inputReader.readFileUsingDisk(filename, extDataSet);
 
         ///////////////////// --- Test Sections
-//                PackedVector::test();
-//        Test::testPackedVector2();
-//        Test::testExtVector();
-//        Test::testExtPackedVector();
-        Test::testExtVector2();
+        //                PackedVector::test();
+        //        Test::testPackedVector2();
+        //        Test::testExtVector();
+        Test::testExtPackedVector();
+        //        Test::testExtVector2();
         //        FixedStringUtil::test();
         //        ExtNameMap::test();
         //        ExtStringVector::test();
-//        Test::testLinkedList();
+        //        Test::testLinkedList();
         //////////////////// --- Statistics Sections
         //        Console::println("--- * Map Statistics * ---");
         //        mapRowName.displayStorageStatus();
@@ -116,7 +112,5 @@ int main(int argc, char *argv[]) {
     } catch (int) {
         std::cout << "Error dude";
     }
-    std::cout<<std::flush;
-    
     return 0;
 }

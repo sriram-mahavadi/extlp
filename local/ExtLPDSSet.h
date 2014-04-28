@@ -8,7 +8,6 @@
 #ifndef EXTLPDSSET_H
 #define	EXTLPDSSET_H
 
-#include "ExtVector.h"
 #include "ExtNameMap.h"
 #include "ExtRowVector.h"
 #include "ExtColVector.h"
@@ -36,11 +35,10 @@ public:
     // Now Rhs and Obj are parts of RowVector and ColVector respectively
     //    ExtVector &vctRhs;
     //    ExtVector &vctObj;
-    PackedVector &vctRhs; // Better to try and fit rhs 
-    PackedVector &vctObj; // and obj in memory as they are freq used
-    std::vector<PackedRowVector> &vctCacheRows;
-    std::vector<PackedColVector> &vctCacheCols;
-    REAL *cacheMatrix[4]; // Try to cache B^-1
+    //    PackedVectorPrototype &vctRhs; // Better to try and fit PackedVectorPrototypekedVector &vctObj; // and obj in memory as they are freq used
+    //    std::vector<PackedRowVector> &vctCacheRows;
+    //    std::vector<PackedColVector> &vctCacheCols;
+    //    REAL *cacheMatrix[4]; // Try to cache B^-1
 
     // Names of the Rows and Cols involved in the 
     ExtNameMap &mapRowName;
@@ -49,14 +47,11 @@ public:
     /// Initialization 
     /// Better decide the data structures from the main itself.
     ExtLPDSSet(
-            std::vector<ExtRowVector> &p_vctRows, std::vector<ExtColVector> &p_vctCols,
-            PackedVector &p_vctRhs, PackedVector &p_vctObj,
-            std::vector<PackedRowVector> &p_vctCacheRows,
-            std::vector<PackedColVector> &p_vctCacheCols,
+            std::vector<ExtRowVector> &p_vctRows,
+            std::vector<ExtColVector> &p_vctCols,
             ExtNameMap &p_mapRowName, ExtNameMap &p_mapColName
             ) :
-    vctRows(p_vctRows), vctCols(p_vctCols), vctRhs(p_vctRhs),
-    vctObj(p_vctObj), vctCacheRows(p_vctCacheRows), vctCacheCols(p_vctCacheCols),
+    vctRows(p_vctRows), vctCols(p_vctCols),
     mapRowName(p_mapRowName), mapColName(p_mapColName) {
     }
     std::string getProbName() {
@@ -73,7 +68,7 @@ public:
     std::string getObjName() {
         return objName;
     }
-    std::string getRhsName(){
+    std::string getRhsName() {
         return rhsName;
     }
     void setProbName(std::string p_probName) {
@@ -90,7 +85,7 @@ public:
     void setObjName(std::string p_objName) {
         objName = p_objName;
     }
-    void setRhsName(std::string p_rhsName){
+    void setRhsName(std::string p_rhsName) {
         rhsName = p_rhsName;
     }
 };

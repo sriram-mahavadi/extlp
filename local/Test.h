@@ -9,9 +9,9 @@
 #define	TEST_H
 #include "LinkedList.h"
 #include "GlobalDebug.h"
-#include "PackedVector2.h"
+#include "PackedVector.h"
+#include "deprecated/ExtVectorPrototype.h"
 #include "ExtVector.h"
-#include "ExtVector2.h"
 #include "ExtPackedVector.h"
 class Test {
 public:
@@ -114,7 +114,7 @@ public:
         if (testConversion) {
             CONSOLE_PRINTLN("--- Tesiting PackedVector2 Conversion ---");
             REAL arrTest[] = {1.0, 2.0, 5.0, 6.0, 0.0, 0.0, 0.0, 0.0, 7.1, 0.0, 0.0, 8.2, 9, 9, 9, 9, 9, 9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-            PackedVector2<REAL> vctPack(sizeof (arrTest) / sizeof (REAL), 0);
+            PackedVector<REAL> vctPack(sizeof (arrTest) / sizeof (REAL), 0);
             //        vctPack.setRealSize(sizeof(arrTest)/sizeof(REAL));
             vctPack.displayVector();
             unsigned int i;
@@ -138,7 +138,7 @@ public:
 
     }
     //! Testing ExtVector
-    static void testExtVector() {
+    static void testExtVectorPrototype() {
         bool testConversion = false;
         bool testStorage = true;
         CONSOLE_PRINTLN("************************ Tesiting ExtVector ************************");
@@ -146,7 +146,7 @@ public:
             CONSOLE_PRINTLN("--- Tesiting ExtVector Storage ---");
             unsigned int testSize = 100000000;
             DEBUG_MEMORY("Before PackedVector - Initialization of " << testSize << " elements");
-            PackedVector vctPack(testSize);
+            PackedVectorPrototype vctPack(testSize);
             //            PackedVector2<REAL> vctPack(testSize, 0);
             unsigned int i;
             for (i = 0; i < testSize; i++) { // Adding 1 mil numbers
@@ -154,7 +154,7 @@ public:
             }
             DEBUG_MEMORY("After PackedVector - Initialization of " << testSize << " elements");
             DEBUG_MEMORY("Before ExtVector - Initialization of " << testSize << " elements");
-            ExtVector extVector(vctPack);
+            ExtVectorPrototype extVector(vctPack);
             DEBUG_MEMORY("After ExtVector - Initialization of " << testSize << " elements");
 
 
@@ -193,64 +193,68 @@ public:
         //        vctResult.displayVector();
         CONSOLE_PRINTLN("************************ End ************************");
     }
-    static void testExtVector2() {
-        bool testConversion = false;
+    static void testExtVector() {
+        //        bool testConversion = false;
         bool testStorage = false;
         bool testArray = true;
         CONSOLE_PRINTLN("************************ Tesiting ExtVector ************************");
         if (testStorage) {
-            CONSOLE_PRINTLN("--- Tesiting ExtVector2 Storage ---");
+            CONSOLE_PRINTLN("--- Tesiting ExtVector Storage ---");
             unsigned int testSize = 1000;
-            DEBUG_MEMORY("Before ExtVector2 - Initialization of " << testSize << " elements");
-            ExtVector2<REAL> extVector;
+            DEBUG_MEMORY("Before ExtVector - Initialization of " << testSize << " elements");
+            ExtVector<REAL> extVector;
+            extVector.resize(testSize);
             for (unsigned int i = 0; i < testSize; i++) {
-                extVector.push_back(i);
+                extVector.add(i, (REAL)i);
             }
-            DEBUG_MEMORY("After ExtVector2 - Initialization of " << testSize << " elements");
-            DEBUG_MEMORY("Before ExtVector2 - Deallocate Pagecache " << testSize << " elements");
-            extVector.deallocate_page_cache();
-            DEBUG_MEMORY("After ExtVector2 - Deallocate Pagecache of " << testSize << " elements");
+            DEBUG_MEMORY("After ExtVector - Initialization of " << testSize << " elements");
+            DEBUG_MEMORY("Before ExtVector - Deallocate Pagecache " << testSize << " elements");
+            extVector.deallocate_cache();
+            DEBUG_MEMORY("After ExtVector - Deallocate Pagecache of " << testSize << " elements");
         }
-        if(testArray){
-            CONSOLE_PRINTLN("--- Tesiting ExtVector2 Array ---");
-            unsigned int testArraySize = 1000;        // Total number of vectors/columns
-            unsigned int testSize = 1000000;               // Number of elements in individual vector
-            DEBUG_MEMORY("Before ExtVector2 - Adding "<<testArraySize<<" vectos of " << testSize << " elements");
-            std::vector<ExtVector2<REAL>*> vctExtVector;
+        if (testArray) {
+            CONSOLE_PRINTLN("--- Tesiting ExtVector Array ---");
+            unsigned int testArraySize = 1000; // Total number of vectors/columns
+            unsigned int testSize = 1000000; // Number of elements in individual vector
+            DEBUG_MEMORY("Before ExtVector - Adding " << testArraySize << " vectos of " << testSize << " elements");
+            std::vector<ExtVector<REAL>*> vctExtVector;
             for (unsigned int i = 0; i < testArraySize; i++) {
-                ExtVector2<REAL> *extVector = new ExtVector2<REAL>();
+                ExtVector<REAL> *extVector = new ExtVector<REAL>();
                 extVector->resize(testSize, true);
-                extVector->allocate_page_cache();
+                extVector->allocate_cache();
                 vctExtVector.push_back(extVector);
-                for(unsigned int j=0; j<testSize; j++){
-                        extVector->push_back(i);
+                for (unsigned int j = 0; j < testSize; j++) {
+                    extVector->add(j, (REAL)j);
                 }
-                extVector->deallocate_page_cache();
-                if(i%(testArraySize/10)==0){
-                    DEBUG_MEMORY("After ExtVector2 - Adding "<<i<<" vectos of " << testSize << " elements");
+                extVector->deallocate_cache();
+                if (i % (testArraySize / 10) == 0) {
+                    DEBUG_MEMORY("After ExtVector - Adding " << i << " vectos of " << testSize << " elements");
                 }
             }
-             DEBUG_MEMORY("After ExtVector2 - Adding "<<testArraySize<<" vectos of " << testSize << " elements");
+            DEBUG_MEMORY("After ExtVector - Adding " << testArraySize << " vectos of " << testSize << " elements");
         }
         CONSOLE_PRINTLN("************************ End ************************");
     }
     static void testExtPackedVector() {
-        bool testConversion = false;
+        //        bool testConversion = false;
         bool testStorage = true;
         CONSOLE_PRINTLN("************************ Tesiting ExtPackedVector ************************");
         if (testStorage) {
             CONSOLE_PRINTLN("--- Tesiting ExtPackedVector Storage ---");
             unsigned int testSize = 100;
             DEBUG_MEMORY("Before PackedVector2 - Initialization of " << testSize << " elements");
-            PackedVector2<REAL> vctPacked(testSize, 0);
+            // Forced initialization of PackedVector into packedform
+            PackedVector<REAL> vctPacked(testSize, true, 0);
             for (unsigned int i = 0; i < testSize; i++) {
-                vctPacked.add(i, (REAL) i);
+                // Always add with autoConversion false if you donot want to convert
+                // This is typical while incase of forced initialization
+                vctPacked.add(i, (REAL) i, false);
             }
             DEBUG_MEMORY("Before ExtVector2 - Initialization of " << testSize << " elements");
             ExtPackedVector<REAL> extPacked(vctPacked);
             ExtPackedVector<REAL>::iterator itr = extPacked.begin();
             while (itr != extPacked.end()) {
-                PackedElement2<REAL> packedElement = *itr;
+                PackedElement<REAL> packedElement = *itr;
                 DEBUG("Index: " << packedElement.getIndex() << ", Value: " << packedElement.getValue());
                 itr++;
             }

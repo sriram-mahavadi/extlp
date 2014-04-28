@@ -9,6 +9,8 @@
 #define	PACKEDROWVECTOR_H
 #include "GlobalDefines.h"
 #include "PackedVector.h"
+//! PackedRowVector: Meant to store the row of the LP Tableau
+//! Only meant for keeping track of REAL values pertaining to the LP Column
 class PackedRowVector {
 private:
     //------------------------------------
@@ -16,7 +18,7 @@ private:
     //@{
     REAL left; ///< left-hand side of the constraint
     REAL right; ///< right-hand side of the constraint
-    PackedVector vctPack; ///< the row vector
+    PackedVector<REAL> vctPack; ///< the row vector
     std::string name;
     //@}
 public:
@@ -40,7 +42,7 @@ public:
     //@{
     /// Construct LPRow with a vector ready to hold \p defDim nonzeros
     explicit PackedRowVector(int defDim = 0)
-    : left(0), right(INFINITY_VALUE), vctPack(defDim) {
+    : left(0), right(INFINITY_VALUE), vctPack(defDim, 0) {
     }
 
     //@}
@@ -130,7 +132,7 @@ public:
     }
 
     /// access the packed vector
-    PackedVector& getPackedVector(){
+    PackedVector<REAL>& getPackedVector(){
         return vctPack;
     }
 };

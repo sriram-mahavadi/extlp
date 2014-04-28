@@ -1,6 +1,6 @@
 /* 
  * File:   ExtStxxlVector.h
- * Author: sriram
+ * Author: Sriram Mahavadi
  *
  * Created on 25 April, 2014, 4:01 PM
  */
@@ -1292,8 +1292,8 @@ public:
         : m_size(obj.size()),
           m_bids((size_t)div_ceil(obj.size(), block_type::size)),
           m_pager(obj.numpages()),
-          m_page_status(div_ceil(m_bids.size(), page_size)),
-          m_page_to_slot(div_ceil(m_bids.size(), page_size)),
+          m_page_status(stxxl::div_ceil(m_bids.size(), page_size)),
+          m_page_to_slot(stxxl::div_ceil(m_bids.size(), page_size)),
           m_slot_to_page(obj.numpages()),
           m_cache(NULL),
           m_from(NULL),
@@ -1572,7 +1572,7 @@ public:
 
     //! \}
 
-private:
+protected: // Shifted from private to protected for overloading operators
     bids_container_iterator bid(const size_type& offset)
     {
         return (m_bids.begin() +

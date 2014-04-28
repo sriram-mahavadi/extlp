@@ -8,7 +8,7 @@
 #ifndef EXTSTRINGVECTOR_H
 #define	EXTSTRINGVECTOR_H
 
-#include "GlobalDefines.h"
+#include "../GlobalDefines.h"
 
 class ExtStringVector{
 private:

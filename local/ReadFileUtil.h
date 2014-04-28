@@ -8,7 +8,7 @@
 #ifndef READFILEUTIL_H
 #define	READFILEUTIL_H
 #include "ExtReadMPSUtil.h"
-#include "ReadMPSUtil.h"
+#include "deprecated/ReadMPSUtil.h"
 #include "ReadLPUtil.h"
 #include "GlobalDefines.h"
 #include "ExtLPDSSet.h"

@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "GlobalDebug.h"
+#include "GlobalDefines.h"
 
 template<class ItemClass>
 class LinkedListNode {
@@ -91,7 +91,6 @@ public:
             return false;
         }
     };
-
     LinkedList() {
         head = NULL;
         tail = NULL;
@@ -130,13 +129,13 @@ public:
     unsigned int size(){
         return this->m_size;
     }
-    iterator begin() {
+    iterator begin() const{
         iterator itr;
         itr = head;
         return itr;
     }
 
-    iterator end() {
+    iterator end() const{
         iterator itr;
         itr = NULL;
         return itr;

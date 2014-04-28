@@ -18,7 +18,7 @@ private:
     REAL up; ///< upper bound
     REAL low; ///< lower bound
     REAL object; ///< objective value
-    PackedVector vctCol; ///< the column vector
+    PackedVector<REAL> vctCol; ///< the column vector
     std::string name;
     //@}
 
@@ -32,7 +32,7 @@ public:
      *  nonzeros.
      */
     explicit PackedColVector(int defDim = 0)
-    : up(INFINITY_VALUE), low(0), object(0), vctCol(defDim) {
+    : up(INFINITY_VALUE), low(0), object(0), vctCol(defDim, 0) {
     }
 
     //------------------------------------
@@ -67,18 +67,11 @@ public:
     }
 
     /// get the input row element of the current column
+    //! TODO return for unpacked and packed condition
     REAL getRowElement(unsigned int row) const {
-        if (!vctCol.isPacked()) {
-            return vctCol.get(row).value;
-        } else {
-            for (unsigned int i = 0; i < vctCol.size(); i++) {
-                if (vctCol.get(i).index == row)
-                    return vctCol.get(i).value;
-            }
-        }
-        return 0.0F;
+        return vctCol[row];
     }
-    
+
     /// access the name of the LP Column
     void setName(std::string p_name) {
         name = p_name;
@@ -95,17 +88,16 @@ public:
     //      return vec;
     //   }
 
-   
+
     /// access constraint column vector.
     void setColVector(const std::vector<REAL>& p_vec) {
         vctCol.clear();
-        vctCol.setRealSize(p_vec.size());
-        for(unsigned int i=0; i<p_vec.size(); i++){
-                vctCol.add(i, p_vec[i]);
+        vctCol.resize(p_vec.size());
+        for (unsigned int i = 0; i < p_vec.size(); i++) {
+            vctCol.add(i, p_vec[i]);
         }
     }
-    
-    PackedVector& getPackedVector() {
+    PackedVector<REAL>& getPackedVector() {
         return vctCol;
     }
 };

@@ -10,19 +10,30 @@
 
 #include "PackedColVector.h"
 #include "ExtVector.h"
+#include "ExtPackedVector.h"
 class ExtColVector {
 private:
 
     //------------------------------------
     /**@name Data */
     //@{
-    REAL up; ///< upper bound
-    REAL low; ///< lower bound
-    REAL object; ///< objective value
-    ExtVector vctCol; ///< the column vector
-    std::string name;
+    REAL m_up; ///< upper bound
+    REAL m_low; ///< lower bound
+    REAL m_object; ///< objective value
+    ExtVector<REAL>* m_vctUnpacked; /// the column vector - unpacked version
+    ExtPackedVector<REAL>* m_vctPacked; /// column vector - packed version
+    std::string m_name;
     //@}
-
+    void deallocatePackedVector() {
+        assert(m_vctPacked != NULL);
+        delete m_vctPacked;
+        m_vctPacked = NULL;
+    }
+    void deallocateUnpackedVector() {
+        assert(m_vctUnpacked != NULL);
+        delete m_vctUnpacked;
+        m_vctUnpacked = NULL;
+    }
 public:
 
     //------------------------------------
@@ -32,70 +43,93 @@ public:
     /** Construct LPCol with a column vector ready for taking \p defDim
      *  nonzeros.
      */
-    explicit ExtColVector(PackedColVector& vctPack)
-    : up(vctPack.upper()), low(vctPack.lower()), object(vctPack.obj()),
-    vctCol(vctPack.getPackedVector()), name(vctPack.getName()) {
+    explicit ExtColVector(PackedColVector& packedColVector)
+    : m_up(packedColVector.upper()), m_low(packedColVector.lower()),
+    m_object(packedColVector.obj()),
+    m_name(packedColVector.getName()) {
+        PackedVector<REAL> &packedVector = packedColVector.getPackedVector();
+        if (packedVector.isPacked()) {
+            m_vctPacked = new ExtPackedVector<REAL>(packedVector);
+            m_vctUnpacked = NULL;
+        } else {
+            m_vctPacked = NULL;
+            m_vctUnpacked = new ExtVector<REAL>(packedVector);
+        }
     }
+    bool isPacked() {
+        if (m_vctPacked != NULL && m_vctUnpacked == NULL) return true;
+        else if (m_vctPacked == NULL && m_vctUnpacked != NULL)return false;
+        else DEBUG_ERROR("Invalid PackedVector State");
+        return false; // Just in case of Invalid state
+    }
+    void storeFromPackedVector(PackedVector<REAL> &packedVector) {
+        // Recreating the whole vector for now... (Inefficient)
+        // --TODO--     Need to implement incremental changes only getting written
+        //              to the disk
 
+        // Deallocate either of the version of vectors first
+        if (isPacked()) deallocatePackedVector();
+        else deallocateUnpackedVector();
+
+        // Allocate the new vector now
+        if (packedVector.isPacked()) {
+            assert(m_vctPacked==NULL);
+            m_vctPacked = new ExtPackedVector<REAL>(packedVector);
+        } else {
+            assert(m_vctUnpacked==NULL);
+            m_vctUnpacked = new ExtVector<REAL>(packedVector);
+        }
+    }
     //------------------------------------
     /**@name Access / modification */
     //@{
     /// get objective value.
     REAL obj() const {
-        return object;
+        return m_object;
     }
     /// access objective value.
     void setObj(REAL p_object) {
-        object = p_object;
+        m_object = p_object;
     }
 
     /// get upper bound.
     REAL upper() const {
-        return up;
+        return m_up;
     }
     /// access upper bound.
     void setUpper(REAL p_up) {
-        up = p_up;
+        m_up = p_up;
     }
 
     /// get lower bound.
     REAL lower() const {
-        return low;
+        return m_low;
     }
 
     /// get name of the LP Column
     std::string getName() const {
-        return name;
+        return m_name;
     }
 
-    /// get the input row element of the current column
-    REAL getRowElement(unsigned int row) {
-        return vctCol.getAbsoluteIndexElement(row);
+    //! get the absolute index element of the current packed col vector
+    REAL getRowElement(unsigned int index) {
+        if (m_vctPacked == NULL && m_vctUnpacked != NULL) {
+            REAL value = (*m_vctUnpacked)[index];
+            return value;
+        } else if (m_vctPacked != NULL && m_vctUnpacked == NULL) {
+            m_vctPacked->getAbsoluteItemValue(index);
+        }
     }
 
     /// access the name of the LP Column
     void setName(std::string p_name) {
-        name = p_name;
+        m_name = p_name;
     }
 
     /// access lower bound.
     void setLower(REAL p_low) {
-        low = p_low;
+        m_low = p_low;
     }
-
-    /// get constraint column vector.
-    //   const SVector& colVector() const
-    //   {
-    //      return vec;
-    //   }
-
-    //    /// access constraint column vector.
-    //    void setColVector(const std::vector<REAL>& p_vec) {
-    //        vctCol.setRealSize(p_vec.size());
-    //        for (unsigned int i = 0; i < p_vec.size(); i++) {
-    //            vctCol.add(i, p_vec[i]);
-    //        }
-    //    }
 };
 
 #endif	/* EXTCOLVECTOR_H */

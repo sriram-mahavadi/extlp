@@ -9,11 +9,11 @@
 #define	READLPUTIL_H
 
 #include "ExtLPDSSet.h"
-
+#include "GlobalDefines.h"
 class ReadLPUtil {
 public:
     bool readLPF(std::istream &is) {
-        std::cout << "Reading lpf file\n";
+        CONSOLE_PRINTLN("Reading lpf file\n");
         return false;
     }
 };

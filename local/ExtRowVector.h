@@ -9,16 +9,33 @@
 #define	EXTROWVECTOR_H
 
 #include "PackedRowVector.h"
+#include "ExtVector.h"
+#include "ExtPackedVector.h"
+#include "PackedVector.h"
+
 class ExtRowVector {
 private:
     //------------------------------------
     /**@name Data */
     //@{
-    REAL left; ///< left-hand side of the constraint
-    REAL right; ///< right-hand side of the constraint
-    ExtVector vctPack; ///< the row vector
-    std::string name;
+    REAL m_left; ///< left-hand side of the constraint
+    REAL m_right; ///< right-hand side of the constraint
+    ExtVector<REAL>* m_vctUnpacked; ///<  row vector unpacked version
+    ExtPackedVector<REAL>* m_vctPacked; /// row vector - packed version 
+    std::string m_name;
     //@}
+    
+    void deallocatePackedVector(){
+        assert(m_vctPacked!=NULL);
+        delete m_vctPacked;
+        m_vctPacked = NULL;
+    }
+    void deallocateUnpackedVector(){
+        assert(m_vctUnpacked!=NULL);
+        delete m_vctUnpacked;
+        m_vctUnpacked = NULL;
+    }
+    
 public:
     //------------------------------------
     /**@name Types */
@@ -42,8 +59,16 @@ public:
     /// The ExtRowVector is constructed from the existing PackedRowVector
     /// from the memory
     explicit ExtRowVector(PackedRowVector &packedRowVector)
-    : left(packedRowVector.getLhs()), right(packedRowVector.getRhs()), vctPack(packedRowVector.getPackedVector()),
-    name(packedRowVector.getName()) {
+    : m_left(packedRowVector.getLhs()), m_right(packedRowVector.getRhs()),
+    m_name(packedRowVector.getName()) {
+        PackedVector<REAL> &packedVector = packedRowVector.getPackedVector();
+        if (packedVector.isPacked()) {
+            m_vctPacked = new ExtPackedVector<REAL>(packedVector);
+            m_vctUnpacked = NULL;
+        } else {
+            m_vctPacked = NULL;
+            m_vctUnpacked = new ExtVector<REAL>(packedVector);
+        }
     }
 
     //@}
@@ -66,16 +91,16 @@ public:
     void setType(LPRow::Type p_type) {
         switch (p_type) {
             case LESS_EQUAL:
-                left = -INFINITY_VALUE;
+                m_left = -INFINITY_VALUE;
                 break;
             case EQUAL:
                 if (getLhs() > -INFINITY_VALUE)
-                    right = getLhs();
+                    m_right = getLhs();
                 else
-                    left = getRhs();
+                    m_left = getRhs();
                 break;
             case GREATER_EQUAL:
-                right = INFINITY_VALUE;
+                m_right = INFINITY_VALUE;
                 break;
             case RANGE:
                 DEBUG_ERROR("ELPROW01 RANGE not supported in LPRow::setType()"
@@ -104,32 +129,32 @@ public:
 
     /// get left-hand side value.
     REAL getLhs() const {
-        return left;
+        return m_left;
     }
 
     /// get the name of the LP Row
     std::string getName() const {
-        return name;
+        return m_name;
     }
 
     /// access the name of the LP row
     void setName(std::string p_name) {
-        name = p_name;
+        m_name = p_name;
     }
 
     /// access left-hand side value.
     void setLhs(REAL p_left) {
-        left = p_left;
+        m_left = p_left;
     }
 
     /// get right-hand side value of (in)equality.
     REAL getRhs() const {
-        return right;
+        return m_right;
     }
 
     /// access right-hand side value.
     void setRhs(REAL p_right) {
-        right = p_right;
+        m_right = p_right;
     }
 
 };

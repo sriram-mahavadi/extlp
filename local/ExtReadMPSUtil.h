@@ -10,7 +10,6 @@
 #include "GlobalDefines.h"
 #include "ExtLPDSSet.h"
 #include "mpsinput.h"
-#include "PackedRowVector.h"
 class ExtReadMPSUtil {
 public:
     /// Process NAME section.
@@ -107,68 +106,6 @@ public:
     /// Process ROWS section. 
     static void readRows(
             MPSInput& mps,
-            std::vector<LPRow> &arrRow,
-            std::map<std::string, int> &mapRowNumber) {
-        //    LPRow row;
-        //        DEBUG_PARSER("Started Importing/Reading Rows")
-        LPRow row;
-        int i = 0;
-        while (mps.readLine()) {
-            if (mps.field0() != 0) {
-                //            MSG_INFO2(spxout << "IMPSRD02 Objective name : " << mps.objName()
-                //                    << std::endl;)
-
-                if (strcmp(mps.field0(), "COLUMNS"))
-                    break;
-
-                mps.setSection(MPSInput::COLUMNS);
-                goto endReadRows;
-            }
-            if (*mps.field1() == 'N') {
-                if (*mps.objName() == '\0')
-                    mps.setObjName(mps.field2());
-            } else {
-                // getting the row already existing
-                //            if (rnames.has(mps.field2()))
-                //                break;
-                if (mapRowNumber.find(mps.field2()) != mapRowNumber.end())
-                    break;
-                //            rnames.add(mps.field2());
-                //            arrRow.push_back(mps.field2());
-                mapRowNumber[mps.field2()] = i++;
-                row.setName(mps.field2());
-                switch (*mps.field1()) {
-                    case 'G':
-                        row.setLhs(0.0);
-                        row.setRhs(INFINITY_VALUE);
-                        break;
-                    case 'E':
-                        row.setLhs(0.0);
-                        row.setRhs(0.0);
-                        break;
-                    case 'L':
-                        row.setLhs(-INFINITY_VALUE);
-                        row.setRhs(0.0);
-                        break;
-                    default:
-                        goto endReadRowsWithError;
-                }
-                //            rset.add(row);
-                arrRow.push_back(row);
-            }
-            //        assert((*mps.field1() == 'N')
-            //                || (rnames.number(mps.field2()) == rset.num() - 1));
-        }
-endReadRowsWithError:
-        mps.syntaxError();
-endReadRows:
-        //        DEBUG_PARSER("End of Importing/Reading Rows")
-        return;
-    }
-
-    /// Process ROWS section. 
-    static void readRows(
-            MPSInput& mps,
             ExtLPDSSet &extDataSet) {
         //    LPRow row;
         //        DEBUG_PARSER("Started Importing/Reading Rows")
@@ -231,114 +168,6 @@ endReadRows:
         return;
     }
 
-    /// Process COLUMNS section. 
-    static void readCols(
-            MPSInput& mps,
-            std::vector<LPRow> &arrRow,
-            std::map<std::string, int> &mapRowNumber,
-            std::vector<LPCol> &arrCol,
-            std::map<std::string, int> &mapColNumber
-            ) {
-        //        DEBUG_PARSER("Started Reading Columns")
-        REAL val;
-        //    int idx;
-        char colname[MPSInput::MAX_LINE_LEN] = {'\0'};
-        LPCol col(arrRow.size());
-        //    DSVector vec;
-        std::vector<REAL> vec(arrRow.size());
-
-        //        DEBUG_PARSER("Size of vector while Initialization: " << vec.size());
-        col.setObj(0.0F);
-        //    vec.clear();
-
-        int i = 0;
-        //        int lines = 0;
-        while (mps.readLine()) {
-            //            DEBUG_PARSER("Lines Read: " << lines++ << "; Columns Read: " << i)
-            if (mps.field0() != 0) {
-                if (strcmp(mps.field0(), "RHS")) {
-                    DEBUG_PARSER("Next Section is RHS")
-                    break;
-                }
-
-                if (colname[0] != '\0') {
-                    col.setColVector(vec);
-                    arrCol.push_back(col);
-                }
-                mps.setSection(MPSInput::RHS);
-                return;
-            }
-            if ((mps.field1() == 0) || (mps.field2() == 0) || (mps.field3() == 0))
-                break;
-
-            // new column?
-            if (strcmp(colname, mps.field1())) {
-                // first column?
-                //            DEBUG_PARSER("Reading New Column");
-                if (colname[0] != '\0') {
-                    col.setColVector(vec);
-                    arrCol.push_back(col);
-                }
-                // save copy of string (make sure string ends with \0)
-                strncpy(colname, mps.field1(), MPSInput::MAX_LINE_LEN - 1);
-                colname[MPSInput::MAX_LINE_LEN - 1] = '\0';
-                mapColNumber[colname] = i++;
-                col.setName(colname);
-
-                //            cnames.add(colname);
-                // Initializing back to default values
-                vec.clear();
-                vec.resize(arrRow.size());
-                col.setObj(0.0);
-                col.setLower(0.0);
-                col.setUpper(INFINITY_VALUE);
-
-                //            if (mps.isInteger()) {
-                //                assert(cnames.number(colname) == cset.num());
-                //
-                //                if (intvars != 0)
-                //                    intvars->addIdx(cnames.number(colname));
-                //
-                //                // For Integer variable the default bounds are 0/1 
-                //                col.setUpper(1.0);
-                //            }
-            }
-            val = atof(mps.field3());
-
-            if (!strcmp(mps.field2(), mps.objName()))
-                col.setObj(val);
-            else {
-                // Getting row number for given row
-                //            if ((idx = rnames.number(mps.field2())) < 0)
-                if (mapRowNumber.find(mps.field2()) == mapRowNumber.end())
-                    mps.entryIgnored("Column", mps.field1(), "row", mps.field2());
-                else {
-                    int rowNumber = mapRowNumber[mps.field2()];
-                    if (val != 0.0)
-                        vec[rowNumber] = val; //.add(idx, val);
-                }
-            }
-            if (mps.field5() != 0) {
-                assert(mps.field4() != 0);
-
-                val = atof(mps.field5());
-
-                if (!strcmp(mps.field4(), mps.objName()))
-                    col.setObj(val);
-                else {
-                    if (mapRowNumber.find(mps.field4()) == mapRowNumber.end())
-                        mps.entryIgnored("Column", mps.field1(), "row", mps.field2());
-                    else {
-                        int rowNumber = mapRowNumber[mps.field4()];
-                        if (val != 0.0)
-                            vec[rowNumber] = val; //.add(idx, val);
-                    }
-                }
-            }
-        }
-        //        DEBUG_PARSER("End of Reading Columns")
-        mps.syntaxError();
-    }
     /// Process COLUMNS section. 
     static void readCols(
             MPSInput& mps,
@@ -554,6 +383,7 @@ endReadRhs:
         mps.setRhsName(rhsname);
         extDataSet.setRhsName(rhsname);
     }
+
     bool readMPS(std::istream &is, ExtLPDSSet &extDataSet) {
         //MPS
 
@@ -627,7 +457,7 @@ endReadRhs:
         DEBUG_SIMPLE("Number of Rows imported: " << extDataSet.vctRows.size());
         DEBUG_SIMPLE("Number of Columns imported: " << extDataSet.vctCols.size());
         DEBUG_SIMPLE("Writing Simplex Tableau to the Log!!!");
-        
+
         DEBUG_FILE(" -------------------------_ LP Problem -----------------------------");
         DEBUG_FILE("Number of Rows imported: " << extDataSet.vctRows.size());
         DEBUG_FILE("Number of Columns imported: " << extDataSet.vctCols.size());

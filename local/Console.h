@@ -7,6 +7,7 @@
 
 #ifndef CONSOLE_H
 #define	CONSOLE_H
+#include "GlobalDefines.h"
 // Performs the console input and output operations.
 class Console {
 public:

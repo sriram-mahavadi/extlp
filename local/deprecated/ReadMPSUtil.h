@@ -8,9 +8,9 @@
 #ifndef READMPSUTIL_H
 #define	READMPSUTIL_H
 
-#include "GlobalDefines.h"
-#include "mpsinput.h"
-#include "LPCol.h"
+#include "../GlobalDefines.h"
+#include "../mpsinput.h"
+#include "../LPCol.h"
 
 class ReadMPSUtil {
 public:
