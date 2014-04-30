@@ -8,11 +8,10 @@
 #ifndef EXTROWVECTOR_H
 #define	EXTROWVECTOR_H
 
-#include "PackedRowVector.h"
+#include "deprecated/PackedRowVector.h"
 #include "ExtVector.h"
 #include "ExtPackedVector.h"
 #include "PackedVector.h"
-
 class ExtRowVector {
 private:
     //------------------------------------
@@ -24,18 +23,17 @@ private:
     ExtPackedVector<REAL>* m_vctPacked; /// row vector - packed version 
     std::string m_name;
     //@}
-    
-    void deallocatePackedVector(){
-        assert(m_vctPacked!=NULL);
+    void deallocatePackedVector() {
+        assert(m_vctPacked != NULL);
         delete m_vctPacked;
         m_vctPacked = NULL;
     }
-    void deallocateUnpackedVector(){
-        assert(m_vctUnpacked!=NULL);
+    void deallocateUnpackedVector() {
+        assert(m_vctUnpacked != NULL);
         delete m_vctUnpacked;
         m_vctUnpacked = NULL;
     }
-    
+
 public:
     //------------------------------------
     /**@name Types */
@@ -58,17 +56,18 @@ public:
     /// Construct LPRow with a vector ready to hold \p defDim nonzeros
     /// The ExtRowVector is constructed from the existing PackedRowVector
     /// from the memory
+    /// Not using row-wise representation of the vector for now
     explicit ExtRowVector(PackedRowVector &packedRowVector)
     : m_left(packedRowVector.getLhs()), m_right(packedRowVector.getRhs()),
     m_name(packedRowVector.getName()) {
-        PackedVector<REAL> &packedVector = packedRowVector.getPackedVector();
-        if (packedVector.isPacked()) {
-            m_vctPacked = new ExtPackedVector<REAL>(packedVector);
-            m_vctUnpacked = NULL;
-        } else {
-            m_vctPacked = NULL;
-            m_vctUnpacked = new ExtVector<REAL>(packedVector);
-        }
+        //        PackedVector<REAL> &packedVector = packedRowVector.getPackedVector();
+        //        if (packedVector.isPacked()) {
+        //            m_vctPacked = new ExtPackedVector<REAL>(packedVector);
+        //            m_vctUnpacked = NULL;
+        //        } else {
+        //            m_vctPacked = NULL;
+        //            m_vctUnpacked = new ExtVector<REAL>(packedVector);
+        //        }
     }
 
     //@}
@@ -88,7 +87,7 @@ public:
     }
 
     /// set type of (in)equality
-    void setType(LPRow::Type p_type) {
+    void setType(Type p_type) {
         switch (p_type) {
             case LESS_EQUAL:
                 m_left = -INFINITY_VALUE;

@@ -11,8 +11,6 @@
 #include "ExtNameMap.h"
 #include "ExtRowVector.h"
 #include "ExtColVector.h"
-#include "PackedRowVector.h"
-#include "PackedColVector.h"
 /**
  * Contains the total set of problem inputs or data structures
  * that will be required at each step of simplex method

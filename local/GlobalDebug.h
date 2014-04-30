@@ -73,13 +73,13 @@ if(WARNING_DEBUG == true){ \
 }
 
 
-
+/*        outputStream<<__FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\*/
 #define DEBUG_FILE(x) \
 if(FILE_DEBUG == true){ \
         if(!outputStream.is_open()){ \
                 outputStream.open("debug_log.txt", std::ios::app);\
         }\
-        outputStream<<__FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
+        outputStream<<x<<std::endl;\
         outputStream.flush();\
 }
 

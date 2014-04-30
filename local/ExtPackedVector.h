@@ -17,7 +17,7 @@ template <class ItemClass>
 class ExtPackedVector {
 private:
     //! Vector to store the Items onto external memory
-    typedef typename VECTOR_GENERATOR< PackedElement<ItemClass> , 4, 2, 2 * 1024 * 1024>::result item_vector;
+    typedef typename VECTOR_GENERATOR< PackedElement<ItemClass>, 1, 1, 10 * 1024 * 1024>::result item_vector;
     item_vector m_vct_disk;
     //! Total number of non zeros in the vector
     unsigned int m_nnz;
@@ -25,7 +25,7 @@ private:
     unsigned int m_size;
     //! Null type for the specific ItemClass
     ItemClass m_nullItem;
-    
+
 
     //! Identifier Variable to specify if vector is packed 
     // bool m_isPacked; (Not necessary cause ExtPackedVector is packed by default)
@@ -34,7 +34,7 @@ public:
     //! Defining iterator for the purpose of iteration
     friend class item_vector::iterator;
     typedef typename item_vector::iterator iterator;
-    
+
     //! Initialization from the PackedVector
     ExtPackedVector(PackedVector<ItemClass>& packedVector) {
         storeFromPackedVector(packedVector);
@@ -45,6 +45,7 @@ public:
         resize(p_packed_vector.size(), true);
         m_nullItem = p_packed_vector.getNullItem();
         m_nnz = 0;
+        m_size = p_packed_vector.getUnPackedSize();
         typename PackedVector<ItemClass>::iterator itr = p_packed_vector.begin();
         unsigned int i = 0;
         while (itr != p_packed_vector.end()) {
@@ -53,17 +54,21 @@ public:
             itr++;
             i++;
         }
+        deallocate_cache();
     }
     //! Adding an PackedElement into the PackedVector
     void add(unsigned int p_index, PackedElement<ItemClass> &p_packed_element) {
-        m_vct_disk[p_index] = p_packed_element;
+        add(p_index, p_packed_element.getIndex(), p_packed_element.getValue());
     }
     //! Adding an element into the PackedVector
     void add(unsigned int p_index, unsigned int p_absoulute_index, ItemClass p_value) {
-        PackedElement<ItemClass> packed_element;
-        packed_element.setIndex(p_absoulute_index);
-        packed_element.setValue(p_value);
-        m_vct_disk[p_index] = packed_element;
+        if (p_value != m_nullItem) {
+            PackedElement<ItemClass> packed_element;
+            packed_element.setIndex(p_absoulute_index);
+            packed_element.setValue(p_value);
+            m_vct_disk[p_index] = packed_element;
+            m_nnz++;
+        }
     }
     //! Resizes the vector with an option to allow_shrink. 
     //! Shrinking is allowed by default.
@@ -90,6 +95,14 @@ public:
         }
         return m_nullItem;
     }
+    //! Allocates the 16MB cache desired by an individual vector
+    void allocate_cache() {
+        m_vct_disk.allocate_page_cache();
+    }
+    //! Deallocates all the cache pertaining to this vector
+    void deallocate_cache() {
+        m_vct_disk.deallocate_page_cache();
+    }
     //! Returns iterator to the beginning(first) element in the vector
     iterator begin() {
         return m_vct_disk.begin();
@@ -97,6 +110,10 @@ public:
     //! Returns iterator to the ending(last) of the vector
     iterator end() {
         return m_vct_disk.end();
+    }
+    //! Returns the sparsity of the vector
+    float get_sparsity(){
+        return ((float)(m_size-m_nnz)/m_size)*100;
     }
 };
 

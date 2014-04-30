@@ -1,6 +1,6 @@
 /* 
  * File:   ExtNameMap.h
- * Author: sriram
+ * Author: Sriram Mahavadi
  *
  * Created on 8 April, 2014, 12:07 AM
  */
@@ -20,6 +20,7 @@ public:
     }
     /// Check if the element exists
     bool contains(const std::string &key) {
+        //        DEBUG("String is: "<<key);
         FixedString fixedStringKey = FixedStringUtil::getFixedString(key);
         return (nameMap.find(fixedStringKey) != nameMap.end());
     }
@@ -66,7 +67,7 @@ public:
             //            CONSOLE_PRINTLN("Inserting: " + strStream.str());
             //            strMap.set(fixedString, i);
             if (i % 1000000 == 0) {
-                CONSOLE_PRINTLN("Number of Keys Written: "<< i);
+                CONSOLE_PRINTLN("Number of Keys Written: " << i);
             }
             myFixedMap[fixedString] = i;
         }
@@ -88,7 +89,7 @@ public:
             myStream << ", Value: " << itr->second;
             i++;
             if (i % 1000000 == 0) {
-                CONSOLE_PRINTLN("Number of Keys Read: "<< i);
+                CONSOLE_PRINTLN("Number of Keys Read: " << i);
             }
             //            CONSOLE_PRINTLN(myStream.str());
             //            DEBUG(myStream.str());

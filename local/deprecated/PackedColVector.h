@@ -7,8 +7,8 @@
 
 #ifndef PACKEDCOLVECTOR_H
 #define	PACKEDCOLVECTOR_H
-#include "GlobalDefines.h"
-#include "PackedVector.h"
+#include "../GlobalDefines.h"
+#include "../PackedVector.h"
 class PackedColVector {
 private:
 

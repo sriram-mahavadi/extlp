@@ -13,7 +13,6 @@
 
 /// Struct needs to be accessed outside by the get() method
 /// Basic <index, value> pair to represent array/vector in packed form
-
 struct PackedElementPrototype {
 public:
     unsigned int index;

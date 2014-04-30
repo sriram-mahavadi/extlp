@@ -15,18 +15,18 @@ template<class ItemClass>
 class ExtVector {
 private:
     //! Vector to store the Items onto external memory
-    typedef typename VECTOR_GENERATOR<ItemClass, 4, 2, 2 * 1024 * 1024>::result item_vector;
+    typedef typename VECTOR_GENERATOR<ItemClass, 1, 1, 10 * 1024 * 1024>::result item_vector;
     item_vector m_vct_disk;
     //! Total number of non zeros in the vector
     unsigned int m_nnz;
     //! Total number of elements without compaction/compression
     unsigned int m_size;
-    
+
 public:
     //! Allowing iterator of item_vector for access 
     friend class item_vector::iterator;
     typedef typename item_vector::iterator iterator;
-    
+
     //! Forced Initialization with default values
     //! Need to use it only when necessary
     ExtVector() : m_nnz(0), m_size(0) {
@@ -45,14 +45,15 @@ public:
             m_vct_disk[packedElement.getIndex()] = packedElement.getValue();
             itr++;
         }
+        deallocate_cache();
     }
     //! Adds the input element at the input index position
-    void add(unsigned int index, ItemClass value){
-        assert(index<m_size);
-        m_vct_disk[index]=value;
+    void add(unsigned int index, ItemClass value) {
+        assert(index < m_size);
+        m_vct_disk[index] = value;
     }
     //! Resizes the vector, also has an option to shrink_necessary
-    void resize(unsigned int p_size, bool p_allow_shrink=true){
+    void resize(unsigned int p_size, bool p_allow_shrink = true) {
         m_vct_disk.resize(p_size, p_allow_shrink);
         m_size = p_size;
     }
@@ -70,20 +71,24 @@ public:
         return m_vct_disk[index];
     }
     //! Allocates the 16MB cache desired by an individual vector
-    void allocate_cache(){
+    void allocate_cache() {
         m_vct_disk.allocate_page_cache();
     }
     //! Deallocates all the cache pertaining to this vector
-    void deallocate_cache(){
+    void deallocate_cache() {
         m_vct_disk.deallocate_page_cache();
     }
     //! Returns iterator to the beginning(first) element in the vector
-    iterator begin(){
+    iterator begin() {
         return m_vct_disk.begin();
     }
     //! Returns iterator to the ending(last) of the vector
-    iterator end(){
+    iterator end() {
         return m_vct_disk.end();
+    }
+    //! Returns the sparsity of the vector
+    float get_sparsity() {
+        return ((float) (m_size - m_nnz) / m_size)*100;
     }
 };
 

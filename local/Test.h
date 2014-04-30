@@ -13,8 +13,28 @@
 #include "deprecated/ExtVectorPrototype.h"
 #include "ExtVector.h"
 #include "ExtPackedVector.h"
+#include "ExtNameMap.h"
 class Test {
 public:
+    static void testExtNameMap() {
+        fixed_name_map myFixedMap((fixed_name_map::node_block_type::raw_size)*5, (fixed_name_map::leaf_block_type::raw_size)*5);
+        unsigned int testSize=1000000;
+        ExtNameMap nameMap(myFixedMap);
+        //        ExtNameMap strMap(myMap);
+        for (unsigned int i = 1; i < testSize; i++) { /// Inserting 1 million strings
+            std::stringstream strStream;
+            strStream << (i);
+            FixedString fixedString = FixedStringUtil::getFixedString(strStream.str());
+            //            CONSOLE_PRINTLN("Inserting: " + strStream.str());
+            //            strMap.set(fixedString, i);
+            if (i % (testSize/10) == 0) {
+                CONSOLE_PRINTLN("Number of Keys Written: " << i);
+            }
+            nameMap.set(strStream.str(), i);
+//            myFixedMap[fixedString] = i;
+        }
+        DEBUG_MEMORY("Completed Writing "<<testSize<<" keys.");
+    }
     static void testLinkedList() {
         bool testIterator = false;
         bool testStorage = true;
@@ -205,7 +225,7 @@ public:
             ExtVector<REAL> extVector;
             extVector.resize(testSize);
             for (unsigned int i = 0; i < testSize; i++) {
-                extVector.add(i, (REAL)i);
+                extVector.add(i, (REAL) i);
             }
             DEBUG_MEMORY("After ExtVector - Initialization of " << testSize << " elements");
             DEBUG_MEMORY("Before ExtVector - Deallocate Pagecache " << testSize << " elements");
@@ -224,7 +244,7 @@ public:
                 extVector->allocate_cache();
                 vctExtVector.push_back(extVector);
                 for (unsigned int j = 0; j < testSize; j++) {
-                    extVector->add(j, (REAL)j);
+                    extVector->add(j, (REAL) j);
                 }
                 extVector->deallocate_cache();
                 if (i % (testArraySize / 10) == 0) {

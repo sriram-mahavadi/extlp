@@ -10,8 +10,8 @@
 
 #include "../GlobalDefines.h"
 #include "../mpsinput.h"
-#include "../LPCol.h"
-
+#include "LPCol.h"
+#include "LPRow.h"
 class ReadMPSUtil {
 public:
     /// Process NAME section.

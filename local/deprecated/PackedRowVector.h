@@ -7,8 +7,8 @@
 
 #ifndef PACKEDROWVECTOR_H
 #define	PACKEDROWVECTOR_H
-#include "GlobalDefines.h"
-#include "PackedVector.h"
+#include "../GlobalDefines.h"
+#include "../PackedVector.h"
 //! PackedRowVector: Meant to store the row of the LP Tableau
 //! Only meant for keeping track of REAL values pertaining to the LP Column
 class PackedRowVector {
@@ -62,7 +62,7 @@ public:
     }
 
     /// set type of (in)equality
-    void setType(LPRow::Type p_type) {
+    void setType(Type p_type) {
         switch (p_type) {
             case LESS_EQUAL:
                 left = -INFINITY_VALUE;

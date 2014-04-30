@@ -11,23 +11,25 @@
 // Performs the console input and output operations.
 class Console {
 public:
-    static void println(std::string x) {
-        std::cout << x << std::endl;
-    }
-    static void println(std::string x, REAL r) {
-        std::cout << x << r << std::endl;
-    }
-    static void println(std::string x, std::string r) {
-        std::cout << x << r << std::endl;
-    }
-    static void print(std::string x) {
-        std::cout << x;
-        std::cout<<std::flush;
-    }
-    static void print(std::string x, REAL r) {
-        std::cout << x << r;
-        std::cout<<std::flush;
-    }
+    //! Console Priting options 
+    //! Better use the Global Debug macros to print on console
+    //    static void println(std::string x) {
+    //        std::cout << x << std::endl;
+    //    }
+    //    static void println(std::string x, REAL r) {
+    //        std::cout << x << r << std::endl;
+    //    }
+    //    static void println(std::string x, std::string r) {
+    //        std::cout << x << r << std::endl;
+    //    }
+    //    static void print(std::string x) {
+    //        std::cout << x;
+    //        std::cout<<std::flush;
+    //    }
+    //    static void print(std::string x, REAL r) {
+    //        std::cout << x << r;
+    //        std::cout<<std::flush;
+    //    }
 
 
     // Prints the simple version and license information
