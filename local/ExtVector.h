@@ -15,7 +15,7 @@ template<class ItemClass>
 class ExtVector {
 private:
     //! Vector to store the Items onto external memory
-    typedef typename VECTOR_GENERATOR<ItemClass, 1, 1, 10 * 1024 * 1024>::result item_vector;
+    typedef typename VECTOR_GENERATOR<ItemClass, 1, 1, VECTOR_BLOCK_SIZE>::result item_vector;
     item_vector m_vct_disk;
     //! Total number of non zeros in the vector
     unsigned int m_nnz;

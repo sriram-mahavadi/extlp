@@ -53,5 +53,23 @@ git reset
 #Changing git author name:
 https://help.github.com/articles/setting-your-username-in-git
 http://stackoverflow.com/questions/750172/how-do-i-change-the-author-of-a-commit-in-git
+
+
+STXXL Disks Configuration:
+``````````````````````````
+
+
+Memory Calculations:
+````````````````````
+n3seq24.mps
+For 6000 rows*100000 columns=> 35*6*10^8 => 21 GB write log
+                            => 100000 * 2MB(min block size => too much for just 6000) => 
+mpss16.mps
+For 561657 rows * __________ columns => 
+
+
+
+How to 
 // Changed //
 ** updated sofar***
+

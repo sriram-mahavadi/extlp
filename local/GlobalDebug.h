@@ -27,7 +27,7 @@
 #define FILE_DEBUG true
 // For checking the status of both physical and external memory
 // Just a simple pause function for current status validation
-#define MEMORY_DEBUG true
+#define MEMORY_DEBUG false
 
 /// ofstream defined for the purpose of file debug
 /// The file is created in the directory of project executable
@@ -82,7 +82,23 @@ if(FILE_DEBUG == true){ \
         outputStream<<x<<std::endl;\
         outputStream.flush();\
 }
+char* get_current_time_stamp() {
+    // current date/time based on current system
+    time_t now = time(0);
+    // convert now to string form
+    char* dt = ctime(&now);
+    dt[strlen(dt)-1] = '\0';
+    return dt;
+}
 
+#define DEBUG_FILE_WITH_TIMESTAMP(x) \
+if(FILE_DEBUG == true){ \
+        if(!outputStream.is_open()){ \
+                outputStream.open("debug_log.txt", std::ios::app);\
+        }\
+        outputStream << "[ " << get_current_time_stamp() << " ]: " << x << std::endl;\
+        outputStream.flush();\
+}
 
 
 #define CONSOLE_PRINT(x) \

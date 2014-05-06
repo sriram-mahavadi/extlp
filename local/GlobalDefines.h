@@ -28,7 +28,11 @@
 
 // Used to represent the block size of various I/O operations
 // Storing 4 KB = 1<<12 block size by default
-#define BLOCK_SIZE 1<<12;
+//#define BLOCK_SIZE 1<<12;
+// 48KB
+//#define VECTOR_BLOCK_SIZE 12*4096
+#define VECTOR_PACKED_BLOCK_SIZE 6*12*1024
+#define VECTOR_BLOCK_SIZE 6*8*1024
 //typedef stxxl::VECTOR_GENERATOR<REAL>::result real_vector;
 // template parameters<ValueType, PageSize, CachePages, BlockSize, AllocStratg>
 // Here vector caches 2 pages each of 4*4kb blocks => 8*32 kb cache overall 

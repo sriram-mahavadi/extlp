@@ -19,6 +19,12 @@ private:
     unsigned int index;
     ItemClass value;
 public:
+    PackedElement(){
+    }
+    PackedElement(unsigned int index, ItemClass value){
+        this->index = index;
+        this->value = value;
+    }
     void setIndex(unsigned int index) {
         this->index = index;
     }

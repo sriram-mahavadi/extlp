@@ -182,7 +182,7 @@ endReadRows:
         //    DSVector vec;
         //        std::vector<REAL> vec(arrRow.size());
         std::vector<REAL> vec(extDataSet.vctRows.size());
-
+        static int count_cols_read = 0;
         //        DEBUG_PARSER("Size of vector while Initialization: " << vec.size());
         col.setObj(0.0F);
         //    vec.clear();
@@ -201,6 +201,8 @@ endReadRows:
                     col.setColVector(vec);
                     ExtColVector extCol(col);
                     extDataSet.vctCols.push_back(extCol);
+                    count_cols_read++;
+                    DEBUG_SIMPLE("Read Col " << count_cols_read << ", with name: " << extCol.getName() << ", Sparsity: " << extCol.get_sparsity());
                     //                    arrCol.push_back(col);
                 }
                 mps.setSection(MPSInput::RHS);
@@ -219,6 +221,8 @@ endReadRows:
                     ExtColVector extCol(col);
                     //                    DEBUG_PARSER("Reading ColName: "<<colname<<"; "<<extCol.getName());
                     extDataSet.vctCols.push_back(extCol);
+                    count_cols_read++;
+                    DEBUG_SIMPLE("Read Col " << count_cols_read << ", with name: " << extCol.getName() << ", Sparsity: " << extCol.get_sparsity());
                     //                    arrCol.push_back(col);
                 }
                 // save copy of string (make sure string ends with \0)
@@ -385,7 +389,8 @@ endReadRhs:
     }
     bool readMPS(std::istream &is, ExtLPDSSet &extDataSet) {
         //MPS
-
+        DEBUG_FILE_WITH_TIMESTAMP(" ------------------------- LP Problem -----------------------------");
+        DEBUG_FILE_WITH_TIMESTAMP(" *** Reading MPS File and Writing on External Memory *** ");
         DEBUG_PARSER("Reading MPS File!!!");
         MPSInput mpsInput(is);
         DEBUG_PARSER("Reading Problem Name!!!");
@@ -427,7 +432,8 @@ endReadRhs:
             //        DEBUG_SIMPLE("Identified to optimize the Objective: " << mpsInput.objName());
             //        //////////////////////////////////////////////////////////////////
         }
-//        DEBUG_MEMORY("Memory after Reading Rows");
+        DEBUG("Read " << extDataSet.vctRows.size() << " rows.");
+        //        DEBUG_MEMORY("Memory after Reading Rows");
         //   addedRows(rset.num());
         if (mpsInput.section() == MPSInput::COLUMNS) {
             DEBUG_PARSER("Reading Columns Section Data!!!");
@@ -457,11 +463,12 @@ endReadRhs:
         DEBUG_SIMPLE("Number of Columns imported: " << extDataSet.vctCols.size());
         DEBUG_SIMPLE("Writing Simplex Tableau to the Log!!!");
 
-        DEBUG_FILE(" -------------------------_ LP Problem -----------------------------");
+
+        DEBUG_FILE_WITH_TIMESTAMP(" *** Exporting LP Tableau *** ");
         DEBUG_FILE("Number of Rows imported: " << extDataSet.vctRows.size());
         DEBUG_FILE("Number of Columns imported: " << extDataSet.vctCols.size());
         DEBUG_FILE("Problem Name: " << extDataSet.getProbName());
-        DEBUG_FILE("Partial Simplex Tableau is shown as follows: ");
+        //        DEBUG_FILE("Partial Simplex Tableau is shown as follows: ");
         unsigned int i = 0, j = 0;
         //! Row-wise display of the LP Tableau
         //        std::stringstream titleStream;
@@ -498,82 +505,82 @@ endReadRhs:
 
         //! Sparsity Analysis --- 
         //! Column-wise display of LP Tableau
-        unsigned int width = 35;
-
-        std::stringstream titleStream;
-        titleStream << std::setw(width) << "Col/Row" << ": ";
-        for (j = 0; j < extDataSet.vctRows.size(); j++)
-            titleStream << std::setw(width) << extDataSet.vctRows[j].getName() << ", ";
-        //        titleStream << std::setw(width) << extDataSet.getRhsName() << ", ";
-        titleStream << std::setw(width) << extDataSet.getObjName() << ", ";
-        DEBUG_FILE(titleStream.str());
-
-        for (i = 0; i < extDataSet.vctCols.size(); i++) {
-            // Adding cache
-            ExtColVector &extCurrentVector = extDataSet.vctCols[i];
-            extCurrentVector.allocate_cache();
-            std::stringstream colStream;
-            colStream << std::setw(width) << extCurrentVector.getName() << ": ";
-            //            for (j = 0; j < extDataSet.vctRows.size(); j++) {
-            //                colStream << std::setw(width) << extDataSet.vctCols[j].getRowElement(i) << ", ";
-            //            }
-            // Iterator for extCurrentVector
-            ExtColVector::iterator itr = extCurrentVector.begin();
-            unsigned int prevRowIndex = 0;
-            while (itr != extCurrentVector.end()) {
-                PackedElement<REAL> packedElement = *itr;
-//                DEBUG("Adding Compressed Offset of " << (packedElement.getIndex() - prevRowIndex));
-                assert(((int)packedElement.getIndex() - (int)prevRowIndex) >= 0);
-                while (prevRowIndex < packedElement.getIndex()) {
-                    colStream << std::setw(width) << 0.0F << ", ";
-                    prevRowIndex++;
-                }
-                itr++;
-            }
-            // Padding NULL values until the end of col vector
-            //            DEBUG("Previous Index: "<<prevRowIndex<<", Size of Vector " << i<<" is: "<<extCurrentVector.real_size()<<", Packed="<<extCurrentVector.isPacked());
-
-            while (prevRowIndex < extCurrentVector.real_size()) {
-                colStream << std::setw(width) << 0.0F << ", ";
-                prevRowIndex++;
-            }
-            colStream << std::setw(width) << extCurrentVector.obj() << ", ";
-            // Removing cache
-            extCurrentVector.deallocate_cache();
-            DEBUG_FILE(colStream.str());
-        }
-
-        std::stringstream rhsStream;
-        std::string rhsTitle("");
-        rhsTitle = rhsTitle + extDataSet.getRhsName();
-        rhsStream << std::setw(width) << rhsTitle << ": ";
-        for (i = 0; i < extDataSet.vctRows.size(); i++) {
-            rhsStream << std::setw(width) << extDataSet.vctRows[i].getRhs() << ", ";
-        }
-        /// Obj Row in Rhs Column
-        rhsStream << std::setw(width) << 0 << ", ";
-        DEBUG_FILE(rhsStream.str());
+        //        unsigned int width = 35;
+        //
+        //        std::stringstream titleStream;
+        //        titleStream << std::setw(width) << "Col/Row" << ": ";
+        //        for (j = 0; j < extDataSet.vctRows.size(); j++)
+        //            titleStream << std::setw(width) << extDataSet.vctRows[j].getName() << ", ";
+        //        //        titleStream << std::setw(width) << extDataSet.getRhsName() << ", ";
+        //        titleStream << std::setw(width) << extDataSet.getObjName() << ", ";
+        //        DEBUG_FILE(titleStream.str());
+        //
+        //        for (i = 0; i < extDataSet.vctCols.size(); i++) {
+        //            // Adding cache
+        //            ExtColVector &extCurrentVector = extDataSet.vctCols[i];
+        //            extCurrentVector.allocate_cache();
+        //            std::stringstream colStream;
+        //            colStream << std::setw(width) << extCurrentVector.getName() << ": ";
+        //            //            for (j = 0; j < extDataSet.vctRows.size(); j++) {
+        //            //                colStream << std::setw(width) << extDataSet.vctCols[j].getRowElement(i) << ", ";
+        //            //            }
+        //            // Iterator for extCurrentVector
+        //            ExtColVector::iterator itr = extCurrentVector.begin();
+        //            unsigned int prevRowIndex = 0;
+        //            while (itr != extCurrentVector.end()) {
+        //                PackedElement<REAL> packedElement = *itr;
+        ////                DEBUG("Adding Compressed Offset of " << (packedElement.getIndex() - prevRowIndex));
+        //                assert(((int)packedElement.getIndex() - (int)prevRowIndex) >= 0);
+        //                while (prevRowIndex < packedElement.getIndex()) {
+        //                    colStream << std::setw(width) << 0.0F << ", ";
+        //                    prevRowIndex++;
+        //                }
+        //                itr++;
+        //            }
+        //            // Padding NULL values until the end of col vector
+        //            //            DEBUG("Previous Index: "<<prevRowIndex<<", Size of Vector " << i<<" is: "<<extCurrentVector.real_size()<<", Packed="<<extCurrentVector.isPacked());
+        //
+        //            while (prevRowIndex < extCurrentVector.real_size()) {
+        //                colStream << std::setw(width) << 0.0F << ", ";
+        //                prevRowIndex++;
+        //            }
+        //            colStream << std::setw(width) << extCurrentVector.obj() << ", ";
+        //            // Removing cache
+        //            extCurrentVector.deallocate_cache();
+        //            DEBUG_FILE(colStream.str());
+        //        }
+        //
+        //        std::stringstream rhsStream;
+        //        std::string rhsTitle("");
+        //        rhsTitle = rhsTitle + extDataSet.getRhsName();
+        //        rhsStream << std::setw(width) << rhsTitle << ": ";
+        //        for (i = 0; i < extDataSet.vctRows.size(); i++) {
+        //            rhsStream << std::setw(width) << extDataSet.vctRows[i].getRhs() << ", ";
+        //        }
+        //        /// Obj Row in Rhs Column
+        //        rhsStream << std::setw(width) << 0 << ", ";
+        //        DEBUG_FILE(rhsStream.str());
 
 
         //! ---------------- Sparsity Analysis
         float overall_vector_sparsity = 0;
         unsigned int overall_nnz = 0;
         unsigned int overall_size = (extDataSet.vctCols.size())*(extDataSet.vctCols[i].real_size());
-        DEBUG_FILE(" *** Sparsity Analysis *** ");
+        DEBUG_FILE_WITH_TIMESTAMP(" *** Sparsity Analysis *** ");
         for (i = 0; i < extDataSet.vctCols.size(); i++) {
             ExtColVector &extCurrentVector = extDataSet.vctCols[i];
-            DEBUG_FILE("Sparsity of  Vector[" << i << "]: " << extCurrentVector.get_sparsity());
+            DEBUG_FILE("Vector[" << i << "]: " << extCurrentVector.get_sparsity());
             overall_vector_sparsity += extCurrentVector.get_sparsity();
             overall_nnz += extCurrentVector.get_nnz();
         }
         overall_vector_sparsity /= extDataSet.vctCols.size();
-        float overall_tableau_sparsity = (float)(overall_size-overall_nnz)/overall_size;
-        
-        DEBUG_FILE("Avg sparsity of a vector in LP Tableau: "<<overall_vector_sparsity);
-        DEBUG_FILE("Overall sparsity of the LP Tableau: "<<overall_tableau_sparsity);
-        
-        
-        DEBUG_FILE(" ------------------------- *** -----------------------------");
+        float overall_tableau_sparsity = (float) (overall_size - overall_nnz)*100.0 / overall_size;
+
+        DEBUG_FILE("Avg sparsity of a vector in LP Tableau: " << overall_vector_sparsity);
+        DEBUG_FILE("Overall sparsity of the LP Tableau: " << overall_tableau_sparsity);
+
+
+        DEBUG_FILE_WITH_TIMESTAMP(" ------------------------- *** -----------------------------");
         /////////////////////////////////////////////////////////////////////////
 
 
