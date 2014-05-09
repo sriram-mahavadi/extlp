@@ -1,9 +1,9 @@
 /***************************************************************************
- *  mail.cpp
+ *  main.cpp
  *
  *  Part of the EXTLP. See http://extlp.sourceforge.net
  *
- *  Copyright (C) 2013 Sriram Mahavadi <sriram.mahavadi@gmail.com>
+ *  Copyright (C) 2014 Sriram Mahavadi <sriram.mahavadi@gmail.com>
  *
  *  Distributed under the Boost Software License, Version 1.0.
  *  (See accompanying file LICENSE_1_0.txt or copy at
@@ -23,7 +23,7 @@
 //#include "ExtLPMatrix.h"
 //#include "PackedVectorUtil.h"
 #include "ReadFileUtil.h"
-//#include "ExtNameMap.h"
+#include "ExtNameMap.h"
 //#include "ExtLPDSSet.h"
 #include "Test.h"
 //#include "ExtSequence.h"
@@ -70,36 +70,27 @@ int main(int argc, char *argv[]) {
         ///////////// - Reading File Section
         DEBUG_SIMPLE("Accepted Input File: " << filename);
         ReadFileUtil inputReader;
-        //        inputReader.readFile(filename); // Reading using physical memory
-        //        ///////////// - Initializing data structures
-        std::vector<ExtRowVector> vctRows; // Set of Rows
-        std::vector<ExtColVector> vctCols; // Set of Columns
-        //        //    ExtVector &vctRhs;
-        //        //    ExtVector &vctObj;
-        //        PackedVector vctRhs; // Better to try and fit rhs 
-        //        PackedVector vctObj; // and obj in memory as they are freq used
-        //        std::vector<PackedRowVector> vctCacheRows;
-        //        std::vector<PackedColVector> vctCacheCols;
-        //        //        REAL * cacheMatrix[4]; // Try to cache B^-1
-        //        // Names of the Rows and Cols involved in the 
+        ///////////// - Initializing data structures
+        // Names of the Rows and Cols involved in the 
         fixed_name_map myRowMap((fixed_name_map::node_block_type::raw_size)*5, (fixed_name_map::leaf_block_type::raw_size)*5);
         fixed_name_map myColMap((fixed_name_map::node_block_type::raw_size)*5, (fixed_name_map::leaf_block_type::raw_size)*5);
         ExtNameMap mapRowName(myRowMap);
         ExtNameMap mapColName(myColMap);
-        ExtLPDSSet extDataSet(vctRows, vctCols, mapRowName, mapColName);
+        ExtMatrixA A;
+        ExtLPDSSet extDataSet(A, mapRowName, mapColName);
         inputReader.readFileUsingDisk(filename, extDataSet);
 
         ///////////////////// --- Test Sections
         //                PackedVector::test();
         //        Test::testPackedVector2();
-        //        Test::testExtVector();
+//                Test::testExtVector();
         //        Test::testExtPackedVector();
-        //        Test::testExtVector2();
         //        FixedStringUtil::test();
         //        ExtNameMap::test();
         //        ExtStringVector::test();
         //        Test::testLinkedList();
         //        Test::testExtNameMap();
+        Test::testExtMatrixA(extDataSet);
         //////////////////// --- Statistics Sections
         //        Console::println("--- * Map Statistics * ---");
         //        mapRowName.displayStorageStatus();

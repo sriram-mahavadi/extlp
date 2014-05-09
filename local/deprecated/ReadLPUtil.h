@@ -8,8 +8,8 @@
 #ifndef READLPUTIL_H
 #define	READLPUTIL_H
 
-#include "ExtLPDSSet.h"
-#include "GlobalDefines.h"
+#include "../ExtLPDSSet.h"
+#include "../GlobalDefines.h"
 class ReadLPUtil {
 public:
     bool readLPF(std::istream &is) {

@@ -22,6 +22,7 @@ private:
      * Better performance might be achieved through our own 
      * Blocking structure. -- TO DO --     
      */
+    typedef stxxl::VECTOR_GENERATOR<REAL, 4, 1, 4*1024>::result real_vector;
     real_vector vctDisk;
     unsigned int nnz;
     unsigned int realSize;

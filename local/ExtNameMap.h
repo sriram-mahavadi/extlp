@@ -10,23 +10,24 @@
 
 #include "GlobalDefines.h"
 #include "FixedStringUtil.h"
+// template parameter <KeyType, DataType, CompareType, RawNodeSize, RawLeafSize, PDAllocStrategy (optional)>
+typedef stxxl::map<FixedString, unsigned int, comp_Fixed_String, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> fixed_name_map;
 class ExtNameMap {
 private:
-    fixed_name_map &nameMap; //((name_map::node_block_type::raw_size), (node));
-    //    name_map nameMap((name_map::node_block_type::raw_size)*3, (name_map::leaf_block_type::raw_size)*3);
-    ////    ((map_type::node_block_type::raw_size)*3, (map_type::leaf_block_type::raw_size)*3);
+    fixed_name_map &nameMap;
+
 public:
     ExtNameMap(fixed_name_map &myMap) : nameMap(myMap) {
     }
-    /// Check if the element exists
+
+    //! Check if the element exists
     bool contains(const std::string &key) {
-        //        DEBUG("String is: "<<key);
         FixedString fixedStringKey = FixedStringUtil::getFixedString(key);
         return (nameMap.find(fixedStringKey) != nameMap.end());
     }
 
-    /// Get the element value
-    /// Returns -1 if element does not exist
+    //! Get the element value
+    //! Returns -1 if element does not exist
     unsigned int get(const std::string &key) {
         FixedString fixedStringKey = FixedStringUtil::getFixedString(key);
         fixed_name_map::iterator itrMap = nameMap.find(fixedStringKey);
@@ -36,7 +37,7 @@ public:
     void set(const std::string &key, unsigned int value) {
         FixedString fixedStringKey = FixedStringUtil::getFixedString(key);
         nameMap[fixedStringKey] = value;
-        //        nameMap.insert(std::pair<std::string, unsigned int>(key, value));
+        //        nameMap.insert(std::pair<FixedString, unsigned int>(fixedStringKey, value));
     }
     void displayStorageStatus() {
         std::stringstream strStream;

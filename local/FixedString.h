@@ -7,7 +7,8 @@
 
 #ifndef FIXEDSTRING_H
 #define	FIXEDSTRING_H
-static const int MAX_KEY_LEN = 35;
+#include "GlobalDefines.h"
+
 class FixedString {
 public:
     char charStr[MAX_KEY_LEN];

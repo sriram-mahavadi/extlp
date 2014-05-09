@@ -8,6 +8,10 @@
 #ifndef GLOBALDEBUG_H
 #define	GLOBALDEBUG_H
 #include <stdio.h>
+#include <iostream>
+#include <string.h>
+#include <fstream>
+
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // Console output/Debug operations that are useful across the project  ////
@@ -72,7 +76,6 @@ if(WARNING_DEBUG == true){ \
         std::cout.flush();\
 }
 
-
 /*        outputStream<<__FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\*/
 #define DEBUG_FILE(x) \
 if(FILE_DEBUG == true){ \
@@ -82,12 +85,14 @@ if(FILE_DEBUG == true){ \
         outputStream<<x<<std::endl;\
         outputStream.flush();\
 }
+
+//! Get the current time stamp 
 char* get_current_time_stamp() {
     // current date/time based on current system
     time_t now = time(0);
     // convert now to string form
     char* dt = ctime(&now);
-    dt[strlen(dt)-1] = '\0';
+    dt[strlen(dt)-1] = '\0';// Removing the ending \n character
     return dt;
 }
 

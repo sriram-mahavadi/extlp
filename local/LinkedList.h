@@ -86,6 +86,7 @@ public:
     }
     void clear() {
         LinkedListNode< ItemClass >* ptrNode, *tmpNode;
+        //        if (size() == 0)return; - Just a check if already no elements
         assert((head == NULL && tail == NULL) || tail->getNext() == NULL);
         ptrNode = head;
         unsigned int i = 0;
@@ -95,7 +96,7 @@ public:
             delete tmpNode;
             i++;
         }
-        //        DEBUG("Deleted "<<i<<" nodes");
+        //        DEBUG("Deleted " << i << " nodes");
         head = tail = NULL;
         m_size = 0;
     }

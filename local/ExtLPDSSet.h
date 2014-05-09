@@ -9,8 +9,8 @@
 #define	EXTLPDSSET_H
 
 #include "ExtNameMap.h"
-#include "ExtRowVector.h"
-#include "ExtColVector.h"
+#include "ExtVector.h"
+#include "ExtMatrixA.h"
 /**
  * Contains the total set of problem inputs or data structures
  * that will be required at each step of simplex method
@@ -28,16 +28,7 @@ public:
     /// Data structures are accessed across the project and only one instance of them
     /// is  maintained through out. Make sure we only keep sending the reference of
     /// ExtLPDSSet object.
-    std::vector<ExtRowVector> &vctRows;
-    std::vector<ExtColVector> &vctCols;
-    // Now Rhs and Obj are parts of RowVector and ColVector respectively
-    //    ExtVector &vctRhs;
-    //    ExtVector &vctObj;
-    //    PackedVectorPrototype &vctRhs; // Better to try and fit PackedVectorPrototypekedVector &vctObj; // and obj in memory as they are freq used
-    //    std::vector<PackedRowVector> &vctCacheRows;
-    //    std::vector<PackedColVector> &vctCacheCols;
-    //    REAL *cacheMatrix[4]; // Try to cache B^-1
-
+    ExtMatrixA &A;
     // Names of the Rows and Cols involved in the 
     ExtNameMap &mapRowName;
     ExtNameMap &mapColName;
@@ -45,31 +36,28 @@ public:
     /// Initialization 
     /// Better decide the data structures from the main itself.
     ExtLPDSSet(
-            std::vector<ExtRowVector> &p_vctRows,
-            std::vector<ExtColVector> &p_vctCols,
+            ExtMatrixA &p_A,
             ExtNameMap &p_mapRowName, ExtNameMap &p_mapColName
-            ) :
-    vctRows(p_vctRows), vctCols(p_vctCols),
-    mapRowName(p_mapRowName), mapColName(p_mapColName) {
+            ) : A(p_A), mapRowName(p_mapRowName), mapColName(p_mapColName) {
     }
-    std::string getProbName() {
+    
+    std::string get_problem_name() {
         return probName;
     }
-
     /// returns true if the problem is minimization problem
-    bool getObjSenseAsBool() {
+    bool get_objective_sense_bool() {
         return (objSense == MIN);
     }
-    ObjSense getObjSense() {
+    ObjSense get_objective_sense() {
         return objSense;
     }
-    std::string getObjName() {
+    std::string get_objective_name() {
         return objName;
     }
-    std::string getRhsName() {
+    std::string get_rhs_name() {
         return rhsName;
     }
-    void setProbName(std::string p_probName) {
+    void set_problem_name(std::string p_probName) {
         probName = p_probName;
     }
     void setObjSense(ObjSense p_objSense) {

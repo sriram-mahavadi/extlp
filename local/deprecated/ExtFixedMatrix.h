@@ -12,11 +12,11 @@
 
 //! Limits for the start and end of the column in ExtFixedMatrix container
 //! The limits to the column is [start, end) start includes and end excludes
-class ColLimits {
+class ColAttr {
 private:
     unsigned int start, end;
 public:
-    ColLimits(unsigned int start, unsigned int end) {
+    ColAttr(unsigned int start, unsigned int end) {
         this->start = start;
         this->end = end;
     }
@@ -41,55 +41,56 @@ class ExtFixedMatrix {
 private:
     //! Vector to store the Items onto external memory
     //! 10MB page/block size
-    typedef typename stxxl::VECTOR_GENERATOR<PackedElement<REAL>, 1, 1, 10 * 1024 * 1024>::result item_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, 1, 1, 10 * 1024 * 1024>::result item_vector;
     item_vector m_vct_disk;
 
     //! Vector to keep track of columns in the matrix
-    std::vector<ColLimits> m_vct_col_limits;
+    std::vector<ColAttr> m_vct_col_limits;
     //! Vector to keep singleton columns in the matrix
-    std::vector< PackedElement<REAL> > m_vct_singleton_columns;
+    std::vector< PackedElement > m_vct_singleton_columns;
 public:
     //! Adds a new Column into the matrix
-    void add_column(PackedVector<REAL> p_packed_col) {
+    void add_column(PackedVector p_packed_col) {
         unsigned int no_cols = m_vct_col_limits.size();
-        PackedVector<REAL>::iterator itr = p_packed_col.begin();
+        PackedVector::iterator itr = p_packed_col.begin();
         while (itr != p_packed_col.end()) {
-            PackedElement<REAL> packed_element = *itr;
+            PackedElement packed_element = *itr;
             m_vct_disk.push_back(packed_element);
             itr++;
         }
-        ColLimits col_limits(no_cols, no_cols + p_packed_col.getUnPackedSize());
+        ColAttr col_limits(no_cols, no_cols + p_packed_col.get_nnz());
         m_vct_col_limits.push_back(col_limits);
     }
     //! Adds n number of slack variables as singleton columns
     void add_slack_columns(unsigned int n) {
         for (unsigned int i = 0; i < n; i++) {
             unsigned int no_singleton_cols = m_vct_singleton_columns.size();
-            PackedElement<REAL> packed_element(no_singleton_cols, 1.0F);
+            PackedElement packed_element(no_singleton_cols, 1.0F);
             m_vct_singleton_columns.push_back(packed_element);
         }
     }
     //! Get an Entire column 
     //! Send by value... Hence new PackedVector will be created after call
-    PackedVector<REAL> get_column(unsigned int p_column_idx) {
+    PackedVector get_column(unsigned int p_column_idx) {
         //! Limits of the requested column
-        ColLimits col_limits = m_vct_col_limits[p_column_idx];
-        PackedVector<REAL> packed_col;
-        for (unsigned int i = col_limits.get_start(); i < col_limits.get_end(); i++) {
-            const PackedElement<REAL> packed_element = m_vct_col_limits[i];
-            packed_col.add(packed_element.getIndex(), packed_element.getValue());
+        ColAttr col_attr = m_vct_col_limits[p_column_idx];
+        unsigned int nnz = col_attr.get_end() - col_attr.get_start() + 1;
+        PackedVector packed_col(nnz);
+        for (unsigned int i = col_attr.get_start(); i < col_attr.get_end(); i++) {
+            const PackedElement packed_element = m_vct_disk[i];
+            packed_col.add(packed_element.get_index(), packed_element.get_value());
         }
         return packed_col;
     }
 
     //! Store an Entire column 
     //! Send by Reference... Hence parameter PackedVector will be affected
-    void store_column(unsigned int p_column_idx, PackedVector<REAL>& p_packed_col) {
+    void store_column(unsigned int p_column_idx, PackedVector& p_packed_col) {
         //! Limits of the requested column
-        ColLimits col_limits = m_vct_col_limits[p_column_idx];
-        for (unsigned int i = col_limits.get_start(); i < col_limits.get_end(); i++) {
-            const PackedElement<REAL> packed_element = m_vct_col_limits[i];
-            p_packed_col.add(packed_element.getIndex(), packed_element.getValue());
+        ColAttr col_attr = m_vct_col_limits[p_column_idx];
+        for (unsigned int i = col_attr.get_start(); i < col_attr.get_end(); i++) {
+            const PackedElement packed_element = m_vct_disk[i];
+            p_packed_col.add(packed_element.get_index(), packed_element.get_value());
         }
     }
 };

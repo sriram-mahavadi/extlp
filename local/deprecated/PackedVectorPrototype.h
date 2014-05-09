@@ -5,8 +5,8 @@
  * Created on 5 April, 2014, 9:54 AM
  */
 
-#ifndef PACKEDVECTOR_H
-#define	PACKEDVECTOR_H
+#ifndef PACKEDVECTORPROTOTYPE_H
+#define	PACKEDVECTORPROTOTYPE_H
 
 #include "../GlobalDefines.h"
 

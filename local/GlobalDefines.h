@@ -1,18 +1,14 @@
 /* 
  * File:   GlobalDefines.h
- * Author: sriram
+ * Author: Sriram Mahavadi
  *
  * Created on 18 March, 2014, 3:59 PM
  */
 
 #ifndef GLOBALDEFINES_H
 #define	GLOBALDEFINES_H
-#include <stxxl/map>
-#include <stxxl/vector>
-#include <stxxl/map>
 #include "GlobalDebug.h"
-#include "FixedString.h"
-
+#include <stxxl/map>
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 // Data types and constants that are useful across the project  //
@@ -33,68 +29,20 @@
 //#define VECTOR_BLOCK_SIZE 12*4096
 #define VECTOR_PACKED_BLOCK_SIZE 6*12*1024
 #define VECTOR_BLOCK_SIZE 6*8*1024
+#define MATRIX_A_BLOCK_SIZE 10*1024*1024
+#define MATRIX_A_COL_DATA_BLOCK_SIZE 10*1024*1024
+#define MATRIX_A_ROW_DATA_BLOCK_SIZE 10*1024*1024
+
 //typedef stxxl::VECTOR_GENERATOR<REAL>::result real_vector;
 // template parameters<ValueType, PageSize, CachePages, BlockSize, AllocStratg>
 // Here vector caches 2 pages each of 4*4kb blocks => 8*32 kb cache overall 
-typedef stxxl::VECTOR_GENERATOR<REAL, 4, 1, 4*1024>::result real_vector;
-
-typedef stxxl::VECTOR_GENERATOR<std::string>::result string_vector;
+//typedef stxxl::VECTOR_GENERATOR<REAL, 4, 1, 4*1024>::result real_vector;
+//typedef stxxl::VECTOR_GENERATOR<std::string>::result string_vector;
 
 //////////// - Defining map for storing rownames and colnames
 #define DATA_NODE_BLOCK_SIZE (4096)
 #define DATA_LEAF_BLOCK_SIZE (4096)
-
-//! [comparator]
-struct CompareGreaterInt {
-    bool operator () (const int& a, const int& b) const {
-        return a > b;
-    }
-    static int max_value() {
-        return std::numeric_limits<int>::min();
-    }
-};
-struct CompareGreaterString {
-    bool operator () (const std::string& a, const std::string& b) const {
-        return a > b;
-    }
-    static std::string max_value() {
-        return std::string(MAX_KEY_LEN, std::numeric_limits<unsigned char>::max());
-    }
-};
-//struct CompareGreaterFixedString {
-//    bool operator () (const FixedString& a, const FixedString& b) const {
-//        return FixedStringUtil::getNormalString(a) > FixedStringUtil::getNormalString(b);
-//    }
-//    static FixedString max_value() {
-//        return FixedStringUtil::getMaxFixedString();
-//    }
-//};
-//std::string getFixedLengthString(const std::string &strVariable)
-//{
-//    std::ostringstream ostr;
-//    ostr << std::setfill('0') << std::setw(MAX_KEY_LEN) << strVariable;
-//    return ostr.str();
-//}
-//struct CompareGreaterCharArray {
-//    bool operator () (const std::string& a, const std::string& b) const {
-//        return a < b;
-//    }
-//    //    static std::string max_value() {
-//    //        return "";
-//    //    }
-//    static char[] max_value() {
-//        //return std::string(MAX_KEY_LEN, std::numeric_limits<unsigned char>::max());
-//        return std::string(MAX_KEY_LEN, std::numeric_limits<unsigned char>::max());
-//    }
-//};
-// template parameter <KeyType, DataType, CompareType, RawNodeSize, RawLeafSize, PDAllocStrategy (optional)>
-typedef stxxl::map<int, int, CompareGreaterInt, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> int_map;
-typedef stxxl::map<std::string, unsigned int, CompareGreaterString, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> name_map;
-//typedef stxxl::map<FixedString, unsigned int, CompareGreaterFixedString, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> fixed_name_map;
-typedef stxxl::map<FixedString, unsigned int, comp_Fixed_String, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> fixed_name_map;
-
-stxxl::vector<int> vctInt;
-
+#define MAX_KEY_LEN 10
 
 #endif	/* GLOBALDEFINES_H */
 

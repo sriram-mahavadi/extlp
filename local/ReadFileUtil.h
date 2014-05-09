@@ -9,7 +9,7 @@
 #define	READFILEUTIL_H
 #include "ExtReadMPSUtil.h"
 #include "deprecated/ReadMPSUtil.h"
-#include "ReadLPUtil.h"
+#include "deprecated/ReadLPUtil.h"
 #include "GlobalDefines.h"
 #include "ExtLPDSSet.h"
 /// Util class for reading input LP Problem file (accepts both LP and mps format)
