@@ -46,21 +46,28 @@
         </df>
       </df>
       <df name="local">
-        <in>ExtColVector.h</in>
-        <in>ExtColVectorSet.h</in>
+        <df name="deprecated">
+          <in>ExtColVector.h</in>
+          <in>ExtFixedMatrix.h</in>
+          <in>ExtReadMPSUtil.h</in>
+          <in>ExtRowVector.h</in>
+          <in>ExtStringVector.h</in>
+          <in>ExtVectorPrototype.h</in>
+        </df>
         <in>ExtLPDSSet.h</in>
+        <in>ExtMatrixA.h</in>
+        <in>ExtMatrixB.h</in>
+        <in>ExtMatrixBInverse.h</in>
         <in>ExtNameMap.h</in>
-        <in>ExtReadLPUtil.h</in>
         <in>ExtReadMPSUtil.h</in>
-        <in>ExtRowVector.h</in>
-        <in>ExtRowVectorSet.h</in>
-        <in>ExtStringVector.h</in>
-        <in>ExtVector.h</in>
+        <in>ExtStxxlVector.h</in>
+        <in>ExtVectorUtil.h</in>
         <in>FixedString.h</in>
         <in>FixedStringUtil.h</in>
         <in>GlobalDebug.h</in>
         <in>PackedColVector.h</in>
         <in>PackedRowVector.h</in>
+        <in>SimpleVector.h</in>
         <in>extlp.cpp</in>
         <in>notes.txt</in>
       </df>
@@ -279,25 +286,21 @@
         <ccTool>
         </ccTool>
       </item>
-      <item path="local/ExtColVector.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/ExtColVectorSet.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="local/ExtLPDSSet.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/ExtMatrixA.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/ExtMatrixB.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/ExtMatrixBInverse.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="local/ExtNameMap.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="local/ExtReadLPUtil.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="local/ExtReadMPSUtil.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="local/ExtRowVector.h" ex="false" tool="3" flavor2="0">
+      <item path="local/ExtStxxlVector.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="local/ExtRowVectorSet.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/ExtStringVector.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/ExtVector.h" ex="false" tool="3" flavor2="0">
+      <item path="local/ExtVectorUtil.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="local/FixedString.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -308,6 +311,23 @@
       <item path="local/PackedColVector.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="local/PackedRowVector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/SimpleVector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/deprecated/ExtColVector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/deprecated/ExtFixedMatrix.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/deprecated/ExtReadMPSUtil.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/deprecated/ExtRowVector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/deprecated/ExtStringVector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="local/deprecated/ExtVectorPrototype.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
       </item>
       <item path="local/extlp.cpp" ex="false" tool="1" flavor2="8">
         <ccTool>
