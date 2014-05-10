@@ -79,20 +79,27 @@ int main(int argc, char *argv[]) {
         ExtMatrixA A;
         ExtLPDSSet extDataSet(A, mapRowName, mapColName);
         inputReader.readFileUsingDisk(filename, extDataSet);
-
+        SimpleVector<unsigned int> vct_basis = extDataSet.A.standardize_matrix();
+        CONSOLE_PRINTLN("BASIS Matrix has following Columns: ");
+        std::stringstream basis_stream;
+        for (unsigned int i = 0; i < vct_basis.get_size(); i++) {
+            unsigned int basis_col = vct_basis[i];
+            basis_stream<<extDataSet.A.get_col_attr(basis_col).get_col_name()<<", ";
+        }
+        CONSOLE_PRINTLN(basis_stream.str());
         ///////////////////// --- Test Sections
         //                PackedVector::test();
         //        Test::testPackedVector2();
-//                Test::testExtVector();
+        //                Test::testExtVector();
         //        Test::testExtPackedVector();
         //        FixedStringUtil::test();
         //        ExtNameMap::test();
         //        ExtStringVector::test();
         //        Test::testLinkedList();
         //        Test::testExtNameMap();
-//        Test::testExtMatrixA(extDataSet);
-//        extDataSet.A.standardize_matrix();
-//        Test::testExtMatrixA(extDataSet);
+        //        Test::testExtMatrixA(extDataSet);
+        //        extDataSet.A.standardize_matrix();
+        //        Test::testExtMatrixA(extDataSet);
         //////////////////// --- Statistics Sections
         //        Console::println("--- * Map Statistics * ---");
         //        mapRowName.displayStorageStatus();

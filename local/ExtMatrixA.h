@@ -13,6 +13,7 @@
 #include "PackedColVector.h"
 #include "FixedStringUtil.h"
 #include "PackedRowVector.h"
+#include "SimpleVector.h"
 
 //! Stores limits for the start and end of the column in ExtMatrixA container
 //! The limits to the column is [start, end) start includes and end excludes
@@ -253,9 +254,9 @@ public:
 
     //! Standardizing the LP Tableau (MatrixA) for performing simplex
     //! Returns the base column indices in order 
-    std::vector<unsigned int> standardize_matrix() {
+    SimpleVector<unsigned int> standardize_matrix() {
         unsigned int i = 0;
-        std::vector<unsigned int> vct_base_col_indices(get_rows_count());
+        SimpleVector<unsigned int> vct_base_col_indices(get_rows_count());
         for (i = 0; i < get_rows_count(); i++) {
             RowAttr row_attr = get_row_attr(i);
             int row_type = row_attr.get_row_type();
@@ -275,7 +276,7 @@ public:
                     row_attr.set_row_type(0);
                     set_row_attr(i, row_attr);
                     // Just added Col is the base column for row i
-                    vct_base_col_indices[i] = (get_columns_count()-1); 
+                    vct_base_col_indices.add(i, get_columns_count()-1);
                     break;
                 case 5:
                     // Case Range
@@ -284,7 +285,6 @@ public:
         }
         return vct_base_col_indices;
     }
-
 };
 
 #endif	/* EXTMATRIXA_H */

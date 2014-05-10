@@ -69,10 +69,10 @@ public:
     //! Copy Construction - to check Memory Leak
     //! Do not allow copy constructor. May lead to shallow copy of linked list
     //! This might lead to clearing linked list twice leading to error while freeing
-    PackedVector(PackedVector& p_packed_vector){
+    PackedVector(PackedVector& p_packed_vector) {
         DEBUG_WARNING("Got Called... Getting Shallow copy of Linked list");
     }
-    
+
     //! Simple initialization
     PackedVector(unsigned int p_size) {
         m_real_size = p_size;
@@ -118,9 +118,10 @@ public:
     }
 
     //! Adds the simple <index, value> pair into the vector
-    //! Also allows duplication check if given index already exists
+    //! Also allows duplication check if given index already exists. 
+    //! Does not allow duplication by default
     //! Ignores add of element if index already exists and index_duplication_check is true
-    void add(unsigned int index, REAL value, bool p_index_duplication_check=true) {
+    void add(unsigned int index, REAL value, bool p_index_duplication_check = true) {
         // Check for non zero condition
         if (value == 0.0F)return;
         // Simply return if index is already present
@@ -150,7 +151,7 @@ public:
         }
         return 0.0F;
     }
-    
+
     // Not a Efficient operation to randomly access item 
     // from Packed Vector. Only need to be done if very much necessary.
     REAL operator[](unsigned int index) const {
