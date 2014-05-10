@@ -46,8 +46,11 @@ private:
 public:
     class iterator {
     private:
+        //! Current position/LinkedListNode of the iterator
         LinkedListNode<ItemClass>* ptr;
     public:
+        //! Allowing LinkedList to access the private components of it's iterator
+        friend class LinkedList;
         void operator=(LinkedListNode<ItemClass>* ptr) {
             this->ptr = ptr;
         }
@@ -76,14 +79,30 @@ public:
             return false;
         }
     };
+    //! Simple Initialization
     LinkedList() {
         head = NULL;
         tail = NULL;
         m_size = 0;
     }
+    //! Copy Constructor. Does shallow copy by default hence need to be careful
+    //! Overriding for creating a deep copy of LinkedList
+    LinkedList(LinkedList& p_list){
+        DEBUG_WARNING("Copying Linked List");
+        head = NULL;
+        tail = NULL;
+        m_size = 0;
+        LinkedList<ItemClass>::iterator itr = p_list.begin();
+        while(itr!=p_list.end()){
+            add(*itr);
+            itr++;
+        }
+    }
+    //! Destroying LinkedList
     ~LinkedList() {
         clear();
     }
+    //! Clears the complete list (deleting all the nodes in the list)
     void clear() {
         LinkedListNode< ItemClass >* ptrNode, *tmpNode;
         //        if (size() == 0)return; - Just a check if already no elements
@@ -100,6 +119,7 @@ public:
         head = tail = NULL;
         m_size = 0;
     }
+    //! Adds the item at the end of the list
     void add(ItemClass item) {
         LinkedListNode<ItemClass>* newItem = new LinkedListNode<ItemClass>(item);
         //        DEBUG("Size of new Node: "<<sizeof(*newItem));
@@ -111,14 +131,29 @@ public:
         }
         m_size++;
     }
+    //! Adds the item after the given iterator/position of list
+    void add(iterator itr, ItemClass item){
+        LinkedListNode<ItemClass>* list_node = itr.ptr;
+        // If the iterator shows null. possible when the list is empty
+        if(list_node==NULL){
+            add(item);
+            return;
+        }
+        LinkedListNode<ItemClass>* new_node = new LinkedListNode<ItemClass>(item);
+        new_node->setNext(list_node->getNext());
+        list_node->setNext(new_node);
+    }
+    //! Returns the size of the linked List
     unsigned int size() {
         return this->m_size;
     }
+    //! Returns the iterator pointing to the beginning element of the list
     iterator begin() const {
         iterator itr;
         itr = head;
         return itr;
     }
+    //! Returns the iterator pointing to the ending element of the list
     iterator end() const {
         iterator itr;
         itr = NULL;
