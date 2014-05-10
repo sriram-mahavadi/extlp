@@ -282,7 +282,7 @@ public:
         }
         CONSOLE_PRINTLN("************************ End ************************");
     }
-    static void testExtMatrixA(ExtLPDSSet extDataSet) {
+    static void testExtMatrixA(ExtLPDSSet &extDataSet) {
 
         DEBUG_SIMPLE("Number of Rows imported: " << extDataSet.A.get_rows_count());
         DEBUG_SIMPLE("Number of Columns imported: " << extDataSet.A.get_columns_count());
@@ -330,22 +330,21 @@ public:
 
         //! Column-wise display of LP Tableau
         unsigned int width = MAX_KEY_LEN;
-        std::stringstream titleStream;
-        titleStream << std::setw(width) << "Col/Row" << ": ";
+        std::stringstream title_stream;
+        title_stream << std::setw(width) << "Col/Row" << ": ";
         for (j = 0; j < extDataSet.A.get_rows_count(); j++)
-            titleStream << std::setw(width) << extDataSet.A.get_row_attr(j).get_row_name() << ", ";
+            title_stream << std::setw(width) << extDataSet.A.get_row_attr(j).get_row_name() << ", ";
         //        titleStream << std::setw(width) << extDataSet.getRhsName() << ", ";
-        titleStream << std::setw(width) << extDataSet.get_objective_name() << ", ";
-        DEBUG_FILE(titleStream.str());
+        title_stream << std::setw(width) << extDataSet.get_objective_name() << ", ";
+        DEBUG_FILE(title_stream.str());
 
         for (i = 0; i < extDataSet.A.get_columns_count(); i++) {
             // Adding cache
             PackedVector packed_vector(extDataSet.A.get_rows_count());
             extDataSet.A.store_column(i, packed_vector, false);
-            DEBUG("Size of the packed Vector: " << packed_vector.get_nnz() << "; Total Size: " << packed_vector.get_real_size());
             MatrixAColAttr col_attr = extDataSet.A.get_col_attr(i);
-            std::stringstream colStream;
-            colStream << std::setw(width) << col_attr.get_col_name() << ": ";
+            std::stringstream col_stream;
+            col_stream << std::setw(width) << col_attr.get_col_name() << ": ";
             PackedVector::iterator itr = packed_vector.begin();
             unsigned int prev_row_index = 0;
             while (itr != packed_vector.end()) {
@@ -354,34 +353,41 @@ public:
                 assert(((int) packed_element.get_index() - (int) prev_row_index) >= 0);
                 // Pad zeros between the current and previous index
                 while (prev_row_index < packed_element.get_index()) {
-                    colStream << std::setw(width) << 0.0F << ", ";
+                    col_stream << std::setw(width) << 0.0F << ", ";
                     prev_row_index++;
                 }
                 // Now log the packed element
-                colStream << std::setw(width) << packed_element.get_value() << ", ";
+                col_stream << std::setw(width) << packed_element.get_value() << ", ";
                 prev_row_index++;
                 itr++;
             }
             // Padding NULL values until the end of col vector
             //            DEBUG("Previous Index: "<<prevRowIndex<<", Size of Vector " << i<<" is: "<<extCurrentVector.real_size()<<", Packed="<<extCurrentVector.isPacked());
             while (prev_row_index < packed_vector.get_real_size()) {
-                colStream << std::setw(width) << 0.0F << ", ";
+                col_stream << std::setw(width) << 0.0F << ", ";
                 prev_row_index++;
             }
-            colStream << std::setw(width) << col_attr.get_objective_value() << ", ";
-            DEBUG_FILE(colStream.str());
+            col_stream << std::setw(width) << col_attr.get_objective_value() << ", ";
+            DEBUG_FILE(col_stream.str());
         }
-
-        std::stringstream rhsStream;
-        std::string rhsTitle("");
-        rhsTitle = rhsTitle + extDataSet.get_rhs_name();
-        rhsStream << std::setw(width) << rhsTitle << ": ";
+        std::stringstream operator_stream;
+        std::string operator_title("operator");
+        operator_stream << std::setw(width) << operator_title << ": ";
         for (i = 0; i < extDataSet.A.get_rows_count(); i++) {
-            rhsStream << std::setw(width) << extDataSet.A.get_row_attr(i).get_rhs_value() << ", ";
+            operator_stream << std::setw(width) << extDataSet.A.get_row_attr(i).get_row_type_str() << ", ";
+        }
+        DEBUG_FILE(operator_stream.str());
+        
+        std::stringstream rhs_stream;
+        std::string rhs_title("");
+        rhs_title = rhs_title + extDataSet.get_rhs_name();
+        rhs_stream << std::setw(width) << rhs_title << ": ";
+        for (i = 0; i < extDataSet.A.get_rows_count(); i++) {
+            rhs_stream << std::setw(width) << extDataSet.A.get_row_attr(i).get_rhs_value() << ", ";
         }
         /// Obj Row in Rhs Column
-        rhsStream << std::setw(width) << 0 << ", ";
-        DEBUG_FILE(rhsStream.str());
+        rhs_stream << std::setw(width) << 0 << ", ";
+        DEBUG_FILE(rhs_stream.str());
         //! ---------------- Sparsity Analysis
         float overall_vector_sparsity = 0;
         unsigned int overall_nnz = 0;

@@ -90,7 +90,9 @@ int main(int argc, char *argv[]) {
         //        ExtStringVector::test();
         //        Test::testLinkedList();
         //        Test::testExtNameMap();
-        Test::testExtMatrixA(extDataSet);
+//        Test::testExtMatrixA(extDataSet);
+//        extDataSet.A.standardize_matrix();
+//        Test::testExtMatrixA(extDataSet);
         //////////////////// --- Statistics Sections
         //        Console::println("--- * Map Statistics * ---");
         //        mapRowName.displayStorageStatus();

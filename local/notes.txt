@@ -77,3 +77,7 @@ Awesome Errors Report:
 If we send some structure by pass by value we need to be careful as follows
 -> There is a possible shallow copy of linked list in the structure
 -> if so the list will get deleted on destructor after the function completes execution :P
+
+
+Shell Scripts for standardizing MPS file:
+sed 's/^ E/ L/' afiro.mps > afiro_standard.mps

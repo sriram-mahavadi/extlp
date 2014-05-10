@@ -23,18 +23,25 @@ public:
         GREATER_EQUAL,
         RANGE
     };
-    
+
     //! Initialization
     explicit PackedRowVector()
     : m_lhs_value(0), m_rhs_value(INFINITY_VALUE) {
     }
 
     //! TODO - Return proper row type as per the Matrix A
-    //! 0 Equals; 1 greater than Equals; 2 Less than Equals;
-    //! 3 Less than; 4 Greater than
+    //! Integer identifier for the row type 
+    //! 0 Equals; 1 greater than Equals; 2 Less than Equals
+    //! 3 Less than; 4 Greater ; 5 Range
     int get_row_type() {
         /// Used in ExtMatrixA to externally store row attributes.
-        return 2;
+        switch(get_type()){
+            case EQUAL: return 0;
+            case GREATER_EQUAL: return 1;
+            case LESS_EQUAL: return 2;
+            case RANGE: return 5;
+        }
+        return -1; // Unknown or Unidentified Type
     }
     Type get_type() const {
         if (get_rhs() >= INFINITY_VALUE)

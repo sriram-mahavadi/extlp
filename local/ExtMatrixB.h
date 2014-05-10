@@ -1,23 +1,24 @@
 /* 
- * File:   ExtMatrixA.h
- * Author: Sriram Mahavadi
+ * File:   ExtMatrixB.h
+ * Author: sriram
  *
- * Created on 8 May, 2014, 6:29 PM
+ * Created on 10 May, 2014, 3:10 PM
  */
 
-#ifndef EXTMATRIXA_H
-#define	EXTMATRIXA_H
+#ifndef EXTMATRIXB_H
+#define	EXTMATRIXB_H
 
+#include "GlobalDefines.h"
 #include "FixedString.h"
 #include "PackedVector.h"
 #include "PackedColVector.h"
 #include "FixedStringUtil.h"
 #include "PackedRowVector.h"
 
-//! Stores limits for the start and end of the column in ExtMatrixA container
+//! Stores limits for the start and end of the column in ExtMatrixB container
 //! The limits to the column is [start, end) start includes and end excludes
 //! Also includes the other necessary properties such as name and objective value
-class MatrixAColAttr {
+class MatrixBColAttr {
 private:
     unsigned int start, end;
     REAL objective_value;
@@ -64,7 +65,7 @@ public:
 
 //! Stores row related properties of ExtMatrixA container
 //! Also includes the other necessary properties such as name and rhs value
-class MatrixARowAttr {
+class MatrixBRowAttr {
 private:
     FixedString row_name;
     //! Integer identifier for the row type 
@@ -93,8 +94,8 @@ public:
     int get_row_type() {
         return row_type;
     }
-    std::string get_row_type_str() {
-        switch (get_row_type()) {
+    std::string get_row_type_str(){
+        switch(get_row_type()){
             case 0: return "=";
             case 1: return ">=";
             case 2: return "<=";
@@ -113,11 +114,10 @@ public:
 //! Storage Container for Fixed Matrix
 //! The contents of the matrix do not change after assignment/initialization
 //! Storage is done in column-wise fashion
-class ExtMatrixA {
+class ExtMatrixBInverse {
 private:
     //! Vector to store the Items onto external memory
-    //! template parameters<ValueType, PageSize, CachePages, BlockSize, AllocStratg>
-    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, 10, 1, MATRIX_A_BLOCK_SIZE>::result item_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, 1, 1, MATRIX_A_BLOCK_SIZE>::result item_vector;
     item_vector m_vct_disk;
     //! Vector to keep track of columns in the matrix
     typedef typename stxxl::VECTOR_GENERATOR<MatrixAColAttr, 1, 1, MATRIX_A_COL_DATA_BLOCK_SIZE>::result col_data_vector;
@@ -125,31 +125,12 @@ private:
     //! Vector to keep track of rows in the matrix
     typedef typename stxxl::VECTOR_GENERATOR<MatrixARowAttr, 1, 1, MATRIX_A_ROW_DATA_BLOCK_SIZE>::result row_data_vector;
     row_data_vector m_vct_row_attr;
-
-    //! Adds a new slack column into the matrix
-    //! Done programmatically while standardization of the matrix
-    //! TODO - Incorporate processing singleton columns directly from ColAttr itself
-    void _add_slack_column(unsigned int p_slack_row_index) {
-        unsigned int no_cols = m_vct_col_attr.size(); // Last column number
-        unsigned int last_col_end = (no_cols == 0) ? 0 : m_vct_col_attr[no_cols - 1].get_end();
-        PackedElement packed_element(p_slack_row_index, 1);
-        m_vct_disk.push_back(packed_element);
-        MatrixAColAttr col_attr(last_col_end, last_col_end + 1); // Singleton Column
-        col_attr.set_objective_value(0);
-        std::stringstream row_name_stream;
-        row_name_stream<<"slack_"<<get_row_attr(p_slack_row_index).get_row_name();
-        col_attr.set_col_name(row_name_stream.str());
-        col_attr.set_is_slack_col(true);
-        //        DEBUG("Adding Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
-        m_vct_col_attr.push_back(col_attr);
-    }
-
 public:
     //! Matrix Row and Column Attributes
     //    friend class MatrixAColAttr;
-    typedef MatrixAColAttr ColAttr;
+    typedef MatrixBInverseColAttr ColAttr;
     //    friend class MatrixARowAttr;
-    typedef MatrixARowAttr RowAttr;
+    typedef MatrixBInverseRowAttr RowAttr;
 
     //! Adds a new column into the matrix
     //! TODO - Set the start limit of col appropriately
@@ -160,7 +141,7 @@ public:
         PackedVector::iterator itr = packed_col.begin();
         while (itr != packed_col.end()) {
             PackedElement packed_element = *itr;
-            //            DEBUG("Adding Element: " << packed_element.get_index() << ", " << packed_element.get_value());
+//            DEBUG("Adding Element: " << packed_element.get_index() << ", " << packed_element.get_value());
             m_vct_disk.push_back(packed_element);
             itr++;
         }
@@ -168,7 +149,7 @@ public:
         col_attr.set_objective_value(p_packed_col.get_objective_value());
         col_attr.set_col_name(p_packed_col.get_name());
         col_attr.set_is_slack_col(false);
-        //        DEBUG("Adding Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
+//        DEBUG("Adding Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
         m_vct_col_attr.push_back(col_attr);
     }
 
@@ -186,7 +167,7 @@ public:
             const PackedElement packed_element = m_vct_disk[i];
             p_packed_col.add(packed_element.get_index(), packed_element.get_value(), false);
         }
-        //        DEBUG("Storing Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
+//        DEBUG("Storing Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
         // Adding the objective value of column to the end
         if (p_add_objective) {
             unsigned int last_index = get_rows_count();
@@ -243,49 +224,10 @@ public:
     }
 
     //! sets the row attributes of a column
-    void set_row_attr(unsigned int p_row_index, MatrixARowAttr& p_row_attr) {
-        m_vct_row_attr[p_row_index] = p_row_attr;
+    void set_row_attr(unsigned int p_col_index, MatrixARowAttr& p_row_attr) {
+        m_vct_row_attr[p_col_index] = p_row_attr;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////// - Common Matrix Operations - //////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    //! Standardizing the LP Tableau (MatrixA) for performing simplex
-    //! Returns the base column indices in order 
-    std::vector<unsigned int> standardize_matrix() {
-        unsigned int i = 0;
-        std::vector<unsigned int> vct_base_col_indices(get_rows_count());
-        for (i = 0; i < get_rows_count(); i++) {
-            RowAttr row_attr = get_row_attr(i);
-            int row_type = row_attr.get_row_type();
-            switch (row_type) {
-                case 0:
-                    // TODO - Need to standardize by adding new row
-                    // Pre addition of the row needs to be done much before while
-                    // Initialization itself
-                    // Case Equals
-                    break;
-                case 1:
-                    // Case >=
-                    break;
-                case 2:
-                    // Case <=
-                    _add_slack_column(i);
-                    row_attr.set_row_type(0);
-                    set_row_attr(i, row_attr);
-                    // Just added Col is the base column for row i
-                    vct_base_col_indices[i] = (get_columns_count()-1); 
-                    break;
-                case 5:
-                    // Case Range
-                    break;
-            }
-        }
-        return vct_base_col_indices;
-    }
-
 };
 
-#endif	/* EXTMATRIXA_H */
+#endif	/* EXTMATRIXB_H */
 

@@ -360,6 +360,7 @@ endReadRhs:
         if (mpsInput.section() == MPSInput::ROWS) {
             DEBUG_PARSER("Reading the Rows Section Data!!!");
             readRows(mpsInput, extDataSet);
+            DEBUG_FILE_WITH_TIMESTAMP(" --- Reading Rows Completed --- ");
         }
         DEBUG("Read " << extDataSet.A.get_rows_count() << " rows.");
         //        DEBUG_MEMORY("Memory after Reading Rows");
@@ -368,6 +369,7 @@ endReadRhs:
             DEBUG_PARSER("Reading Columns Section Data!!!");
             //            readCols(mpsInput, arrRow, mapRowNumber, arrCol, mapColNumber);
             readCols(mpsInput, extDataSet);
+            DEBUG_FILE_WITH_TIMESTAMP(" --- Reading Columns Completed --- ");
         }
 
         if (mpsInput.section() == MPSInput::RHS) {
@@ -377,7 +379,7 @@ endReadRhs:
 
         DEBUG_SIMPLE("Number of Rows imported: " << extDataSet.A.get_rows_count());
         DEBUG_SIMPLE("Number of Columns imported: " << extDataSet.A.get_columns_count());
-
+        DEBUG_FILE_WITH_TIMESTAMP(" --- Completed Reading LP Tableau --- ");
         //   if (mps.section() == MPSInput::RANGES)
         //      readRanges(mps, rset, *rnames);
         //

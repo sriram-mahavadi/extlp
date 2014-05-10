@@ -40,9 +40,9 @@
 //typedef stxxl::VECTOR_GENERATOR<std::string>::result string_vector;
 
 //////////// - Defining map for storing rownames and colnames
-#define DATA_NODE_BLOCK_SIZE (4096)
-#define DATA_LEAF_BLOCK_SIZE (4096)
-#define MAX_KEY_LEN 10
+#define DATA_NODE_BLOCK_SIZE (2*1024*1024)
+#define DATA_LEAF_BLOCK_SIZE (2*1024*1024)
+#define MAX_KEY_LEN 35
 
 #endif	/* GLOBALDEFINES_H */
 
