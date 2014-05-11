@@ -5,11 +5,14 @@
 /*                                                                           */
 /*    Copyright (C) 1996-2013 Konrad-Zuse-Zentrum                            */
 /*                            fuer Informationstechnik Berlin                */
+/*    Copyright (C) 2014      Sriram Mahavadi                                */
+/*                            IIIT Bangalore                                 */
 /*                                                                           */
 /*  SoPlex is distributed under the terms of the ZIB Academic Licence.       */
 /*                                                                           */
 /*  You should have received a copy of the ZIB Academic License              */
-/*  along with SoPlex; see the file COPYING. If not email to soplex@zib.de.  */
+/*  along with SoPlex; see the file COPYING.                                 */
+/*  If not email to sriram.mahavadi@gmail.com                                */
 /*                                                                           */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -188,7 +191,7 @@ public:
         return m_is_integer;
     }
     ///
-    const char* rhsName() const{
+    const char* rhsName() const {
         return m_rhsname;
     }
     //@}
@@ -437,7 +440,7 @@ public:
     }
 
     /// Insert \p name as field 1 and shift all other fields up.
-    void insertName(const char* name, bool second=false) {
+    void insertName(const char* name, bool second = false) {
         m_f5 = m_f4;
         m_f4 = m_f3;
         m_f3 = m_f2;

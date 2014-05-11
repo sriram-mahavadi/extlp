@@ -69,8 +69,9 @@ public:
     //! Copy Construction - to check Memory Leak
     //! Do not allow copy constructor. May lead to shallow copy of linked list
     //! This might lead to clearing linked list twice leading to error while freeing
-    PackedVector(PackedVector& p_packed_vector) {
-        DEBUG_WARNING("Got Called... Getting Shallow copy of Linked list");
+    PackedVector(PackedVector& p_packed_vector) : m_nnz(p_packed_vector.m_nnz),
+    m_real_size(p_packed_vector.m_real_size), m_vct_packed(p_packed_vector.m_vct_packed) {
+        DEBUG_WARNING("Copying Packed Vector.");
     }
 
     //! Simple initialization
@@ -162,9 +163,36 @@ public:
     //! The size need to be extended only. the vector cannot shrink.
     //! TODO - Check the case in which we might mistakenly shrink the vector
     void resize(unsigned int p_size) {
+        // For now resizing only allows expansion and no shrinking
+        assert(p_size>=m_real_size);
         m_real_size = p_size;
     }
 
+    //! Sorts the Packed Vector based on the index
+    //! Selection sort is employed for simple implementation
+    //! TODO - Simply expand and compress incase it is less of a computation
+    void sort_by_index(){
+        iterator itr1 = m_vct_packed.begin();
+        iterator itr2, min_itr;
+        while((itr1+1)!=m_vct_packed.end()){
+            itr2 = itr1+1;
+            min_itr = itr1;
+            while(itr2!=m_vct_packed.end()){
+                if((*min_itr).get_index() > (*itr2).get_index()){
+                    min_itr = itr2;
+                }
+                itr2++;
+            }
+            // Swapping the elements
+            if(min_itr != itr1){
+                PackedElement packed_element = *itr1;
+                *itr1 = *min_itr;
+                *min_itr = packed_element;
+            }
+            itr1++;
+        }
+    }
+    
     //! Clear all the elements in the packed vector
     //! Initialize to defaults
     void clear() {

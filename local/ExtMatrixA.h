@@ -118,14 +118,17 @@ class ExtMatrixA {
 private:
     //! Vector to store the Items onto external memory
     //! template parameters<ValueType, PageSize, CachePages, BlockSize, AllocStratg>
-    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, 10, 1, MATRIX_A_BLOCK_SIZE>::result item_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_A_BLOCKS_PER_PAGE, MATRIX_A_PAGE_CACHE, MATRIX_A_BLOCK_SIZE>::result item_vector;
     item_vector m_vct_disk;
+    const item_vector& m_vct_read_only_disk;
     //! Vector to keep track of columns in the matrix
     typedef typename stxxl::VECTOR_GENERATOR<MatrixAColAttr, 1, 1, MATRIX_A_COL_DATA_BLOCK_SIZE>::result col_data_vector;
     col_data_vector m_vct_col_attr;
+    const col_data_vector& m_vct_read_only_col_attr;
     //! Vector to keep track of rows in the matrix
     typedef typename stxxl::VECTOR_GENERATOR<MatrixARowAttr, 1, 1, MATRIX_A_ROW_DATA_BLOCK_SIZE>::result row_data_vector;
     row_data_vector m_vct_row_attr;
+    const row_data_vector& m_vct_read_only_row_attr;
 
     //! Adds a new slack column into the matrix
     //! Done programmatically while standardization of the matrix
@@ -138,7 +141,7 @@ private:
         MatrixAColAttr col_attr(last_col_end, last_col_end + 1); // Singleton Column
         col_attr.set_objective_value(0);
         std::stringstream row_name_stream;
-        row_name_stream<<"slack_"<<get_row_attr(p_slack_row_index).get_row_name();
+        row_name_stream << "slack_" << get_row_attr(p_slack_row_index).get_row_name();
         col_attr.set_col_name(row_name_stream.str());
         col_attr.set_is_slack_col(true);
         //        DEBUG("Adding Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
@@ -152,6 +155,11 @@ public:
     //    friend class MatrixARowAttr;
     typedef MatrixARowAttr RowAttr;
 
+    //! Simple Initialization
+    ExtMatrixA() : m_vct_read_only_disk(m_vct_disk),
+    m_vct_read_only_col_attr(m_vct_col_attr),
+    m_vct_read_only_row_attr(m_vct_row_attr) {
+    }
     //! Adds a new column into the matrix
     //! TODO - Set the start limit of col appropriately
     void add_column(PackedColVector &p_packed_col) {
@@ -181,10 +189,10 @@ public:
         p_packed_col.clear();
         p_packed_col.resize(get_rows_count());
         // Limits of the requested column
-        MatrixAColAttr col_attr = m_vct_col_attr[p_column_idx];
+        MatrixAColAttr col_attr = m_vct_read_only_col_attr[p_column_idx];
         // Adding all the column vector values
         for (unsigned int i = col_attr.get_start(); i < col_attr.get_end(); i++) {
-            const PackedElement packed_element = m_vct_disk[i];
+            const PackedElement packed_element = m_vct_read_only_disk[i];
             p_packed_col.add(packed_element.get_index(), packed_element.get_value(), false);
         }
         //        DEBUG("Storing Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
@@ -198,12 +206,12 @@ public:
 
     //! Returns the column attributes associated with the p_col_index
     ColAttr get_col_attr(unsigned int p_col_index) {
-        const MatrixAColAttr col_attr = m_vct_col_attr[p_col_index];
+        const MatrixAColAttr col_attr = m_vct_read_only_col_attr[p_col_index];
         return col_attr;
     }
     //! Returns the columns count - Total number of columns in the matrix
     unsigned int get_columns_count() {
-        return m_vct_col_attr.size();
+        return m_vct_read_only_col_attr.size();
     }
 
     //! Adds a new row into the matrix
@@ -219,13 +227,13 @@ public:
 
     //! Returns the rows count - Total number of rows in the matrix
     unsigned int get_rows_count() {
-        return m_vct_row_attr.size();
+        return m_vct_read_only_row_attr.size();
     }
 
     //! Returns the number of non-zeros for a given p_col_index column
     //! Use this to get nnz instead of fetching entire column.
     unsigned int get_col_nnz(unsigned int p_col_index) {
-        MatrixAColAttr col_attr = m_vct_col_attr[p_col_index];
+        MatrixAColAttr col_attr = m_vct_read_only_col_attr[p_col_index];
         return (col_attr.get_end() - col_attr.get_start());
     }
 
@@ -239,7 +247,7 @@ public:
 
     //! gets the row attributes specific to a column
     RowAttr get_row_attr(unsigned int p_row_index) {
-        const MatrixARowAttr row_attr = m_vct_row_attr[p_row_index];
+        const MatrixARowAttr row_attr = m_vct_read_only_row_attr[p_row_index];
         return row_attr;
     }
 
@@ -276,7 +284,7 @@ public:
                     row_attr.set_row_type(0);
                     set_row_attr(i, row_attr);
                     // Just added Col is the base column for row i
-                    vct_base_col_indices.add(i, get_columns_count()-1);
+                    vct_base_col_indices.add(i, get_columns_count() - 1);
                     break;
                 case 5:
                     // Case Range

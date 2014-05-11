@@ -136,6 +136,112 @@ endReadRows:
         return;
     }
 
+    //    //! Process COLUMNS section. 
+    //    //! TODO - Improve reading performance by storing into PackedVector directly
+    //    static void readCols(
+    //            MPSInput& mps,
+    //            ExtLPDSSet& extDataSet
+    //            ) {
+    //        REAL val;
+    //        char colname[MPSInput::MAX_LINE_LEN] = {'\0'};
+    //        PackedColVector col(extDataSet.A.get_rows_count());
+    //        std::vector<REAL> vec(extDataSet.A.get_rows_count());
+    //        static int count_cols_read = 0;
+    //        col.set_objective_value(0.0F);
+    //        int i = 0;
+    //        while (mps.readLine()) {
+    //            if (mps.field0() != 0) {
+    //                if (strcmp(mps.field0(), "RHS")) {
+    //                    DEBUG_PARSER("Next Section is RHS")
+    //                    break;
+    //                }
+    //                if (colname[0] != '\0') {
+    //                    col.set_col_vector(vec);
+    //                    extDataSet.A.add_column(col);
+    //                    //                    ExtColVector extCol(col);
+    //                    //                    extDataSet.vctCols.push_back(extCol);
+    //                    count_cols_read++;
+    //                    //                    DEBUG_SIMPLE("Read Col " << count_cols_read << ", with name: " << extCol.getName() << ", Sparsity: " << extCol.);
+    //                }
+    //                mps.setSection(MPSInput::RHS);
+    //                return;
+    //            }
+    //            if ((mps.field1() == 0) || (mps.field2() == 0) || (mps.field3() == 0))
+    //                break;
+    //
+    //            // new column?
+    //            if (strcmp(colname, mps.field1())) {
+    //                // first column?
+    //                if (colname[0] != '\0') {
+    //                    col.set_col_vector(vec);
+    //                    //                    ExtColVector extCol(col);
+    //                    //                    extDataSet.vctCols.push_back(extCol);
+    //                    extDataSet.A.add_column(col);
+    //                    count_cols_read++;
+    //                    //                    DEBUG_SIMPLE("Read Col " << count_cols_read << ", with name: " << extCol.getName() << ", Sparsity: " << extCol.get_sparsity());
+    //                }
+    //                // save copy of string (make sure string ends with \0)
+    //                strncpy(colname, mps.field1(), MPSInput::MAX_LINE_LEN - 1);
+    //                colname[MPSInput::MAX_LINE_LEN - 1] = '\0';
+    //                extDataSet.mapColName.set(colname, i++);
+    //                //                mapColNumber[colname] = i++;
+    //                col.set_name(colname);
+    //                // Initializing back to default values
+    //                vec.clear();
+    //                vec.resize(extDataSet.A.get_rows_count());
+    //                col.set_objective_value(0.0);
+    //                col.set_lower_bound(0.0);
+    //                col.set_upper_bound(INFINITY_VALUE);
+    //
+    //                //            if (mps.isInteger()) {
+    //                //                assert(cnames.number(colname) == cset.num());
+    //                //
+    //                //                if (intvars != 0)
+    //                //                    intvars->addIdx(cnames.number(colname));
+    //                //
+    //                //                // For Integer variable the default bounds are 0/1 
+    //                //                col.setUpper(1.0);
+    //                //            }
+    //            }
+    //            val = atof(mps.field3());
+    //
+    //            if (!strcmp(mps.field2(), mps.objName()))
+    //                col.set_objective_value(val);
+    //            else {
+    //                // Getting row number for given row
+    //                if (!extDataSet.mapRowName.contains(mps.field2()))
+    //                    mps.entryIgnored("Column", mps.field1(), "row", mps.field2());
+    //                else {
+    //                    //                    int rowNumber = mapRowNumber[mps.field2()];
+    //                    int rowNumber = extDataSet.mapRowName.get(mps.field2());
+    //                    if (val != 0.0)
+    //                        vec[rowNumber] = val; //.add(idx, val);
+    //                }
+    //            }
+    //            if (mps.field5() != 0) {
+    //                assert(mps.field4() != 0);
+    //
+    //                val = atof(mps.field5());
+    //
+    //                if (!strcmp(mps.field4(), mps.objName()))
+    //                    col.set_objective_value(val);
+    //                else {
+    //                    //                    if (mapRowNumber.find(mps.field4()) == mapRowNumber.end())
+    //                    if (!extDataSet.mapRowName.contains(mps.field4()))
+    //                        mps.entryIgnored("Column", mps.field1(), "row", mps.field4());
+    //                    else {
+    //                        //                        int rowNumber = mapRowNumber[mps.field4()];
+    //                        int rowNumber = extDataSet.mapRowName.get(mps.field4());
+    //                        if (val != 0.0)
+    //                            vec[rowNumber] = val; //.add(idx, val);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //        //        DEBUG_PARSER("End of Reading Columns")
+    //        mps.syntaxError();
+    //    }
+
     //! Process COLUMNS section. 
     static void readCols(
             MPSInput& mps,
@@ -143,10 +249,10 @@ endReadRows:
             ) {
         REAL val;
         char colname[MPSInput::MAX_LINE_LEN] = {'\0'};
-        PackedColVector col(extDataSet.A.get_rows_count());
-        std::vector<REAL> vec(extDataSet.A.get_rows_count());
+        PackedColVector packed_col_vector(extDataSet.A.get_rows_count());
+        PackedVector& packed_vector = packed_col_vector.get_col_vector();
         static int count_cols_read = 0;
-        col.set_objective_value(0.0F);
+        packed_col_vector.set_objective_value(0.0F);
         int i = 0;
         while (mps.readLine()) {
             if (mps.field0() != 0) {
@@ -155,8 +261,8 @@ endReadRows:
                     break;
                 }
                 if (colname[0] != '\0') {
-                    col.set_col_vector(vec);
-                    extDataSet.A.add_column(col);
+                    packed_vector.sort_by_index();
+                    extDataSet.A.add_column(packed_col_vector);
                     //                    ExtColVector extCol(col);
                     //                    extDataSet.vctCols.push_back(extCol);
                     count_cols_read++;
@@ -172,10 +278,10 @@ endReadRows:
             if (strcmp(colname, mps.field1())) {
                 // first column?
                 if (colname[0] != '\0') {
-                    col.set_col_vector(vec);
                     //                    ExtColVector extCol(col);
                     //                    extDataSet.vctCols.push_back(extCol);
-                    extDataSet.A.add_column(col);
+                    packed_vector.sort_by_index();
+                    extDataSet.A.add_column(packed_col_vector);
                     count_cols_read++;
                     //                    DEBUG_SIMPLE("Read Col " << count_cols_read << ", with name: " << extCol.getName() << ", Sparsity: " << extCol.get_sparsity());
                 }
@@ -184,62 +290,50 @@ endReadRows:
                 colname[MPSInput::MAX_LINE_LEN - 1] = '\0';
                 extDataSet.mapColName.set(colname, i++);
                 //                mapColNumber[colname] = i++;
-                col.set_name(colname);
+                packed_col_vector.set_name(colname);
                 // Initializing back to default values
-                vec.clear();
-                vec.resize(extDataSet.A.get_rows_count());
-                col.set_objective_value(0.0);
-                col.set_lower_bound(0.0);
-                col.set_upper_bound(INFINITY_VALUE);
-
-                //            if (mps.isInteger()) {
-                //                assert(cnames.number(colname) == cset.num());
-                //
-                //                if (intvars != 0)
-                //                    intvars->addIdx(cnames.number(colname));
-                //
-                //                // For Integer variable the default bounds are 0/1 
-                //                col.setUpper(1.0);
-                //            }
+                packed_vector.clear();
+                packed_vector.resize(extDataSet.A.get_rows_count());
+                packed_col_vector.set_objective_value(0.0);
+                packed_col_vector.set_lower_bound(0.0);
+                packed_col_vector.set_upper_bound(INFINITY_VALUE);
             }
             val = atof(mps.field3());
-
             if (!strcmp(mps.field2(), mps.objName()))
-                col.set_objective_value(val);
+                packed_col_vector.set_objective_value(val);
             else {
                 // Getting row number for given row
                 if (!extDataSet.mapRowName.contains(mps.field2()))
                     mps.entryIgnored("Column", mps.field1(), "row", mps.field2());
                 else {
-                    //                    int rowNumber = mapRowNumber[mps.field2()];
                     int rowNumber = extDataSet.mapRowName.get(mps.field2());
-                    if (val != 0.0)
-                        vec[rowNumber] = val; //.add(idx, val);
+                    if (val != 0.0) {
+                        packed_vector.add(rowNumber, val);
+                        //                        vec[rowNumber] = val; //.add(idx, val);
+                    }
                 }
             }
             if (mps.field5() != 0) {
                 assert(mps.field4() != 0);
-
                 val = atof(mps.field5());
-
                 if (!strcmp(mps.field4(), mps.objName()))
-                    col.set_objective_value(val);
+                    packed_col_vector.set_objective_value(val);
                 else {
-                    //                    if (mapRowNumber.find(mps.field4()) == mapRowNumber.end())
                     if (!extDataSet.mapRowName.contains(mps.field4()))
                         mps.entryIgnored("Column", mps.field1(), "row", mps.field4());
                     else {
-                        //                        int rowNumber = mapRowNumber[mps.field4()];
                         int rowNumber = extDataSet.mapRowName.get(mps.field4());
-                        if (val != 0.0)
-                            vec[rowNumber] = val; //.add(idx, val);
+                        if (val != 0.0) {
+                            packed_vector.add(rowNumber, val);
+                            //                            vec[rowNumber] = val; //.add(idx, val);
+                        }
                     }
                 }
             }
         }
-        //        DEBUG_PARSER("End of Reading Columns")
         mps.syntaxError();
     }
+
     /// Process RHS section. 
     static void readRhs(
             MPSInput& mps,

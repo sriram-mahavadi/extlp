@@ -67,6 +67,16 @@ public:
             ptr = ptr->getNext();
             return *this;
         }
+        iterator operator+(int incr){
+            LinkedListNode<ItemClass>* temp  = ptr;
+            while(incr!=0){
+                temp=temp->getNext();
+                incr--;
+            }
+            iterator itr;
+            itr.ptr = temp;
+            return itr;
+        }
         ItemClass& operator*() {
             return ptr->getItemReference();
         }
@@ -88,7 +98,7 @@ public:
     //! Copy Constructor. Does shallow copy by default hence need to be careful
     //! Overriding for creating a deep copy of LinkedList
     LinkedList(LinkedList& p_list){
-        DEBUG_WARNING("Copying Linked List");
+        DEBUG_WARNING("Copying Linked List.");
         head = NULL;
         tail = NULL;
         m_size = 0;

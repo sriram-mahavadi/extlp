@@ -12,10 +12,10 @@
 #include "../GlobalDefines.h"
 class ReadLPUtil {
 public:
-    bool readLPF(std::istream &is) {
-        CONSOLE_PRINTLN("Reading lpf file\n");
-        return false;
-    }
+//    bool readLPF(std::istream &is) {
+//        CONSOLE_PRINTLN("Reading lpf file\n");
+//        return false;
+//    }
 };
 
 #endif	/* READLPUTIL_H */

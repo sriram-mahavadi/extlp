@@ -1,6 +1,6 @@
 /* 
  * File:   GlobalDebug.h
- * Author: sriram
+ * Author: Sriram Mahavadi
  *
  * Created on 20 April, 2014, 12:24 AM
  */
@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string.h>
 #include <fstream>
+#include <sstream>
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -37,20 +38,35 @@
 /// The file is created in the directory of project executable
 std::ofstream outputStream;
 
+//! Get the current time stamp 
+std::string get_current_time_stamp() {
+    // current date/time based on current system
+    time_t now = time(0);
+    // convert now to string form
+    char* dt = ctime(&now);
+    dt[strlen(dt) - 1] = '\0'; // Removing the ending \n character
+    std::stringstream str_time_stream;
+    str_time_stream << "[ " << dt << " ]: ";
+    return str_time_stream.str();
+}
+
 #define DEBUG(x) \
 if(COMMON_DEBUG == true){ \
+        std::cout <<get_current_time_stamp();\
         std::cout <<"COMMON MSG- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
         std::cout.flush();\
 }
 
 #define DEBUG_SIMPLE(x) \
 if(SIMPLE_DEBUG == true){ \
+        std::cout <<get_current_time_stamp();\
         std::cout << "*** " << x << " ***"<<std::endl;\
         std::cout.flush();\
 }
 
 #define DEBUG_PARSER(x) \
 if(PARSER_DEBUG == true){ \
+        std::cout <<get_current_time_stamp();\
 	std::cout <<"PARSER MSG- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
         std::cout.flush();\
 }
@@ -66,12 +82,14 @@ if(MEMORY_DEBUG == true){ \
 
 #define DEBUG_ERROR(x) \
 if(ERROR_DEBUG == true){ \
+        std::cout <<get_current_time_stamp();\
         std::cout <<"GENERAL ERR- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
         std::cout.flush();\
 }
 
 #define DEBUG_WARNING(x) \
 if(WARNING_DEBUG == true){ \
+        std::cout <<get_current_time_stamp();\
         std::cout <<"GENERAL WRN- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
         std::cout.flush();\
 }
@@ -86,22 +104,14 @@ if(FILE_DEBUG == true){ \
         outputStream.flush();\
 }
 
-//! Get the current time stamp 
-char* get_current_time_stamp() {
-    // current date/time based on current system
-    time_t now = time(0);
-    // convert now to string form
-    char* dt = ctime(&now);
-    dt[strlen(dt)-1] = '\0';// Removing the ending \n character
-    return dt;
-}
+
 
 #define DEBUG_FILE_WITH_TIMESTAMP(x) \
 if(FILE_DEBUG == true){ \
         if(!outputStream.is_open()){ \
                 outputStream.open("debug_log.txt", std::ios::app);\
         }\
-        outputStream << "[ " << get_current_time_stamp() << " ]: " << x << std::endl;\
+        outputStream << get_current_time_stamp() << x << std::endl;\
         outputStream.flush();\
 }
 

@@ -38,10 +38,10 @@ public:
          * There is no possible valid LPF file starting with a '*' or 'N'.
          */
         ReadMPSUtil mpsReader;
-        ReadLPUtil lpReader;
+        //        ReadLPUtil lpReader;
         bool ok = ((c == '*') || (c == 'N'))
-                ? mpsReader.readMPS(file)
-                : lpReader.readLPF(file);
+                ? mpsReader.readMPS(file) : false;
+        //                : lpReader.readLPF(file);
         return ok;
     }
 
@@ -65,10 +65,10 @@ public:
          * There is no possible valid LPF file starting with a '*' or 'N'.
          */
         ExtReadMPSUtil extMPSReader;
-        ReadLPUtil lpReader;
+        //        ReadLPUtil lpReader;
         bool ok = ((c == '*') || (c == 'N'))
-                ? extMPSReader.readMPS(file, extDataSet)
-                : lpReader.readLPF(file);
+                ? extMPSReader.readMPS(file, extDataSet) : false;
+        //                : lpReader.readLPF(file);
         return ok;
     }
 };
