@@ -24,6 +24,7 @@ private:
     REAL objective_value;
     FixedString col_name;
     bool is_slack_col;
+    bool is_basic_col;
 public:
     MatrixAColAttr() {
     }
@@ -46,6 +47,9 @@ public:
     void set_is_slack_col(bool is_slack_col) {
         this->is_slack_col = is_slack_col;
     }
+    void set_is_basic_col(bool is_basic_col) {
+        this->is_basic_col = is_basic_col;
+    }
     unsigned int get_start() {
         return this->start;
     }
@@ -60,6 +64,9 @@ public:
     }
     bool get_is_slack_col() {
         return this->is_slack_col;
+    }
+    bool get_is_basic_col(){
+        return this->is_basic_col;
     }
 };
 
@@ -144,6 +151,7 @@ private:
         row_name_stream << "slack_" << get_row_attr(p_slack_row_index).get_row_name();
         col_attr.set_col_name(row_name_stream.str());
         col_attr.set_is_slack_col(true);
+        col_attr.set_is_basic_col(true);
         //        DEBUG("Adding Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
         m_vct_col_attr.push_back(col_attr);
     }
@@ -161,6 +169,7 @@ public:
     m_vct_read_only_row_attr(m_vct_row_attr) {
     }
     //! Adds a new column into the matrix
+
     //! TODO - Set the start limit of col appropriately
     void add_column(PackedColVector &p_packed_col) {
         unsigned int no_cols = m_vct_col_attr.size(); // Last column number
@@ -177,6 +186,8 @@ public:
         col_attr.set_objective_value(p_packed_col.get_objective_value());
         col_attr.set_col_name(p_packed_col.get_name());
         col_attr.set_is_slack_col(false);
+        //! Initial basis columns would be the set of slack columns. Hence basic property set to false
+        col_attr.set_is_basic_col(false);
         //        DEBUG("Adding Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
         m_vct_col_attr.push_back(col_attr);
     }

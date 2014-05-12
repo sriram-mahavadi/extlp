@@ -77,9 +77,11 @@ int main(int argc, char *argv[]) {
         ExtNameMap mapRowName(myRowMap);
         ExtNameMap mapColName(myColMap);
         ExtMatrixA A;
-        ExtLPDSSet extDataSet(A, mapRowName, mapColName);
+        ExtMatrixBInverse BInverse;
+        ExtLPDSSet extDataSet(A, BInverse, mapRowName, mapColName);
         inputReader.readFileUsingDisk(filename, extDataSet);
-//        SimpleVector<unsigned int> vct_basis = extDataSet.A.standardize_matrix();
+        extDataSet.base_col_indices = extDataSet.A.standardize_matrix();
+        BInverse.build_matrix_b_inverse(A, extDataSet.base_col_indices);
 //        CONSOLE_PRINTLN("BASIS Matrix has following Columns: ");
 //        std::stringstream basis_stream;
 //        for (unsigned int i = 0; i < vct_basis.get_size(); i++) {
@@ -97,9 +99,9 @@ int main(int argc, char *argv[]) {
         //        ExtStringVector::test();
         //        Test::testLinkedList();
         //        Test::testExtNameMap();
-        Test::testExtMatrixA(extDataSet);
-        extDataSet.A.standardize_matrix();
-        Test::testExtMatrixA(extDataSet);
+//        Test::testExtMatrixA(extDataSet);
+//        extDataSet.A.standardize_matrix();
+//        Test::testExtMatrixA(extDataSet);
         //////////////////// --- Statistics Sections
         //        Console::println("--- * Map Statistics * ---");
         //        mapRowName.displayStorageStatus();

@@ -8,8 +8,8 @@
 #ifndef EXTMATRIXBINVERSE_H
 #define	EXTMATRIXBINVERSE_H
 #include "GlobalDefines.h"
-#include "ExtMatrixA.h"
-
+#include "ExtLPDSSet.h"
+#include "EtaVector.h"
 //! Stores limits for the start and end of the column in ExtMatrixBInverse container
 //! The limits to the column is [start, end) start includes and end excludes
 //! Also includes the other necessary properties such as col_index for getting column details
@@ -53,10 +53,12 @@ public:
 class MatrixBInverseRowAttr {
 private:
     unsigned int start, end;
-    unsigned int row_index;
+    //    unsigned int row_index; No need of row index. By default is present in order
+    //! Used for pre calculation of row-size during column-wise storage
+    unsigned int capacity_end;
 public:
     //! Simple Initialization
-    MatrixARowAttr() {
+    MatrixBInverseRowAttr() {
     }
     MatrixBInverseRowAttr(unsigned int start, unsigned int end) {
         this->start = start;
@@ -68,8 +70,11 @@ public:
     void set_end(unsigned int end) {
         this->end = end;
     }
-    void set_row_index(unsigned int col_index) {
-        this->row_index = col_index;
+    //    void set_row_index(unsigned int row_index) {
+    //        this->row_index = row_index;
+    //    }
+    void set_capacity_end(unsigned int capacity_end) {
+        this->capacity_end = capacity_end;
     }
     unsigned int get_start() {
         return this->start;
@@ -79,8 +84,11 @@ public:
     }
     //! Column index with respect to MatrixA container for fetching
     //! necessary details of this column such as name.
-    unsigned int get_row_index() {
-        return this->row_index;
+    //    unsigned int get_row_index() {
+    //        return this->row_index;
+    //    }
+    unsigned int get_capacity_end() {
+        return this->capacity_end;
     }
 };
 
@@ -94,30 +102,30 @@ private:
     typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_A_BLOCKS_PER_PAGE, MATRIX_A_PAGE_CACHE, MATRIX_A_BLOCK_SIZE>::result item_vector;
     //! Storage for column-wise representation
     item_vector m_vct_col_disk;
-    const item_vector& m_vct_col_read_only_disk;
+    const item_vector& m_vct_read_only_col_disk;
     //! Storage for row-wise representation
     item_vector m_vct_row_disk;
-    const item_vector& m_vct_row_read_only_disk;
+    const item_vector& m_vct_read_only_row_disk;
     //! Vector to keep track of columns in the matrix
-    typedef typename stxxl::VECTOR_GENERATOR<MatrixAColAttr, 1, 1, MATRIX_A_COL_DATA_BLOCK_SIZE>::result col_data_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<MatrixBInverseColAttr, 1, 1, MATRIX_A_COL_DATA_BLOCK_SIZE>::result col_data_vector;
     col_data_vector m_vct_col_attr;
     const col_data_vector& m_vct_read_only_col_attr;
     //! Vector to keep track of rows in the matrix
-    typedef typename stxxl::VECTOR_GENERATOR<MatrixARowAttr, 1, 1, MATRIX_A_ROW_DATA_BLOCK_SIZE>::result row_data_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<MatrixBInverseRowAttr, 1, 1, MATRIX_A_ROW_DATA_BLOCK_SIZE>::result row_data_vector;
     row_data_vector m_vct_row_attr;
     const row_data_vector& m_vct_read_only_row_attr;
 
 public:
     //! Matrix Row and Column Attributes
-    //    friend class MatrixAColAttr;
+    friend class MatrixBInverseColAttr;
     typedef MatrixBInverseColAttr ColAttr;
     //    friend class MatrixARowAttr;
     typedef MatrixBInverseRowAttr RowAttr;
 
     //! Simple Initialization
     ExtMatrixBInverse() :
-    m_vct_col_read_only_disk(m_vct_col_disk),
-    m_vct_row_read_only_disk(m_vct_row_disk),
+    m_vct_read_only_col_disk(m_vct_col_disk),
+    m_vct_read_only_row_disk(m_vct_row_disk),
     m_vct_read_only_col_attr(m_vct_col_attr),
     m_vct_read_only_row_attr(m_vct_row_attr) {
     }
@@ -128,7 +136,6 @@ public:
 
     //! Adds a new column into the matrix
     //! Input column parameters include the Matrix A column index and the column values
-    //! TODO - Set the start limit of col appropriately
     void add_column(PackedVector &p_packed_vector, unsigned int p_column_index) {
         unsigned int no_cols = get_columns_count(); // Last column number
         unsigned int last_col_end = (no_cols == 0) ? 0 : m_vct_col_attr[no_cols - 1].get_end();
@@ -136,10 +143,18 @@ public:
         while (itr != p_packed_vector.end()) {
             PackedElement packed_element = *itr;
             //            DEBUG("Adding Element: " << packed_element.get_index() << ", " << packed_element.get_value());
+            // Keeping track of rows capacity pertaining to the packed element
+            unsigned int row_index = packed_element.get_index();
+            if (get_rows_count() < row_index) {
+                m_vct_row_attr.resize(row_index + 1);
+                m_vct_row_attr[row_index].set_capacity_end(0);
+            }
+            m_vct_row_attr[row_index].set_capacity_end(m_vct_row_attr[row_index].get_capacity_end()+1);
             m_vct_col_disk.push_back(packed_element);
             itr++;
         }
         ColAttr col_attr(last_col_end, last_col_end + p_packed_vector.get_nnz());
+        col_attr.set_col_index(p_column_index);
         //        DEBUG("Adding Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
         m_vct_col_attr.push_back(col_attr);
     }
@@ -155,7 +170,7 @@ public:
         ColAttr col_attr = m_vct_read_only_col_attr[p_column_idx];
         // Adding all the column vector values
         for (unsigned int i = col_attr.get_start(); i < col_attr.get_end(); i++) {
-            const PackedElement packed_element = m_vct_col_read_only_disk[i];
+            const PackedElement packed_element = m_vct_read_only_col_disk[i];
             p_packed_col.add(packed_element.get_index(), packed_element.get_value(), false);
         }
     }
@@ -173,7 +188,7 @@ public:
     //! Returns the number of non-zeros for a given p_col_index column
     //! Use this to get nnz instead of fetching entire column.
     unsigned int get_col_nnz(unsigned int p_col_index) {
-        MatrixAColAttr col_attr = m_vct_read_only_col_attr[p_col_index];
+        ColAttr col_attr = m_vct_read_only_col_attr[p_col_index];
         return (col_attr.get_end() - col_attr.get_start());
     }
 
@@ -188,17 +203,33 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////// - Matrix Row Operations - /////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
+    
+    //! PreCalculation of row-wise matrix storage structure
+    //! The capacity_end refers to the end index till which the column can be reached
+    //! start and end by default refer to the start index of column. (empty column)
+    void pre_calculate_row_structure(){
+        unsigned int capacity_end = 0;
+        for(unsigned int i=0; i<m_vct_row_attr.size(); i++){
+            m_vct_row_attr[i].set_start(capacity_end);
+            m_vct_row_attr[i].set_end(capacity_end);
+            capacity_end += m_vct_row_attr[i].get_capacity_end();
+            m_vct_row_attr[i].set_capacity_end(capacity_end);
+        }
+    }
 
-
-    //! Adds a new row into the matrix
-    //! TODO - Check setting of RHS is correct or not.
-    void add_row(PackedRowVector &p_packed_row) {
-        MatrixARowAttr row_attr;
-        row_attr.set_row_name(p_packed_row.get_name());
-        row_attr.set_lhs_value(p_packed_row.get_lhs());
-        row_attr.set_rhs_value(p_packed_row.get_rhs());
-        row_attr.set_row_type(p_packed_row.get_row_type());
-        m_vct_row_attr.push_back(row_attr);
+    //! Adds a new row element into the matrix
+    //! Clumsy operation - Might involve random block fetching without any locality of reference.
+    void add_row_element(unsigned int row_index, PackedElement packed_element) {
+        RowAttr row_attr = m_vct_row_attr[row_index];
+        unsigned int end_index = row_attr.get_end();
+        unsigned int capacity_end = row_attr.get_capacity_end();
+        assert(end_index<capacity_end); // Check if there is space in the column to add
+        if(end_index>=m_vct_row_disk.size()){
+            m_vct_row_disk.resize(end_index + 1);
+        }
+        m_vct_row_disk[end_index] = packed_element;
+        row_attr.set_end(end_index+1);
+        m_vct_row_attr[row_index] = row_attr;
     }
 
     //! Returns the rows count - Total number of rows in the matrix
@@ -208,12 +239,12 @@ public:
 
     //! gets the row attributes specific to a column
     RowAttr get_row_attr(unsigned int p_row_index) {
-        const MatrixARowAttr row_attr = m_vct_read_only_row_attr[p_row_index];
+        const RowAttr row_attr = m_vct_read_only_row_attr[p_row_index];
         return row_attr;
     }
 
     //! sets the row attributes of a column
-    void set_row_attr(unsigned int p_row_index, MatrixARowAttr& p_row_attr) {
+    void set_row_attr(unsigned int p_row_index, RowAttr& p_row_attr) {
         m_vct_row_attr[p_row_index] = p_row_attr;
     }
 
@@ -221,7 +252,30 @@ public:
     //////////////////////////// - Common Matrix Operations - //////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
+    //! Clearing the whole BInverse container 
+    void clear_matrix_b_inverse() {
+        m_vct_col_attr.clear();
+        m_vct_row_attr.clear();
+        m_vct_col_disk.clear();
+        m_vct_row_disk.clear();
+    }
 
+    //! Building the matrix from Matrix A and the basis col matrix
+    //! Initial Assumption AX + S = b making S (Identity matrix)to be the B and B inverse
+    //! TODO - Always it is not fair to choose identity matrix as base. Choose wisely.
+    void build_matrix_b_inverse(ExtMatrixA &A, SimpleVector<unsigned int> base_col_indices) {
+        for(unsigned int i=0; i<base_col_indices.get_size(); i++){
+            unsigned int col_index = base_col_indices[i];
+            PackedVector packed_col_vector_i(A.get_rows_count());
+            A.store_column(col_index, packed_col_vector_i, false);
+            add_column(packed_col_vector_i, col_index);
+        }
+    }
+
+    //! ReBuilding the matrix from itself and Eta Vector
+//    void rebuild_matrix_b_inverse(EtaVector& eta_vector) {
+//        
+//    }
 };
 
 

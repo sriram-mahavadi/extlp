@@ -11,6 +11,7 @@
 #include "ExtNameMap.h"
 #include "ExtVector.h"
 #include "ExtMatrixA.h"
+#include "ExtMatrixBInverse.h"
 /**
  * Contains the total set of problem inputs or data structures
  * that will be required at each step of simplex method
@@ -29,16 +30,27 @@ public:
     /// is  maintained through out. Make sure we only keep sending the reference of
     /// ExtLPDSSet object.
     ExtMatrixA &A;
+    ExtMatrixBInverse &BInverse;
     // Names of the Rows and Cols involved in the 
     ExtNameMap &mapRowName;
     ExtNameMap &mapColName;
 
+    SimpleVector<unsigned int> base_col_indices;
+    
     /// Initialization 
     /// Better decide the data structures from the main itself.
     ExtLPDSSet(
-            ExtMatrixA &p_A,
+            ExtMatrixA &p_A,ExtMatrixBInverse& p_BInverse,
             ExtNameMap &p_mapRowName, ExtNameMap &p_mapColName
-            ) : A(p_A), mapRowName(p_mapRowName), mapColName(p_mapColName) {
+            ) : A(p_A), BInverse(p_BInverse), mapRowName(p_mapRowName), mapColName(p_mapColName) {
+    }
+    
+    //! Check for any sort of duplication. Completely unnecessary in whole project
+    ExtLPDSSet(ExtLPDSSet& extDataSet):
+    A(extDataSet.A), BInverse(extDataSet.BInverse), 
+    mapRowName(extDataSet.mapRowName), mapColName(extDataSet.mapColName),
+    base_col_indices(extDataSet.base_col_indices){
+        DEBUG_WARNING("Trying to Copy/Duplicate Ext LP Data set.");
     }
     
     std::string get_problem_name() {

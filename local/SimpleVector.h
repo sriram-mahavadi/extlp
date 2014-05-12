@@ -20,8 +20,13 @@ private:
     unsigned int m_size;
 
 public:
-
-    //! Basic initialization
+    //! Basic initialization with empty vector
+    SimpleVector(){
+        m_vct_values = NULL;
+        m_size = 0;
+    }
+    
+    //! Basic initialization with fixed size
     SimpleVector(unsigned int p_size) {
         this->m_size = p_size;
         m_vct_values = new ItemClass[p_size];
