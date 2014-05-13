@@ -145,11 +145,11 @@ public:
             //            DEBUG("Adding Element: " << packed_element.get_index() << ", " << packed_element.get_value());
             // Keeping track of rows capacity pertaining to the packed element
             unsigned int row_index = packed_element.get_index();
-            if (get_rows_count() < row_index) {
+            if (get_rows_count() <= row_index) {
                 m_vct_row_attr.resize(row_index + 1);
                 m_vct_row_attr[row_index].set_capacity_end(0);
             }
-            m_vct_row_attr[row_index].set_capacity_end(m_vct_row_attr[row_index].get_capacity_end()+1);
+            m_vct_row_attr[row_index].set_capacity_end(m_vct_row_attr[row_index].get_capacity_end() + 1);
             m_vct_col_disk.push_back(packed_element);
             itr++;
         }
@@ -159,9 +159,8 @@ public:
         m_vct_col_attr.push_back(col_attr);
     }
 
-    //! Store an Entire column excluding the objective value
+    //! Store an Entire column of basis inverse matrix
     //! Send by Reference... Hence parameter PackedVector will be affected
-    //! TODO - Check if the objective value is added properly to the end
     void store_column(unsigned int p_column_idx, PackedVector& p_packed_col) {
         // Initializing p_packed_col for proper storage
         p_packed_col.clear();
@@ -203,17 +202,21 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////// - Matrix Row Operations - /////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
-    
+
     //! PreCalculation of row-wise matrix storage structure
     //! The capacity_end refers to the end index till which the column can be reached
     //! start and end by default refer to the start index of column. (empty column)
-    void pre_calculate_row_structure(){
+    void pre_calculate_row_structure() {
         unsigned int capacity_end = 0;
-        for(unsigned int i=0; i<m_vct_row_attr.size(); i++){
-            m_vct_row_attr[i].set_start(capacity_end);
-            m_vct_row_attr[i].set_end(capacity_end);
+        RowAttr row_attr;
+        for (unsigned int i = 0; i < m_vct_row_attr.size(); i++) {
+//            DEBUG("Row: "<<i<<"; Start: "<<m_vct_col_attr)
+            row_attr.set_start(capacity_end);
+            row_attr.set_end(capacity_end);
             capacity_end += m_vct_row_attr[i].get_capacity_end();
-            m_vct_row_attr[i].set_capacity_end(capacity_end);
+            row_attr.set_capacity_end(capacity_end);
+            set_row_attr(i, row_attr);
+//            DEBUG("Row: "<<i<<"; end: "<<row_attr.get_end()<<"; capacity: "<<row_attr.get_capacity_end());
         }
     }
 
@@ -223,15 +226,30 @@ public:
         RowAttr row_attr = m_vct_row_attr[row_index];
         unsigned int end_index = row_attr.get_end();
         unsigned int capacity_end = row_attr.get_capacity_end();
-        assert(end_index<capacity_end); // Check if there is space in the column to add
-        if(end_index>=m_vct_row_disk.size()){
+        assert(end_index < capacity_end); // Check if there is space in the column to add
+        if (end_index >= m_vct_row_disk.size()) {
             m_vct_row_disk.resize(end_index + 1);
         }
         m_vct_row_disk[end_index] = packed_element;
-        row_attr.set_end(end_index+1);
+        row_attr.set_end(end_index + 1);
         m_vct_row_attr[row_index] = row_attr;
     }
-
+    
+    //! Store an Entire row of the Basis inverse matrix
+    //! Send by Reference... Hence parameter PackedVector will be affected
+    void store_row(unsigned int p_row_idx, PackedVector& p_packed_row) {
+        // Initializing p_packed_row for proper storage
+        p_packed_row.clear();
+        p_packed_row.resize(get_columns_count());
+        // Limits of the requested column
+        RowAttr row_attr = m_vct_read_only_row_attr[p_row_idx];
+        // Adding all the column vector values
+        for (unsigned int i = row_attr.get_start(); i < row_attr.get_end(); i++) {
+            const PackedElement packed_element = m_vct_read_only_row_disk[i];
+            p_packed_row.add(packed_element.get_index(), packed_element.get_value(), false);
+        }
+    }
+    
     //! Returns the rows count - Total number of rows in the matrix
     unsigned int get_rows_count() {
         return m_vct_read_only_row_attr.size();
@@ -244,7 +262,7 @@ public:
     }
 
     //! sets the row attributes of a column
-    void set_row_attr(unsigned int p_row_index, RowAttr& p_row_attr) {
+    void set_row_attr(unsigned int p_row_index, RowAttr p_row_attr) {
         m_vct_row_attr[p_row_index] = p_row_attr;
     }
 
@@ -264,18 +282,36 @@ public:
     //! Initial Assumption AX + S = b making S (Identity matrix)to be the B and B inverse
     //! TODO - Always it is not fair to choose identity matrix as base. Choose wisely.
     void build_matrix_b_inverse(ExtMatrixA &A, SimpleVector<unsigned int> base_col_indices) {
-        for(unsigned int i=0; i<base_col_indices.get_size(); i++){
+        // Building column matrix
+        for (unsigned int i = 0; i < base_col_indices.get_size(); i++) {
             unsigned int col_index = base_col_indices[i];
             PackedVector packed_col_vector_i(A.get_rows_count());
             A.store_column(col_index, packed_col_vector_i, false);
             add_column(packed_col_vector_i, col_index);
         }
+        // Building row matrix
+        pre_calculate_row_structure();
+        for (unsigned int col_index = 0; col_index < get_columns_count(); col_index++) {
+            PackedVector packed_col(get_rows_count());
+            store_column(col_index, packed_col);
+            PackedVector::iterator itr = packed_col.begin();
+            while (itr != packed_col.end()) {
+                // Row packed Vector with <column index, value> pair
+                unsigned int row_index = (*itr).get_index();
+                PackedElement packed_element;
+                packed_element.set_index(col_index);
+                packed_element.set_value((*itr).get_value());
+                add_row_element(row_index, packed_element);
+                itr++;
+            }
+        }
+
     }
 
     //! ReBuilding the matrix from itself and Eta Vector
-//    void rebuild_matrix_b_inverse(EtaVector& eta_vector) {
-//        
-//    }
+    void rebuild_matrix_b_inverse(EtaVector& eta_vector) {
+
+    }
 };
 
 

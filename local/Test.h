@@ -377,7 +377,7 @@ public:
             operator_stream << std::setw(width) << extDataSet.A.get_row_attr(i).get_row_type_str() << ", ";
         }
         DEBUG_FILE(operator_stream.str());
-        
+
         std::stringstream rhs_stream;
         std::string rhs_title("");
         rhs_title = rhs_title + extDataSet.get_rhs_name();
@@ -408,6 +408,96 @@ public:
 
         DEBUG_FILE_WITH_TIMESTAMP(" ------------------------- *** -----------------------------");
         /////////////////////////////////////////////////////////////////////////
+    }
+    static void testMatrixBInverse(ExtLPDSSet extDataSet) {
+        bool testStorage = true;
+        if (testStorage) {
+            ExtMatrixA& A = extDataSet.A;
+            ExtMatrixBInverse& BInverse = extDataSet.BInverse;
+            unsigned int width = MAX_KEY_LEN;
+            unsigned int rows_count = BInverse.get_rows_count();
+            unsigned int cols_count = BInverse.get_columns_count();
+            DEBUG("Writing the BInverse Storage Test log to debug file!");
+
+            /////////////////////////////////////////////////////////////////////
+            ////////////////////////// - Column wise display - //////////////////
+            /////////////////////////////////////////////////////////////////////
+            DEBUG_FILE_WITH_TIMESTAMP("Column-wise Display of B-Inverse: ");
+            std::stringstream rows_title_stream;
+            rows_title_stream << std::setw(width) << "Cols/Rows";
+            for (unsigned int i = 0; i < rows_count; i++) {
+                rows_title_stream << std::setw(width) << A.get_row_attr(i).get_row_name() << ", ";
+            }
+            DEBUG_FILE(rows_title_stream.str());
+
+            for (unsigned int col_index = 0; col_index < cols_count; col_index++) {
+                PackedVector packed_column(rows_count);
+                BInverse.store_column(col_index, packed_column);
+                unsigned int a_col_index = BInverse.get_col_attr(col_index).get_col_index();
+                std::stringstream col_stream;
+                col_stream << std::setw(width) << A.get_col_attr(a_col_index).get_col_name();
+                unsigned int prev_row_index = 0;
+                PackedVector::iterator itr = packed_column.begin();
+                while (itr != packed_column.end()) {
+                    PackedElement packed_element = *itr;
+                    unsigned int current_row_index = packed_element.get_index();
+                    DEBUG("Index: " << current_row_index << ", Value: " << packed_element.get_value());
+                    assert(current_row_index >= prev_row_index);
+                    while (prev_row_index < current_row_index) {
+                        col_stream << std::setw(width) << 0.0F << ", ";
+                        prev_row_index++;
+                    }
+                    col_stream << std::setw(width) << packed_element.get_value() << ", ";
+                    prev_row_index++;
+                    itr++;
+                }
+                while (prev_row_index < rows_count) {
+                    col_stream << std::setw(width) << 0.0F << ", ";
+                    prev_row_index++;
+                }
+                DEBUG_FILE(col_stream.str());
+            }
+
+            /////////////////////////////////////////////////////////////////////
+            ////////////////////////// - Row wise display - /////////////////////
+            /////////////////////////////////////////////////////////////////////
+            DEBUG_FILE_WITH_TIMESTAMP("Row-wise Display of B-Inverse: ");
+            std::stringstream cols_title_stream;
+            cols_title_stream << std::setw(width) << "Rows/Cols";
+            for (unsigned int i = 0; i < cols_count; i++) {
+                unsigned int a_col_index = BInverse.get_col_attr(i).get_col_index();
+                cols_title_stream << std::setw(width) << A.get_col_attr(a_col_index).get_col_name() << ", ";
+            }
+            DEBUG_FILE(cols_title_stream.str());
+            for (unsigned int row_index = 0; row_index < rows_count; row_index++) {
+                PackedVector packed_row(rows_count);
+                BInverse.store_column(row_index, packed_row);
+                unsigned int a_row_index = row_index;
+                std::stringstream row_stream;
+                row_stream << std::setw(width) << A.get_row_attr(a_row_index).get_row_name();
+                unsigned int prev_col_index = 0;
+                PackedVector::iterator itr = packed_row.begin();
+                while (itr != packed_row.end()) {
+                    PackedElement packed_element = *itr;
+                    unsigned int current_col_index = packed_element.get_index();
+                    DEBUG("Index: " << current_col_index << ", Value: " << packed_element.get_value());
+                    assert(current_col_index >= prev_col_index);
+                    while (prev_col_index < current_col_index) {
+                        row_stream << std::setw(width) << 0.0F << ", ";
+                        prev_col_index++;
+                    }
+                    row_stream << std::setw(width) << packed_element.get_value() << ", ";
+                    prev_col_index++;
+                    itr++;
+                }
+                while (prev_col_index < rows_count) {
+                    row_stream << std::setw(width) << 0.0F << ", ";
+                    prev_col_index++;
+                }
+                DEBUG_FILE(row_stream.str());
+
+            }
+        }
     }
 };
 

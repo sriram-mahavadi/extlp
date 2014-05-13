@@ -82,6 +82,7 @@ int main(int argc, char *argv[]) {
         inputReader.readFileUsingDisk(filename, extDataSet);
         extDataSet.base_col_indices = extDataSet.A.standardize_matrix();
         BInverse.build_matrix_b_inverse(A, extDataSet.base_col_indices);
+        
 //        CONSOLE_PRINTLN("BASIS Matrix has following Columns: ");
 //        std::stringstream basis_stream;
 //        for (unsigned int i = 0; i < vct_basis.get_size(); i++) {
@@ -102,6 +103,7 @@ int main(int argc, char *argv[]) {
 //        Test::testExtMatrixA(extDataSet);
 //        extDataSet.A.standardize_matrix();
 //        Test::testExtMatrixA(extDataSet);
+        Test::testMatrixBInverse(extDataSet);
         //////////////////// --- Statistics Sections
         //        Console::println("--- * Map Statistics * ---");
         //        mapRowName.displayStorageStatus();
