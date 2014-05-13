@@ -7,8 +7,8 @@
 
 #ifndef EXTVECTOR2_H
 #define	EXTVECTOR2_H
-#include "PackedVector.h"
-#include "ExtStxxlVector.h"
+#include "../PackedVector.h"
+#include "../ExtStxxlVector.h"
 //#include "deprecated/ExtStxxlVector.h"
 //! Cache is allocated on per vector basis
 //! Always remember to allocate and deallocate cache pages as necessary

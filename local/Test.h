@@ -11,8 +11,7 @@
 #include "GlobalDebug.h"
 #include "PackedVector.h"
 #include "deprecated/ExtVectorPrototype.h"
-#include "ExtVector.h"
-#include "ExtPackedVector.h"
+#include "deprecated/ExtVector.h"
 #include "ExtNameMap.h"
 #include "ExtLPDSSet.h"
 class Test {
@@ -182,35 +181,6 @@ public:
         if (testConversion) {
 
         }
-        // Takes up space of 8*2*(10^7) => 160MB sofar :)
-        //        Console::println("Original Vector: ");
-        //        vctPack.displayVector();
-        // PackedVector to ExtVector
-        //        ExtVector extVector(vctPack);
-        //        DEBUG("Vector Size(in bytes): "<<extVector.getDiskStorageCapacity());
-        //        Console::println("Value of index 2: ", extVector.getAbsoluteIndexElement(2));
-        //        Console::println("Value of index 4: ", extVector.getAbsoluteIndexElement(4));
-        //        extVector.displayVector();
-        /// ExtVector to PackedVector
-        //        PackedVector vctResult(testSize, extVector.isPacked());
-        //        PackedVector vctResult(10000000, extVector.isPacked());
-        //        extVector.storePackedVector(vctResult);
-        //        std::vector<ExtVector*> vctExtStorage;
-        //        /// Mutilple ExtVector Test
-        //        int noTrials = 1000; /// Approx 8GB
-        //        for(int j=0; j<noTrials; j++){
-        //            ExtVector* tempVector = new ExtVector(vctPack);
-        //            // 230-160 => 70MB for unpacking in this case
-        //            vctExtStorage.push_back(tempVector);
-        //            CONSOLE_PRINTLN("Number of Vectors Added: ", j);
-        //        }
-        //        vector<REAL>().swap(vctDisk);
-
-        // Each ExtVector when getting typecasted could increase the size
-        // temporarily for now as PackedVector can unpack/pack and increase size
-        // Each vector has 32KB cache hence total of 32MB cache is expected
-        //        CONSOLE_PRINTLN("External Stored Vector Recieved Back: ");
-        //        vctResult.displayVector();
         CONSOLE_PRINTLN("************************ End ************************");
     }
     static void testExtVector() {
@@ -271,19 +241,18 @@ public:
                 vctPacked.add(i, (REAL) i);
             }
             DEBUG_MEMORY("Before ExtVector2 - Initialization of " << testSize << " elements");
-            ExtPackedVector extPacked(vctPacked);
-            ExtPackedVector::iterator itr = extPacked.begin();
-            while (itr != extPacked.end()) {
-                PackedElement packedElement = *itr;
-                DEBUG("Index: " << packedElement.get_index() << ", Value: " << packedElement.get_value());
-                itr++;
-            }
+            //            ExtPackedVector extPacked(vctPacked);
+            //            ExtPackedVector::iterator itr = extPacked.begin();
+            //            while (itr != extPacked.end()) {
+            //                PackedElement packedElement = *itr;
+            //                DEBUG("Index: " << packedElement.get_index() << ", Value: " << packedElement.get_value());
+            //                itr++;
+            //            }
             DEBUG_MEMORY("After ExtVector2 - Initialization of " << testSize << " elements");
         }
         CONSOLE_PRINTLN("************************ End ************************");
     }
     static void testExtMatrixA(ExtLPDSSet &extDataSet) {
-
         DEBUG_SIMPLE("Number of Rows imported: " << extDataSet.A.get_rows_count());
         DEBUG_SIMPLE("Number of Columns imported: " << extDataSet.A.get_columns_count());
         DEBUG_SIMPLE("Writing Simplex Tableau to the Log!!!");
@@ -295,38 +264,6 @@ public:
         DEBUG_FILE("Problem Name: " << extDataSet.get_problem_name());
         DEBUG_FILE("Partial Simplex Tableau is shown as follows: ");
         unsigned int i = 0, j = 0;
-
-        //! Row-wise display of the LP Tableau
-        //        std::stringstream titleStream;
-        //        titleStream << std::setw(10) << "Row/Col" << ": ";
-        //        for (j = 0; j < extDataSet.vctCols.size(); j++)
-        //            titleStream << std::setw(10) << extDataSet.vctCols[j].getName() << ", ";
-        //        titleStream << std::setw(10) << extDataSet.getRhsName() << ", ";
-        //        DEBUG_FILE(titleStream.str());
-        //
-        //        std::stringstream objStream;
-        //        std::string objTitle("OBJ-");
-        //        objTitle = objTitle + mpsInput.objName();
-        //        objStream << std::setw(10) << objTitle << ": ";
-        //        for (i = 0; i < extDataSet.vctCols.size(); i++) {
-        //            objStream << std::setw(10) << extDataSet.vctCols[i].obj() << ", ";
-        //        }
-        //        /// Rhs Column in objective constraint
-        //        objStream << std::setw(10) << 0 << ", ";
-        //        DEBUG_FILE(objStream.str());
-        //        for (i = 0; i < extDataSet.vctRows.size(); i++) {
-        //            //            string rowName(arrRow[i].)
-        //            std::stringstream rowStream;
-        //            rowStream << std::setw(10) << extDataSet.vctRows[i].getName() << ": ";
-        //            for (j = 0; j < extDataSet.vctCols.size(); j++) {
-        //                //                mapColNumber[]
-        //                rowStream << std::setw(10) << extDataSet.vctCols[j].getRowElement(i) << ", ";
-        //            }
-        //            rowStream << std::setw(10) << extDataSet.vctRows[i].getRhs() << ", ";
-        //            DEBUG_FILE(rowStream.str());
-        //        }
-        //        DEBUG_FILE(" ------------------------- *** -----------------------------");
-
 
         //! Column-wise display of LP Tableau
         unsigned int width = MAX_KEY_LEN;
@@ -423,6 +360,7 @@ public:
             ////////////////////////// - Column wise display - //////////////////
             /////////////////////////////////////////////////////////////////////
             DEBUG_FILE_WITH_TIMESTAMP("Column-wise Display of B-Inverse: ");
+            DEBUG_FILE("** Rows: " << BInverse.get_rows_count() << "; Columns: " << BInverse.get_columns_count() << " ***");
             std::stringstream rows_title_stream;
             rows_title_stream << std::setw(width) << "Cols/Rows";
             for (unsigned int i = 0; i < rows_count; i++) {
@@ -462,6 +400,7 @@ public:
             ////////////////////////// - Row wise display - /////////////////////
             /////////////////////////////////////////////////////////////////////
             DEBUG_FILE_WITH_TIMESTAMP("Row-wise Display of B-Inverse: ");
+            DEBUG_FILE("** Rows: " << BInverse.get_rows_count() << "; Columns: " << BInverse.get_columns_count() << " ***");
             std::stringstream cols_title_stream;
             cols_title_stream << std::setw(width) << "Rows/Cols";
             for (unsigned int i = 0; i < cols_count; i++) {
@@ -495,7 +434,6 @@ public:
                     prev_col_index++;
                 }
                 DEBUG_FILE(row_stream.str());
-
             }
         }
     }

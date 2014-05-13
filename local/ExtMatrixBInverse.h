@@ -114,7 +114,8 @@ private:
     typedef typename stxxl::VECTOR_GENERATOR<MatrixBInverseRowAttr, 1, 1, MATRIX_A_ROW_DATA_BLOCK_SIZE>::result row_data_vector;
     row_data_vector m_vct_row_attr;
     const row_data_vector& m_vct_read_only_row_attr;
-
+    //! Indicator whether row-wise storage is necessary
+    bool m_is_row_build_necessary;
 public:
     //! Matrix Row and Column Attributes
     friend class MatrixBInverseColAttr;
@@ -123,11 +124,12 @@ public:
     typedef MatrixBInverseRowAttr RowAttr;
 
     //! Simple Initialization
-    ExtMatrixBInverse() :
+    ExtMatrixBInverse(bool p_is_row_build_necessary = true) :
     m_vct_read_only_col_disk(m_vct_col_disk),
     m_vct_read_only_row_disk(m_vct_row_disk),
     m_vct_read_only_col_attr(m_vct_col_attr),
-    m_vct_read_only_row_attr(m_vct_row_attr) {
+    m_vct_read_only_row_attr(m_vct_row_attr),
+    m_is_row_build_necessary(p_is_row_build_necessary) {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -143,13 +145,16 @@ public:
         while (itr != p_packed_vector.end()) {
             PackedElement packed_element = *itr;
             //            DEBUG("Adding Element: " << packed_element.get_index() << ", " << packed_element.get_value());
-            // Keeping track of rows capacity pertaining to the packed element
-            unsigned int row_index = packed_element.get_index();
-            if (get_rows_count() <= row_index) {
-                m_vct_row_attr.resize(row_index + 1);
-                m_vct_row_attr[row_index].set_capacity_end(0);
+            // If row wise representation is necessary
+            if (m_is_row_build_necessary) {
+                // Keeping track of rows capacity pertaining to the packed element
+                unsigned int row_index = packed_element.get_index();
+                if (get_rows_count() <= row_index) {
+                    m_vct_row_attr.resize(row_index + 1);
+                    m_vct_row_attr[row_index].set_capacity_end(0);
+                }
+                m_vct_row_attr[row_index].set_capacity_end(m_vct_row_attr[row_index].get_capacity_end() + 1);
             }
-            m_vct_row_attr[row_index].set_capacity_end(m_vct_row_attr[row_index].get_capacity_end() + 1);
             m_vct_col_disk.push_back(packed_element);
             itr++;
         }
@@ -210,13 +215,13 @@ public:
         unsigned int capacity_end = 0;
         RowAttr row_attr;
         for (unsigned int i = 0; i < m_vct_row_attr.size(); i++) {
-//            DEBUG("Row: "<<i<<"; Start: "<<m_vct_col_attr)
+            //            DEBUG("Row: "<<i<<"; Start: "<<m_vct_col_attr)
             row_attr.set_start(capacity_end);
             row_attr.set_end(capacity_end);
             capacity_end += m_vct_row_attr[i].get_capacity_end();
             row_attr.set_capacity_end(capacity_end);
             set_row_attr(i, row_attr);
-//            DEBUG("Row: "<<i<<"; end: "<<row_attr.get_end()<<"; capacity: "<<row_attr.get_capacity_end());
+            //            DEBUG("Row: "<<i<<"; end: "<<row_attr.get_end()<<"; capacity: "<<row_attr.get_capacity_end());
         }
     }
 
@@ -234,7 +239,7 @@ public:
         row_attr.set_end(end_index + 1);
         m_vct_row_attr[row_index] = row_attr;
     }
-    
+
     //! Store an Entire row of the Basis inverse matrix
     //! Send by Reference... Hence parameter PackedVector will be affected
     void store_row(unsigned int p_row_idx, PackedVector& p_packed_row) {
@@ -249,7 +254,7 @@ public:
             p_packed_row.add(packed_element.get_index(), packed_element.get_value(), false);
         }
     }
-    
+
     //! Returns the rows count - Total number of rows in the matrix
     unsigned int get_rows_count() {
         return m_vct_read_only_row_attr.size();
@@ -289,6 +294,8 @@ public:
             A.store_column(col_index, packed_col_vector_i, false);
             add_column(packed_col_vector_i, col_index);
         }
+        // If row wise storage is not necessary
+        if(!m_is_row_build_necessary)return;
         // Building row matrix
         pre_calculate_row_structure();
         for (unsigned int col_index = 0; col_index < get_columns_count(); col_index++) {

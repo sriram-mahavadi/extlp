@@ -8,7 +8,7 @@
 #ifndef EXTPACKEDVECTOR_H
 #define	EXTPACKEDVECTOR_H
 
-#include "PackedVector.h"
+#include "PackedVectorTemplate.h"
 //! This is used only for storing packed-form of the vector
 //! PackedVector is recommended be stored into ExtPackedVector only 
 //! when it is in packed-form

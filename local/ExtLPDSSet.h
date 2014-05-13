@@ -9,7 +9,6 @@
 #define	EXTLPDSSET_H
 
 #include "ExtNameMap.h"
-#include "ExtVector.h"
 #include "ExtMatrixA.h"
 #include "ExtMatrixBInverse.h"
 /**
