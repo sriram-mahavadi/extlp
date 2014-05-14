@@ -28,6 +28,7 @@
 #include <queue>
 #include <algorithm>
 
+#include <stxxl/vector>
 #include <stxxl/bits/deprecated.h>
 #include <stxxl/bits/io/request_operations.h>
 #include <stxxl/bits/mng/block_manager.h>

@@ -11,7 +11,6 @@
 #include "FixedString.h"
 #include "PackedVector.h"
 #include "PackedColVector.h"
-#include "FixedStringUtil.h"
 #include "PackedRowVector.h"
 #include "SimpleVector.h"
 
@@ -42,7 +41,7 @@ public:
         this->objective_value = objective_value;
     }
     void set_col_name(std::string col_name) {
-        this->col_name = FixedStringUtil::getFixedString(col_name);
+        this->col_name = FixedString::getFixedString(col_name);
     }
     void set_is_slack_col(bool is_slack_col) {
         this->is_slack_col = is_slack_col;
@@ -50,22 +49,22 @@ public:
     void set_is_basic_col(bool is_basic_col) {
         this->is_basic_col = is_basic_col;
     }
-    unsigned int get_start() {
+    unsigned int get_start() const {
         return this->start;
     }
-    unsigned int get_end() {
+    unsigned int get_end() const {
         return this->end;
     }
-    REAL get_objective_value() {
+    REAL get_objective_value() const {
         return this->objective_value;
     }
-    std::string get_col_name() {
-        return FixedStringUtil::getNormalString(this->col_name);
+    std::string get_col_name() const {
+        return FixedString::getNormalString(this->col_name);
     }
-    bool get_is_slack_col() {
+    bool get_is_slack_col() const {
         return this->is_slack_col;
     }
-    bool get_is_basic_col(){
+    bool get_is_basic_col() const {
         return this->is_basic_col;
     }
 };
@@ -84,7 +83,7 @@ private:
     REAL lhs_value, rhs_value;
 public:
     void set_row_name(std::string col_name) {
-        this->row_name = FixedStringUtil::getFixedString(col_name);
+        this->row_name = FixedString::getFixedString(col_name);
     }
     void set_row_type(int row_type) {
         this->row_type = row_type;
@@ -95,13 +94,13 @@ public:
     void set_rhs_value(REAL rhs_value) {
         this->rhs_value = rhs_value;
     }
-    std::string get_row_name() {
-        return FixedStringUtil::getNormalString(row_name);
+    std::string get_row_name() const {
+        return FixedString::getNormalString(row_name);
     }
-    int get_row_type() {
+    int get_row_type() const {
         return row_type;
     }
-    std::string get_row_type_str() {
+    std::string get_row_type_str() const {
         switch (get_row_type()) {
             case 0: return "=";
             case 1: return ">=";
@@ -110,10 +109,10 @@ public:
         }
         return "Unknown";
     }
-    REAL get_lhs_value() {
+    REAL get_lhs_value() const {
         return this->lhs_value;
     }
-    REAL get_rhs_value() {
+    REAL get_rhs_value() const {
         return this->rhs_value;
     }
 };
@@ -198,7 +197,10 @@ public:
     void store_column(unsigned int p_column_idx, PackedVector& p_packed_col, bool p_add_objective = true) {
         // Initializing p_packed_col for proper storage
         p_packed_col.clear();
-        p_packed_col.resize(get_rows_count());
+        if (p_add_objective)
+            p_packed_col.resize(get_rows_count() + 1); // 1 more index for objective value
+        else
+            p_packed_col.resize(get_rows_count());
         // Limits of the requested column
         MatrixAColAttr col_attr = m_vct_read_only_col_attr[p_column_idx];
         // Adding all the column vector values
@@ -223,6 +225,27 @@ public:
     //! Returns the columns count - Total number of columns in the matrix
     unsigned int get_columns_count() {
         return m_vct_read_only_col_attr.size();
+    }
+
+    //! Returns the basic columns count - Total number of basic columns in the matrix
+    //! There is a possibility that a constraint can lead to more than one columns.
+    //! Simply the number of basic columns should be equal the total number of constraints
+    unsigned int get_basic_columns_count() {
+        return get_rows_count();
+    }
+
+
+    //! Stores the col objective values into the packed vector in the order of base col indices
+    void store_col_objective_values(SimpleVector<REAL>& p_vct_obj, SimpleVector<unsigned int> base_col_indices) {
+        unsigned int base_col_size = base_col_indices.get_size();
+        // Making vct obj good for storage
+        p_vct_obj.clear();
+        p_vct_obj.resize(base_col_size);
+        for (unsigned col_index = 0; col_index < base_col_size; col_index++) {
+            REAL a_col_index = base_col_indices[col_index];
+            REAL obj_value = m_vct_read_only_col_attr[a_col_index].get_objective_value();
+            p_vct_obj[col_index] = obj_value;
+        }
     }
 
     //! Adds a new row into the matrix
@@ -265,6 +288,18 @@ public:
     //! sets the row attributes of a column
     void set_row_attr(unsigned int p_row_index, MatrixARowAttr& p_row_attr) {
         m_vct_row_attr[p_row_index] = p_row_attr;
+    }
+
+    //! Stores the row rhs values into the packedvector
+    void store_row_rhs_values(SimpleVector<REAL>& p_vct_rhs) {
+        // Making rhs vector appropriate for storage
+        p_vct_rhs.clear();
+        p_vct_rhs.resize(get_rows_count());
+        for (unsigned row_index = 0; row_index < get_rows_count(); row_index++) {
+            REAL rhs_value = m_vct_read_only_row_attr[row_index].get_rhs_value();
+            //            p_vct_rhs.add(row_index, rhs_value, false);
+            p_vct_rhs[row_index] = rhs_value;
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

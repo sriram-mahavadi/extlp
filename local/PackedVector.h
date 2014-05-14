@@ -11,6 +11,8 @@
 #include <assert.h>
 #include "LinkedList.h"
 #include "GlobalDefines.h"
+#include "stxxl/vector"
+#include "SimpleVector.h"
 
 //! Struct needs to be accessed outside by the get() method
 //! Basic <index, value> pair to represent array/vector in packed form
@@ -79,12 +81,21 @@ public:
         m_real_size = p_size;
     }
 
-    //! Complete initialization. 
+    //! Complete initialization from std::vector
     //! No more modifications to the existing input vector of elements
     PackedVector(std::vector<REAL> &vct) {
         initializeDefaults(vct.size());
         unsigned int i;
         for (i = 0; i < vct.size(); i++) {
+            add(i, vct[i]);
+        }
+    }
+
+    //! Complete initialization from Simple Vector
+    PackedVector(SimpleVector<REAL> &vct) {
+        initializeDefaults(vct.get_size());
+        unsigned int i;
+        for (i = 0; i < vct.get_size(); i++) {
             add(i, vct[i]);
         }
     }
@@ -113,11 +124,21 @@ public:
     //! Override the existing vector
     void store_from_vector(std::vector<REAL> &vct) {
         clear();
+        initializeDefaults(vct.size());
         for (unsigned int i = 0; i < vct.size(); i++) {
             add(i, vct[i]);
         }
     }
 
+    //! Complete initialization from Simple Vector
+    void store_from_vector(SimpleVector<REAL> &vct) {
+        clear();
+        initializeDefaults(vct.get_size());
+        unsigned int i;
+        for (i = 0; i < vct.get_size(); i++) {
+            add(i, vct[i]);
+        }
+    }
     //! Adds the simple <index, value> pair into the vector
     //! Also allows duplication check if given index already exists. 
     //! Does not allow duplication by default
@@ -164,27 +185,27 @@ public:
     //! TODO - Check the case in which we might mistakenly shrink the vector
     void resize(unsigned int p_size) {
         // For now resizing only allows expansion and no shrinking
-        assert(p_size>=m_real_size);
+        assert(p_size >= m_real_size);
         m_real_size = p_size;
     }
 
     //! Sorts the Packed Vector based on the index
     //! Selection sort is employed for simple implementation
     //! TODO - Simply expand and compress incase it is less of a computation
-    void sort_by_index(){
+    void sort_by_index() {
         iterator itr1 = m_vct_packed.begin();
         iterator itr2, min_itr;
-        while((itr1+1)!=m_vct_packed.end()){
-            itr2 = itr1+1;
+        while ((itr1 + 1) != m_vct_packed.end()) {
+            itr2 = itr1 + 1;
             min_itr = itr1;
-            while(itr2!=m_vct_packed.end()){
-                if((*min_itr).get_index() > (*itr2).get_index()){
+            while (itr2 != m_vct_packed.end()) {
+                if ((*min_itr).get_index() > (*itr2).get_index()) {
                     min_itr = itr2;
                 }
                 itr2++;
             }
             // Swapping the elements
-            if(min_itr != itr1){
+            if (min_itr != itr1) {
                 PackedElement packed_element = *itr1;
                 *itr1 = *min_itr;
                 *min_itr = packed_element;
@@ -192,7 +213,7 @@ public:
             itr1++;
         }
     }
-    
+
     //! Clear all the elements in the packed vector
     //! Initialize to defaults
     void clear() {

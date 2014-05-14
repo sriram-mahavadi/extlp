@@ -7,9 +7,9 @@
 
 #ifndef EXTNAMEMAP_H
 #define	EXTNAMEMAP_H
-
+#include "stxxl/map"
+#include "FixedString.h"
 #include "GlobalDefines.h"
-#include "FixedStringUtil.h"
 // template parameter <KeyType, DataType, CompareType, RawNodeSize, RawLeafSize, PDAllocStrategy (optional)>
 typedef stxxl::map<FixedString, unsigned int, comp_Fixed_String, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> fixed_name_map;
 class ExtNameMap {
@@ -22,20 +22,20 @@ public:
 
     //! Check if the element exists
     bool contains(const std::string &key) {
-        FixedString fixedStringKey = FixedStringUtil::getFixedString(key);
+        FixedString fixedStringKey = FixedString::getFixedString(key);
         return (nameMap.find(fixedStringKey) != nameMap.end());
     }
 
     //! Get the element value
     //! Returns -1 if element does not exist
     unsigned int get(const std::string &key) {
-        FixedString fixedStringKey = FixedStringUtil::getFixedString(key);
+        FixedString fixedStringKey = FixedString::getFixedString(key);
         fixed_name_map::iterator itrMap = nameMap.find(fixedStringKey);
         if (itrMap == nameMap.end()) return -1;
         return itrMap->second;
     }
     void set(const std::string &key, unsigned int value) {
-        FixedString fixedStringKey = FixedStringUtil::getFixedString(key);
+        FixedString fixedStringKey = FixedString::getFixedString(key);
         nameMap[fixedStringKey] = value;
         //        nameMap.insert(std::pair<FixedString, unsigned int>(fixedStringKey, value));
     }
@@ -48,7 +48,7 @@ public:
         CONSOLE_PRINTLN("*** Map ***");
         for (fixed_name_map::iterator itr = nameMap.begin(); itr != nameMap.end(); itr++) {
             std::stringstream keyStream;
-            std::string key = FixedStringUtil::getNormalString(itr->first);
+            std::string key = FixedString::getNormalString(itr->first);
             keyStream << "Index: " << key << ", ";
             keyStream << "Value: " << itr->second;
             CONSOLE_PRINTLN(keyStream.str());
@@ -64,7 +64,7 @@ public:
         for (unsigned int i = 1; i < 1000; i++) { /// Inserting 1 million strings
             std::stringstream strStream;
             strStream << (i);
-            FixedString fixedString = FixedStringUtil::getFixedString(strStream.str());
+            FixedString fixedString = FixedString::getFixedString(strStream.str());
             //            CONSOLE_PRINTLN("Inserting: " + strStream.str());
             //            strMap.set(fixedString, i);
             if (i % 1000000 == 0) {
@@ -72,9 +72,9 @@ public:
             }
             myFixedMap[fixedString] = i;
         }
-        FixedString fxString = FixedStringUtil::getFixedString("111");
+        FixedString fxString = FixedString::getFixedString("111");
         DEBUG("From Fixed String(111): " << myFixedMap[fxString]);
-        fxString = FixedStringUtil::getFixedString("1000000");
+        fxString = FixedString::getFixedString("1000000");
         myFixedMap.find(fxString);
         DEBUG("From Fixed String(1000000): " << myFixedMap[fxString]);
         if (myFixedMap.find(fxString) == myFixedMap.end()) {
@@ -86,7 +86,7 @@ public:
         for (fixed_name_map::iterator itr = myFixedMap.begin(); itr != myFixedMap.end(); itr++) {
             std::stringstream myStream;
             FixedString fixedString = itr->first;
-            myStream << "Key: " << FixedStringUtil::getNormalString(fixedString);
+            myStream << "Key: " << FixedString::getNormalString(fixedString);
             myStream << ", Value: " << itr->second;
             i++;
             if (i % 1000000 == 0) {

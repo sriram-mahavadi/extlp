@@ -34,7 +34,7 @@ public:
     ExtNameMap &mapRowName;
     ExtNameMap &mapColName;
 
-    SimpleVector<unsigned int> base_col_indices;
+
     
     /// Initialization 
     /// Better decide the data structures from the main itself.
@@ -47,8 +47,7 @@ public:
     //! Check for any sort of duplication. Completely unnecessary in whole project
     ExtLPDSSet(ExtLPDSSet& extDataSet):
     A(extDataSet.A), BInverse(extDataSet.BInverse), 
-    mapRowName(extDataSet.mapRowName), mapColName(extDataSet.mapColName),
-    base_col_indices(extDataSet.base_col_indices){
+    mapRowName(extDataSet.mapRowName), mapColName(extDataSet.mapColName){
         DEBUG_WARNING("Trying to Copy/Duplicate Ext LP Data set.");
     }
     

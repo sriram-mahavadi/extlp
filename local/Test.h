@@ -346,7 +346,7 @@ public:
         DEBUG_FILE_WITH_TIMESTAMP(" ------------------------- *** -----------------------------");
         /////////////////////////////////////////////////////////////////////////
     }
-    static void testMatrixBInverse(ExtLPDSSet extDataSet) {
+    static void testMatrixBInverse(ExtLPDSSet& extDataSet) {
         bool testStorage = true;
         if (testStorage) {
             ExtMatrixA& A = extDataSet.A;

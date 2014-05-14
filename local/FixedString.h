@@ -8,7 +8,6 @@
 #ifndef FIXEDSTRING_H
 #define	FIXEDSTRING_H
 #include "GlobalDefines.h"
-
 class FixedString {
 public:
     char charStr[MAX_KEY_LEN];
@@ -32,6 +31,18 @@ public:
         //        std::string str1(charStr);
         //        std::string str2(fixedString.charStr);
         //        return (str1.compare(str2) != 0);
+    }
+    static FixedString getFixedString(std::string strNormal) {
+        // For now we may assume  that str length is always
+        // less than or equal to the MAX_KEY_LEN
+        FixedString fixedString;
+        strcpy(fixedString.charStr, strNormal.c_str());
+        //        MAX_KEY_LEN
+        return fixedString;
+    }
+    static std::string getNormalString(FixedString fixedString) {
+        std::string strNormal(fixedString.charStr);
+        return strNormal;
     }
 };
 struct comp_Fixed_String : public std::less<FixedString> {

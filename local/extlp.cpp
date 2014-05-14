@@ -30,6 +30,7 @@
 //#include "PackedVector.h"
 //#include "ExtStxxlVector.h"
 #include "Console.h"
+#include "ExtSimplex.h"
 
 int main(int argc, char *argv[]) {
     //    printUsage(argv);
@@ -72,24 +73,21 @@ int main(int argc, char *argv[]) {
         ReadFileUtil inputReader;
         ///////////// - Initializing data structures
         // Names of the Rows and Cols involved in the 
-        fixed_name_map myRowMap((fixed_name_map::node_block_type::raw_size)*5, (fixed_name_map::leaf_block_type::raw_size)*5);
-        fixed_name_map myColMap((fixed_name_map::node_block_type::raw_size)*5, (fixed_name_map::leaf_block_type::raw_size)*5);
+        fixed_name_map myRowMap((fixed_name_map::node_block_type::raw_size) * DATA_NODE_CACHE_COUNT,
+                (fixed_name_map::leaf_block_type::raw_size) * DATA_LEAF_CACHE_COUNT);
+        fixed_name_map myColMap((fixed_name_map::node_block_type::raw_size) * DATA_NODE_CACHE_COUNT,
+                (fixed_name_map::leaf_block_type::raw_size) * DATA_LEAF_CACHE_COUNT);
         ExtNameMap mapRowName(myRowMap);
         ExtNameMap mapColName(myColMap);
         ExtMatrixA A;
         ExtMatrixBInverse BInverse;
         ExtLPDSSet extDataSet(A, BInverse, mapRowName, mapColName);
         inputReader.readFileUsingDisk(filename, extDataSet);
-        extDataSet.base_col_indices = extDataSet.A.standardize_matrix();
-        BInverse.build_matrix_b_inverse(A, extDataSet.base_col_indices);
-        
-//        CONSOLE_PRINTLN("BASIS Matrix has following Columns: ");
-//        std::stringstream basis_stream;
-//        for (unsigned int i = 0; i < vct_basis.get_size(); i++) {
-//            unsigned int basis_col = vct_basis[i];
-//            basis_stream << extDataSet.A.get_col_attr(basis_col).get_col_name() << ", ";
-//        }
-//        CONSOLE_PRINTLN(basis_stream.str());
+
+        ExtSimplex ext_simplex(extDataSet);
+        ext_simplex.solve();
+
+
         ///////////////////// --- Test Sections
         //                PackedVector::test();
         //        Test::testPackedVector2();
@@ -100,10 +98,10 @@ int main(int argc, char *argv[]) {
         //        ExtStringVector::test();
         //        Test::testLinkedList();
         //        Test::testExtNameMap();
-//        Test::testExtMatrixA(extDataSet);
-//        extDataSet.A.standardize_matrix();
-//        Test::testExtMatrixA(extDataSet);
-        Test::testMatrixBInverse(extDataSet);
+        //        Test::testExtMatrixA(extDataSet);
+        //        extDataSet.A.standardize_matrix();
+        //        Test::testExtMatrixA(extDataSet);
+        //        Test::testMatrixBInverse(extDataSet);
         //////////////////// --- Statistics Sections
         //        Console::println("--- * Map Statistics * ---");
         //        mapRowName.displayStorageStatus();

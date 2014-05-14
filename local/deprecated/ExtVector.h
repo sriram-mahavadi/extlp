@@ -9,6 +9,9 @@
 #define	EXTVECTOR2_H
 #include "../PackedVector.h"
 #include "../ExtStxxlVector.h"
+#define VECTOR_PACKED_BLOCK_SIZE 6*(sizeof(REAL)+4)*1024
+#define VECTOR_BLOCK_SIZE 6*8*1024
+
 //#include "deprecated/ExtStxxlVector.h"
 //! Cache is allocated on per vector basis
 //! Always remember to allocate and deallocate cache pages as necessary

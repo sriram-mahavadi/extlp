@@ -99,19 +99,20 @@ class ExtMatrixBInverse {
 private:
     //! Vector to store the Items onto external memory
     //! template parameters<ValueType, PageSize, CachePages, BlockSize, AllocStratg>
-    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_A_BLOCKS_PER_PAGE, MATRIX_A_PAGE_CACHE, MATRIX_A_BLOCK_SIZE>::result item_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_B_COL_BLOCKS_PER_PAGE, MATRIX_B_COL_PAGE_CACHE, MATRIX_B_COL_BLOCK_SIZE>::result item_col_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_B_ROW_BLOCKS_PER_PAGE, MATRIX_B_ROW_PAGE_CACHE, MATRIX_B_ROW_BLOCK_SIZE>::result item_row_vector;
     //! Storage for column-wise representation
-    item_vector m_vct_col_disk;
-    const item_vector& m_vct_read_only_col_disk;
+    item_col_vector m_vct_col_disk;
+    const item_col_vector& m_vct_read_only_col_disk;
     //! Storage for row-wise representation
-    item_vector m_vct_row_disk;
-    const item_vector& m_vct_read_only_row_disk;
+    item_row_vector m_vct_row_disk;
+    const item_row_vector& m_vct_read_only_row_disk;
     //! Vector to keep track of columns in the matrix
-    typedef typename stxxl::VECTOR_GENERATOR<MatrixBInverseColAttr, 1, 1, MATRIX_A_COL_DATA_BLOCK_SIZE>::result col_data_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<MatrixBInverseColAttr, 1, 1, MATRIX_B_COL_DATA_BLOCK_SIZE>::result col_data_vector;
     col_data_vector m_vct_col_attr;
     const col_data_vector& m_vct_read_only_col_attr;
     //! Vector to keep track of rows in the matrix
-    typedef typename stxxl::VECTOR_GENERATOR<MatrixBInverseRowAttr, 1, 1, MATRIX_A_ROW_DATA_BLOCK_SIZE>::result row_data_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<MatrixBInverseRowAttr, 1, 1, MATRIX_B_ROW_DATA_BLOCK_SIZE>::result row_data_vector;
     row_data_vector m_vct_row_attr;
     const row_data_vector& m_vct_read_only_row_attr;
     //! Indicator whether row-wise storage is necessary
@@ -257,9 +258,13 @@ public:
 
     //! Returns the rows count - Total number of rows in the matrix
     unsigned int get_rows_count() {
-        return m_vct_read_only_row_attr.size();
+        if (m_is_row_build_necessary) {
+            return m_vct_read_only_row_attr.size();
+        } else {
+            // Both col and row dimension are same for b matrix
+            return m_vct_read_only_col_attr.size();
+        }
     }
-
     //! gets the row attributes specific to a column
     RowAttr get_row_attr(unsigned int p_row_index) {
         const RowAttr row_attr = m_vct_read_only_row_attr[p_row_index];
@@ -295,7 +300,7 @@ public:
             add_column(packed_col_vector_i, col_index);
         }
         // If row wise storage is not necessary
-        if(!m_is_row_build_necessary)return;
+        if (!m_is_row_build_necessary)return;
         // Building row matrix
         pre_calculate_row_structure();
         for (unsigned int col_index = 0; col_index < get_columns_count(); col_index++) {
