@@ -16,7 +16,7 @@
 class MatrixBInverseColAttr {
 private:
     unsigned int start, end;
-    unsigned int col_index;
+    unsigned int a_col_index;
 public:
     MatrixBInverseColAttr() {
     }
@@ -30,8 +30,8 @@ public:
     void set_end(unsigned int end) {
         this->end = end;
     }
-    void set_col_index(unsigned int col_index) {
-        this->col_index = col_index;
+    void set_a_col_index(unsigned int col_index) {
+        this->a_col_index = col_index;
     }
     unsigned int get_start() {
         return this->start;
@@ -41,8 +41,8 @@ public:
     }
     //! Column index with respect to MatrixA container for fetching
     //! necessary details of this column such as name.
-    unsigned int get_col_index() {
-        return this->col_index;
+    unsigned int get_a_col_index() {
+        return this->a_col_index;
     }
 };
 
@@ -160,7 +160,7 @@ public:
             itr++;
         }
         ColAttr col_attr(last_col_end, last_col_end + p_packed_vector.get_nnz());
-        col_attr.set_col_index(p_column_index);
+        col_attr.set_a_col_index(p_column_index);
         //        DEBUG("Adding Col: " << col_attr.get_col_name() << " [" << col_attr.get_start() << ", " << col_attr.get_end() << ")");
         m_vct_col_attr.push_back(col_attr);
     }
@@ -204,7 +204,10 @@ public:
         unsigned int real_size = get_rows_count();
         return ((float) (real_size - nnz))*100.0 / real_size;
     }
-
+    //! Sets the input column attributes associated with the p_col_index
+    void set_col_attr(unsigned int p_col_index, ColAttr p_col_attr) {
+        m_vct_col_attr[p_col_index] = p_col_attr;
+    }
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////// - Matrix Row Operations - /////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
@@ -320,10 +323,18 @@ public:
 
     }
 
-    //! ReBuilding the matrix from itself and Eta Vector
-    void rebuild_matrix_b_inverse(EtaVector& eta_vector) {
-
+    // Swapping the external memory blocks to keep track of BInverse
+    // TODO - Check if the const read only references are affected mistakenly
+    void swap(ExtMatrixBInverse& other) {
+        m_vct_col_attr.swap(other.m_vct_col_attr);
+        m_vct_row_attr.swap(other.m_vct_row_attr);
+        m_vct_col_disk.swap(other.m_vct_col_disk);
+        m_vct_row_disk.swap(other.m_vct_row_disk);
     }
+    //    //! ReBuilding the matrix from itself and Eta Vector
+    //    void rebuild_matrix_b_inverse(EtaVector& eta_vector) {
+    //
+    //    }
 };
 
 

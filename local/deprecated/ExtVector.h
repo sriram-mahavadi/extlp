@@ -8,7 +8,7 @@
 #ifndef EXTVECTOR2_H
 #define	EXTVECTOR2_H
 #include "../PackedVector.h"
-#include "../ExtStxxlVector.h"
+#include "ExtStxxlVector.h"
 #define VECTOR_PACKED_BLOCK_SIZE 6*(sizeof(REAL)+4)*1024
 #define VECTOR_BLOCK_SIZE 6*8*1024
 

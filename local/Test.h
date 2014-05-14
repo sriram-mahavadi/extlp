@@ -371,7 +371,7 @@ public:
             for (unsigned int col_index = 0; col_index < cols_count; col_index++) {
                 PackedVector packed_column(rows_count);
                 BInverse.store_column(col_index, packed_column);
-                unsigned int a_col_index = BInverse.get_col_attr(col_index).get_col_index();
+                unsigned int a_col_index = BInverse.get_col_attr(col_index).get_a_col_index();
                 std::stringstream col_stream;
                 col_stream << std::setw(width) << A.get_col_attr(a_col_index).get_col_name();
                 unsigned int prev_row_index = 0;
@@ -404,7 +404,7 @@ public:
             std::stringstream cols_title_stream;
             cols_title_stream << std::setw(width) << "Rows/Cols";
             for (unsigned int i = 0; i < cols_count; i++) {
-                unsigned int a_col_index = BInverse.get_col_attr(i).get_col_index();
+                unsigned int a_col_index = BInverse.get_col_attr(i).get_a_col_index();
                 cols_title_stream << std::setw(width) << A.get_col_attr(a_col_index).get_col_name() << ", ";
             }
             DEBUG_FILE(cols_title_stream.str());

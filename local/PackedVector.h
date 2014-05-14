@@ -47,6 +47,12 @@ public:
     bool operator<(const PackedElement& other) const {
         return (this->index < other.index);
     }
+    //! Simple string with index and value
+    std::string debug_contents(){
+        std::stringstream packed_element_stream;
+        packed_element_stream<<"[ Index: "<<index<<"; Value: "<<value<<" ]";
+        return packed_element_stream.str();
+    }
 };
 
 //! Container for storing the packed form of the vector.
@@ -88,6 +94,7 @@ public:
     //! Sorted PackedVector by default
     PackedVector(unsigned int p_size, bool p_is_sorted_by_index = true) :
     m_real_size(p_size), m_is_sorted_by_index(p_is_sorted_by_index) {
+        m_nnz = 0;
     }
 
     //! Complete initialization from std::vector.
@@ -206,8 +213,8 @@ public:
     //        m_vct_packed.add(element);
     //    }
 
-    // Not a Efficient operation to randomly access item.
-    // from Packed Vector. Only need to be done if very much necessary.
+    //! Not a Efficient operation to randomly access item
+    //! from Packed Vector. Only need to be done if very much necessary.
     REAL get(unsigned int index) const {
         iterator itr = m_vct_packed.begin();
         while (itr != m_vct_packed.end()) {
@@ -221,6 +228,14 @@ public:
         return 0.0F;
     }
 
+    //! Removes an element with given absolute index.
+    //! Removal is done only if index is present
+    void remove(PackedElement packed_element){
+        bool is_removed = m_vct_packed.remove(packed_element);
+        if(is_removed)
+            m_nnz--;
+    }
+    
     // Not a Efficient operation to randomly access item.
     // from Packed Vector. Only need to be done if very much necessary.
     REAL operator[](unsigned int index) const {

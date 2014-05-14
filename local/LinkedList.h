@@ -147,7 +147,7 @@ public:
         LinkedListNode<ItemClass>* ptr = head;
         LinkedListNode<ItemClass>* prev_ptr = NULL;
         // Simple appending. Natural case most often.
-        if (tail!=NULL && tail->getItem() < p_item) { 
+        if (tail != NULL && tail->getItem() < p_item) {
             ptr = NULL;
             prev_ptr = tail;
         }
@@ -176,8 +176,51 @@ public:
             prev_ptr->setNext(new_item);
             new_item->setNext(ptr);
         }
+        m_size++;
     }
-    
+
+    //! Just removes the element if exists.
+    //! Returns true if element exists after deleted it.
+    //! Returns false if element does not exist.
+    bool remove(ItemClass p_item) {
+        LinkedListNode<ItemClass>* ptr = head;
+        LinkedListNode<ItemClass>* prev_ptr = NULL;
+        while (ptr != NULL) {
+            if (ptr->getItem() == p_item) {
+                break;
+            }
+            prev_ptr = ptr;
+            ptr = ptr->getNext();
+        }
+        if (prev_ptr == NULL && ptr == NULL) {
+            // List is empty first node to be added
+            return false;
+        } else if (prev_ptr == NULL) {
+            // Position of removal is head
+            LinkedListNode<ItemClass> *temp_head = head;
+            if (head == tail) { // Only one element present
+                head = tail = NULL;
+            } else {
+                head = head->getNext();
+            }
+            delete temp_head;
+            m_size--;
+            return true;
+        } else if (ptr == NULL) {
+            // If element is not found in the list
+            return false;
+        } else {
+            // Item is present at ptr location
+            prev_ptr->setNext(ptr->getNext());
+            // If element removed is tail
+            if(prev_ptr->getNext()==NULL){
+                tail = prev_ptr;
+            }
+            m_size--;
+            return true;
+        }
+    }
+
     //! Adds the item before the given iterator/position of list
     void add(iterator itr, ItemClass item) {
         LinkedListNode<ItemClass>* list_node = itr.ptr;

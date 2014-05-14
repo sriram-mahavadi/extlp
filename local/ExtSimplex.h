@@ -49,9 +49,11 @@ public:
     //! solving the linear program
     void solve() {
         init_simplex(); // Loading the problem from simplex
-        debug_base_col_indices();
-        debug_rhs_values();
-        debug_objective_values();
+        //        debug_base_col_indices();
+        //        debug_rhs_values();
+        //        debug_objective_values();
+        update_simplex_iteration();
+        update_simplex_iteration();
         update_simplex_iteration();
     }
 
@@ -62,13 +64,18 @@ public:
 
     //! Simplex iteration process
     void update_simplex_iteration() {
-        PackedVector w(get_basis_dimension());
-        ExtVectorUtil::store_dot_product(m_vct_obj, extDataSet.BInverse, w);
-        debug_w(w);
-        ExtMatrixA& A = extDataSet.A; // Simple reference to make coding easy
+        // Simple reference to make coding easy
+        ExtMatrixA& A = extDataSet.A;
         ExtMatrixBInverse &b_inverse = extDataSet.BInverse;
-        // Finding the Entering Variable
-        // Getting j for which cj-zj gives max positive value
+
+        //! Finding the Entering Variable - k 
+        //! Note: k index is with respect to Matrix A
+
+        //! Calculating w = < Cb x Binverse >
+        PackedVector w(get_basis_dimension());
+        ExtVectorUtil::store_dot_product(m_vct_obj, b_inverse, w);
+
+        // Getting j for which cj-zj gives max positive value => k
         unsigned int k = -1;
         REAL max_reduced_cost = 0.0F;
         for (unsigned int j = 0; j < A.get_columns_count(); j++) {
@@ -88,15 +95,17 @@ public:
                 DEBUG("Col: " << j << ", Reduced Cost: " << reduced_cost);
             }
         }
-        //! Col Vector for computation purpose
-        PackedVector col_vector(get_basis_dimension());
-        // Finding the Leaving Variable based on - min br/ykr
-        //! Finding yk
-        A.store_column(k, col_vector, false);
-        debug_ak(col_vector);
-        SimpleVector<REAL> y(get_basis_dimension());
-        ExtVectorUtil::store_dot_product(b_inverse, col_vector, y);
 
+
+        //! Getting column-k of Matrix A
+        PackedVector ak_vector(get_basis_dimension());
+        A.store_column(k, ak_vector, false);
+
+        //! Finding the Leaving Variable - r based on - min br/ykr.
+        //! Note: r index is with respect to MatrixBInverse
+        //! Finding yk
+        SimpleVector<REAL> y(get_basis_dimension());
+        ExtVectorUtil::store_dot_product(b_inverse, ak_vector, y);
         unsigned int r; // leaving variable
         REAL min_ratio = 0.0F;
         //! Finding r - leaving variable 
@@ -108,18 +117,55 @@ public:
                 r = row_index;
             }
         }
-        //! Updating Rhs 
-        //! Todo - Upadating with Eta Vector
-        //        col_vector.store_from_vector(m_vct_rhs);
-        //        m_vct_rhs.nullify(); // Clearing the existing values
-        //        ExtVectorUtil::store_dot_product(b_inverse, col_vector, m_vct_rhs);
-        // Getting the Eta Vector
-
+        // Getting the Eta Vector for updating data structures for next iteration
         EtaVector eta_vector(r, y);
+
+        DEBUG_SIMPLE("*************************** BEFORE ITERERATION " << m_iteration_count << " ******************************************");
+        DEBUG_SIMPLE("             **************************************************");
+        debug_objective_values();
+        debug_w(w);
+        debug_ak(ak_vector);
         debug_rhs();
         debug_y(y);
         debug_eta(eta_vector);
         debug_b_inverse();
+
+        // Updating A Matrix for setting cols to basic 
+        unsigned int a_r_index = b_inverse.get_col_attr(r).get_a_col_index();
+        ExtMatrixA::ColAttr a_r_col_attr = A.get_col_attr(a_r_index);
+        a_r_col_attr.set_is_basic_col(false);
+        A.set_col_attr(a_r_index, a_r_col_attr);
+        ExtMatrixA::ColAttr a_k_col_attr = A.get_col_attr(k);
+        a_k_col_attr.set_is_basic_col(true);
+        A.set_col_attr(k, a_k_col_attr);
+
+        // Updating B inverse
+        ExtVectorUtil::update_basis_inverse(eta_vector, b_inverse);
+        ExtMatrixBInverse::ColAttr col_attr = b_inverse.get_col_attr(r);
+        col_attr.set_a_col_index(k);
+        b_inverse.set_col_attr(r, col_attr);
+
+        // Updating Base Col indices
+        m_base_col_indices[r] = k;
+
+        // Updating the objective values
+        m_vct_obj[r] = A.get_col_attr(k).get_objective_value();
+
+
+
+        // Updating RHS vector
+        ExtVectorUtil::update_rhs(eta_vector, m_vct_rhs);
+        //        debug_rhs();
+        
+        // Updating iteration count
+        m_iteration_count++;
+        
+        DEBUG_SIMPLE("*************************** AFTER ITERERATION " << m_iteration_count-1 << " ******************************************");
+        DEBUG_SIMPLE("             **************************************************");
+        debug_objective_values();
+        debug_rhs();
+        debug_b_inverse();
+
     }
     //! validates if further iterations need to take place
     bool vaidate_next_iteration() {
@@ -269,7 +315,7 @@ public:
         for (unsigned int col_index = 0; col_index < cols_count; col_index++) {
             PackedVector packed_column(rows_count);
             BInverse.store_column(col_index, packed_column);
-            unsigned int a_col_index = BInverse.get_col_attr(col_index).get_col_index();
+            unsigned int a_col_index = BInverse.get_col_attr(col_index).get_a_col_index();
             std::stringstream col_stream;
             col_stream << std::setw(width) << A.get_col_attr(a_col_index).get_col_name();
             unsigned int prev_row_index = 0;

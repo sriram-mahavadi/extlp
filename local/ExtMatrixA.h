@@ -234,7 +234,10 @@ public:
         return get_rows_count();
     }
 
-
+    //! Returns the column attributes associated with the p_col_index
+    void set_col_attr(unsigned int p_col_index, ColAttr p_col_attr) {
+        m_vct_col_attr[p_col_index] = p_col_attr;
+    }
     //! Stores the col objective values into the packed vector in the order of base col indices
     void store_col_objective_values(SimpleVector<REAL>& p_vct_obj, SimpleVector<unsigned int> base_col_indices) {
         unsigned int base_col_size = base_col_indices.get_size();

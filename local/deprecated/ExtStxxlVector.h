@@ -54,19 +54,15 @@
 //! \ingroup stlcont
 //! Vector and support classes
 //! \{
-
 template <typename size_type, size_type modulo2, size_type modulo1>
-class double_blocked_index
-{
+class double_blocked_index {
     static const size_type modulo12 = modulo1 * modulo2;
 
     size_type pos;
     stxxl::unsigned_type block1, block2, offset;
 
     //! \invariant block2 * modulo12 + block1 * modulo1 + offset == pos && 0 <= block1 &lt; modulo2 && 0 <= offset &lt; modulo1
-
-    void set(size_type pos)
-    {
+    void set(size_type pos) {
         this->pos = pos;
         block2 = (stxxl::int_type)(pos / modulo12);
         pos -= block2 * modulo12;
@@ -79,18 +75,13 @@ class double_blocked_index
     }
 
 public:
-    double_blocked_index()
-    {
+    double_blocked_index() {
         set(0);
     }
-
-    double_blocked_index(size_type pos)
-    {
+    double_blocked_index(size_type pos) {
         set(pos);
     }
-
-    double_blocked_index(stxxl::unsigned_type block2, stxxl::unsigned_type block1, stxxl::unsigned_type offset)
-    {
+    double_blocked_index(stxxl::unsigned_type block2, stxxl::unsigned_type block1, stxxl::unsigned_type offset) {
         assert(/* 0 <= block1 && */ block1 < modulo2);
         assert(/* 0 <= offset && */ offset < modulo1);
 
@@ -99,24 +90,19 @@ public:
         this->offset = offset;
         pos = block2 * modulo12 + block1 * modulo1 + offset;
     }
-
-    double_blocked_index& operator = (size_type pos)
-    {
+    double_blocked_index& operator =(size_type pos) {
         set(pos);
         return *this;
     }
 
     //pre-increment operator
-    double_blocked_index& operator ++ ()
-    {
+    double_blocked_index& operator ++() {
         ++pos;
         ++offset;
-        if (offset == modulo1)
-        {
+        if (offset == modulo1) {
             offset = 0;
             ++block1;
-            if (block1 == modulo2)
-            {
+            if (block1 == modulo2) {
                 block1 = 0;
                 ++block2;
             }
@@ -130,22 +116,18 @@ public:
     }
 
     //post-increment operator
-    double_blocked_index operator ++ (int)
-    {
+    double_blocked_index operator ++(int) {
         double_blocked_index former(*this);
-        operator ++ ();
+        operator ++();
         return former;
     }
 
     //pre-increment operator
-    double_blocked_index& operator -- ()
-    {
+    double_blocked_index& operator --() {
         --pos;
-        if (offset == 0)
-        {
+        if (offset == 0) {
             offset = modulo1;
-            if (block1 == 0)
-            {
+            if (block1 == 0) {
                 block1 = modulo2;
                 --block2;
             }
@@ -161,93 +143,60 @@ public:
     }
 
     //post-increment operator
-    double_blocked_index operator -- (int)
-    {
+    double_blocked_index operator --(int) {
         double_blocked_index former(*this);
-        operator -- ();
+        operator --();
         return former;
     }
-
-    double_blocked_index operator + (size_type addend) const
-    {
+    double_blocked_index operator +(size_type addend) const {
         return double_blocked_index(pos + addend);
     }
-
-    double_blocked_index& operator += (size_type addend)
-    {
+    double_blocked_index& operator +=(size_type addend) {
         set(pos + addend);
         return *this;
     }
-
-    double_blocked_index operator - (size_type addend) const
-    {
+    double_blocked_index operator -(size_type addend) const {
         return double_blocked_index(pos - addend);
     }
-
-    size_type operator - (const double_blocked_index& dbi2) const
-    {
+    size_type operator -(const double_blocked_index& dbi2) const {
         return pos - dbi2.pos;
     }
-
-    double_blocked_index& operator -= (size_type subtrahend)
-    {
+    double_blocked_index& operator -=(size_type subtrahend) {
         set(pos - subtrahend);
         return *this;
     }
-
-    bool operator == (const double_blocked_index& dbi2) const
-    {
+    bool operator ==(const double_blocked_index& dbi2) const {
         return pos == dbi2.pos;
     }
-
-    bool operator != (const double_blocked_index& dbi2) const
-    {
+    bool operator !=(const double_blocked_index& dbi2) const {
         return pos != dbi2.pos;
     }
-
-    bool operator < (const double_blocked_index& dbi2) const
-    {
+    bool operator<(const double_blocked_index& dbi2) const {
         return pos < dbi2.pos;
     }
-
-    bool operator <= (const double_blocked_index& dbi2) const
-    {
+    bool operator <=(const double_blocked_index& dbi2) const {
         return pos <= dbi2.pos;
     }
-
-    bool operator > (const double_blocked_index& dbi2) const
-    {
+    bool operator>(const double_blocked_index& dbi2) const {
         return pos > dbi2.pos;
     }
-
-    bool operator >= (const double_blocked_index& dbi2) const
-    {
+    bool operator >=(const double_blocked_index& dbi2) const {
         return pos >= dbi2.pos;
     }
-
-    double_blocked_index& operator >>= (size_type shift)
-    {
+    double_blocked_index& operator >>=(size_type shift) {
         set(pos >> shift);
         return *this;
     }
-
-    size_type get_pos() const
-    {
+    size_type get_pos() const {
         return pos;
     }
-
-    const stxxl::unsigned_type & get_block2() const
-    {
+    const stxxl::unsigned_type & get_block2() const {
         return block2;
     }
-
-    const stxxl::unsigned_type & get_block1() const
-    {
+    const stxxl::unsigned_type & get_block1() const {
         return block1;
     }
-
-    const stxxl::unsigned_type & get_offset() const
-    {
+    const stxxl::unsigned_type & get_offset() const {
         return offset;
     }
 };
@@ -255,16 +204,16 @@ public:
 ////////////////////////////////////////////////////////////////////////////
 
 template <
-    typename ValueType,
-    unsigned PageSize,
-    typename PagerType,
-    unsigned BlockSize,
-    typename AllocStr,
-    typename SizeType>
+typename ValueType,
+unsigned PageSize,
+typename PagerType,
+unsigned BlockSize,
+typename AllocStr,
+typename SizeType>
 class vector;
 
 template <typename ValueType, typename AllocStr, typename SizeType, typename DiffType,
-          unsigned BlockSize, typename PagerType, unsigned PageSize>
+unsigned BlockSize, typename PagerType, unsigned PageSize>
 class const_vector_iterator;
 
 template <typename VectorIteratorType>
@@ -280,9 +229,8 @@ class vector_bufwriter;
 
 //! External vector iterator, model of \c ext_random_access_iterator concept.
 template <typename ValueType, typename AllocStr, typename SizeType, typename DiffType,
-          unsigned BlockSize, typename PagerType, unsigned PageSize>
-class vector_iterator
-{
+unsigned BlockSize, typename PagerType, unsigned PageSize>
+class vector_iterator {
     typedef vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> self_type;
     typedef const_vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> const_self_type;
 
@@ -322,36 +270,33 @@ protected:
 private:
     //! private constructor for initializing other iterators
     vector_iterator(vector_type* v, size_type o)
-        : offset(o), p_vector(v)
-    { }
+    : offset(o), p_vector(v) {
+    }
 
 public:
     //! constructs invalid iterator
     vector_iterator()
-        : offset(0), p_vector(NULL)
-    { }
+    : offset(0), p_vector(NULL) {
+    }
     //! copy-constructor
     vector_iterator(const self_type& a)
-        : offset(a.offset),
-          p_vector(a.p_vector)
-    { }
+    : offset(a.offset),
+    p_vector(a.p_vector) {
+    }
 
     //! \name Iterator Properties
     //! \{
 
     //! return pointer to vector containing iterator
-    vector_type * parent_vector() const
-    {
+    vector_type * parent_vector() const {
         return p_vector;
     }
     //! return block offset of current element
-    block_offset_type block_offset() const
-    {
-        return static_cast<block_offset_type>(offset.get_offset());
+    block_offset_type block_offset() const {
+        return static_cast<block_offset_type> (offset.get_offset());
     }
     //! return iterator to stxxl::BID containg current element
-    bids_container_iterator bid() const
-    {
+    bids_container_iterator bid() const {
         return p_vector->bid(offset);
     }
 
@@ -361,28 +306,23 @@ public:
     //! \{
 
     //! return current element
-    reference operator * ()
-    {
+    reference operator *() {
         return p_vector->element(offset);
     }
     //! return pointer to current element
-    pointer operator -> ()
-    {
+    pointer operator -> () {
         return &(p_vector->element(offset));
     }
     //! return const reference to current element
-    const_reference operator * () const
-    {
+    const_reference operator *() const {
         return p_vector->const_element(offset);
     }
     //! return const pointer to current element
-    const_pointer operator -> () const
-    {
+    const_pointer operator -> () const {
         return &(p_vector->const_element(offset));
     }
     //! return mutable reference to element +i after the current element
-    reference operator [] (size_type i)
-    {
+    reference operator [] (size_type i) {
         return p_vector->element(offset.get_pos() + i);
     }
 
@@ -394,8 +334,7 @@ public:
     // some version of the STL standard, but works well in gcc's libstdc++.
 #else
     //! return const reference to element +i after the current element
-    const_reference operator [] (size_type i) const
-    {
+    const_reference operator [] (size_type i) const {
         return p_vector->const_element(offset.get_pos() + i);
     }
 #endif
@@ -405,59 +344,49 @@ public:
     //! \{
 
     //! calculate different between two iterator
-    difference_type operator - (const self_type& a) const
-    {
+    difference_type operator -(const self_type& a) const {
         return offset - a.offset;
     }
     //! calculate different between two iterator
-    difference_type operator - (const const_self_type& a) const
-    {
+    difference_type operator -(const const_self_type& a) const {
         return offset - a.offset;
     }
     //! return iterator advanced -i positions in the vector
-    self_type operator - (size_type i) const
-    {
+    self_type operator -(size_type i) const {
         return self_type(p_vector, offset.get_pos() - i);
     }
     //! return iterator advanced +i positions in the vector
-    self_type operator + (size_type i) const
-    {
+    self_type operator +(size_type i) const {
         return self_type(p_vector, offset.get_pos() + i);
     }
     //! advance this iterator -i positions in the vector
-    self_type& operator -= (size_type i)
-    {
+    self_type& operator -=(size_type i) {
         offset -= i;
         return *this;
     }
     //! advance this iterator +i positions in the vector
-    self_type& operator += (size_type i)
-    {
+    self_type& operator +=(size_type i) {
         offset += i;
         return *this;
     }
     //! advance this iterator to next position in the vector
-    self_type& operator ++ ()
-    {
+    self_type& operator ++() {
         offset++;
         return *this;
     }
     //! advance this iterator to next position in the vector
-    self_type operator ++ (int)
-    {
+    self_type operator ++(int) {
         self_type tmp = *this;
         offset++;
         return tmp;
     }
     //! advance this iterator to preceding position in the vector
-    self_type& operator -- ()
-    {
+    self_type& operator --() {
         offset--;
         return *this;
     }
     //! advance this iterator to preceding position in the vector
-    self_type operator -- (int)
-    {
+    self_type operator --(int) {
         self_type tmp = *this;
         offset--;
         return tmp;
@@ -467,65 +396,51 @@ public:
 
     //! \name Comparison Operators
     //! \{
-
-    bool operator == (const self_type& a) const
-    {
+    bool operator ==(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset == a.offset;
     }
-    bool operator != (const self_type& a) const
-    {
+    bool operator !=(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset != a.offset;
     }
-    bool operator < (const self_type& a) const
-    {
+    bool operator<(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset < a.offset;
     }
-    bool operator <= (const self_type& a) const
-    {
+    bool operator <=(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset <= a.offset;
     }
-    bool operator > (const self_type& a) const
-    {
+    bool operator>(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset > a.offset;
     }
-    bool operator >= (const self_type& a) const
-    {
+    bool operator >=(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset >= a.offset;
     }
-
-    bool operator == (const const_self_type& a) const
-    {
+    bool operator ==(const const_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset == a.offset;
     }
-    bool operator != (const const_self_type& a) const
-    {
+    bool operator !=(const const_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset != a.offset;
     }
-    bool operator < (const const_self_type& a) const
-    {
+    bool operator<(const const_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset < a.offset;
     }
-    bool operator <= (const const_self_type& a) const
-    {
+    bool operator <=(const const_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset <= a.offset;
     }
-    bool operator > (const const_self_type& a) const
-    {
+    bool operator>(const const_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset > a.offset;
     }
-    bool operator >= (const const_self_type& a) const
-    {
+    bool operator >=(const const_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset >= a.offset;
     }
@@ -534,14 +449,10 @@ public:
 
     //! \name Flushing Operation
     //! \{
-
-    void block_externally_updated()
-    {
+    void block_externally_updated() {
         p_vector->block_externally_updated(offset);
     }
-
-    void flush()
-    {
+    void flush() {
         p_vector->flush();
     }
 
@@ -552,9 +463,8 @@ public:
 
 //! Const external vector iterator, model of \c ext_random_access_iterator concept.
 template <typename ValueType, typename AllocStr, typename SizeType, typename DiffType,
-          unsigned BlockSize, typename PagerType, unsigned PageSize>
-class const_vector_iterator
-{
+unsigned BlockSize, typename PagerType, unsigned PageSize>
+class const_vector_iterator {
     typedef const_vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> self_type;
     typedef vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> mutable_self_type;
 
@@ -594,40 +504,37 @@ protected:
 private:
     //! private constructor for initializing other iterators
     const_vector_iterator(const vector_type* v, size_type o)
-        : offset(o), p_vector(v)
-    { }
+    : offset(o), p_vector(v) {
+    }
 
 public:
     //! constructs invalid iterator
     const_vector_iterator()
-        : offset(0), p_vector(NULL)
-    { }
+    : offset(0), p_vector(NULL) {
+    }
     //! copy-constructor
     const_vector_iterator(const self_type& a)
-        : offset(a.offset), p_vector(a.p_vector)
-    { }
+    : offset(a.offset), p_vector(a.p_vector) {
+    }
     //! copy-constructor from mutable iterator
     const_vector_iterator(const mutable_self_type& a)
-        : offset(a.offset), p_vector(a.p_vector)
-    { }
+    : offset(a.offset), p_vector(a.p_vector) {
+    }
 
     //! \name Iterator Properties
     //! \{
 
     //! return pointer to vector containing iterator
-    const vector_type * parent_vector() const
-    {
+    const vector_type * parent_vector() const {
         return p_vector;
     }
     //! return block offset of current element
-    block_offset_type block_offset() const
-    {
-        return static_cast<block_offset_type>(offset.get_offset());
+    block_offset_type block_offset() const {
+        return static_cast<block_offset_type> (offset.get_offset());
     }
     //! return iterator to stxxl::BID containg current element
-    bids_container_iterator bid() const
-    {
-        return ((vector_type*)p_vector)->bid(offset);
+    bids_container_iterator bid() const {
+        return ((vector_type*) p_vector)->bid(offset);
     }
 
     //! \}
@@ -636,18 +543,15 @@ public:
     //! \{
 
     //! return current element
-    const_reference operator * () const
-    {
+    const_reference operator *() const {
         return p_vector->const_element(offset);
     }
     //! return pointer to current element
-    const_pointer operator -> () const
-    {
+    const_pointer operator -> () const {
         return &(p_vector->const_element(offset));
     }
     //! return const reference to element +i after the current element
-    const_reference operator [] (size_type i) const
-    {
+    const_reference operator [] (size_type i) const {
         return p_vector->const_element(offset.get_pos() + i);
     }
 
@@ -657,59 +561,49 @@ public:
     //! \{
 
     //! calculate different between two iterator
-    difference_type operator - (const self_type& a) const
-    {
+    difference_type operator -(const self_type& a) const {
         return offset - a.offset;
     }
     //! calculate different between two iterator
-    difference_type operator - (const mutable_self_type& a) const
-    {
+    difference_type operator -(const mutable_self_type& a) const {
         return offset - a.offset;
     }
     //! return iterator advanced -i positions in the vector
-    self_type operator - (size_type i) const
-    {
+    self_type operator -(size_type i) const {
         return self_type(p_vector, offset.get_pos() - i);
     }
     //! return iterator advanced +i positions in the vector
-    self_type operator + (size_type i) const
-    {
+    self_type operator +(size_type i) const {
         return self_type(p_vector, offset.get_pos() + i);
     }
     //! advance this iterator -i positions in the vector
-    self_type& operator -= (size_type i)
-    {
+    self_type& operator -=(size_type i) {
         offset -= i;
         return *this;
     }
     //! advance this iterator +i positions in the vector
-    self_type& operator += (size_type i)
-    {
+    self_type& operator +=(size_type i) {
         offset += i;
         return *this;
     }
     //! advance this iterator to next position in the vector
-    self_type& operator ++ ()
-    {
+    self_type& operator ++() {
         offset++;
         return *this;
     }
     //! advance this iterator to next position in the vector
-    self_type operator ++ (int)
-    {
+    self_type operator ++(int) {
         self_type tmp_ = *this;
         offset++;
         return tmp_;
     }
     //! advance this iterator to preceding position in the vector
-    self_type& operator -- ()
-    {
+    self_type& operator --() {
         offset--;
         return *this;
     }
     //! advance this iterator to preceding position in the vector
-    self_type operator -- (int)
-    {
+    self_type operator --(int) {
         self_type tmp = *this;
         offset--;
         return tmp;
@@ -719,65 +613,51 @@ public:
 
     //! \name Comparison Operators
     //! \{
-
-    bool operator == (const self_type& a) const
-    {
+    bool operator ==(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset == a.offset;
     }
-    bool operator != (const self_type& a) const
-    {
+    bool operator !=(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset != a.offset;
     }
-    bool operator < (const self_type& a) const
-    {
+    bool operator<(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset < a.offset;
     }
-    bool operator <= (const self_type& a) const
-    {
+    bool operator <=(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset <= a.offset;
     }
-    bool operator > (const self_type& a) const
-    {
+    bool operator>(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset > a.offset;
     }
-    bool operator >= (const self_type& a) const
-    {
+    bool operator >=(const self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset >= a.offset;
     }
-
-    bool operator == (const mutable_self_type& a) const
-    {
+    bool operator ==(const mutable_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset == a.offset;
     }
-    bool operator != (const mutable_self_type& a) const
-    {
+    bool operator !=(const mutable_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset != a.offset;
     }
-    bool operator < (const mutable_self_type& a) const
-    {
+    bool operator<(const mutable_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset < a.offset;
     }
-    bool operator <= (const mutable_self_type& a) const
-    {
+    bool operator <=(const mutable_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset <= a.offset;
     }
-    bool operator > (const mutable_self_type& a) const
-    {
+    bool operator>(const mutable_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset > a.offset;
     }
-    bool operator >= (const mutable_self_type& a) const
-    {
+    bool operator >=(const mutable_self_type& a) const {
         assert(p_vector == a.p_vector);
         return offset >= a.offset;
     }
@@ -786,14 +666,10 @@ public:
 
     //! \name Flushing Operation
     //! \{
-
-    void block_externally_updated()
-    {
+    void block_externally_updated() {
         p_vector->block_externally_updated(offset);
     }
-
-    void flush()
-    {
+    void flush() {
         p_vector->flush();
     }
 
@@ -819,15 +695,14 @@ public:
 //! \warning Do not store references to the elements of an external vector. Such references
 //! might be invalidated during any following access to elements of the vector
 template <
-    typename ValueType,
-    unsigned PageSize = 4,
-    typename PagerType = stxxl::lru_pager<1>,
-    unsigned BlockSize = STXXL_DEFAULT_BLOCK_SIZE(ValueType),
-    typename AllocStr = STXXL_DEFAULT_ALLOC_STRATEGY,
-    typename SizeType = stxxl::uint64       // will be deprecated soon
-    >
-class vector
-{
+typename ValueType,
+unsigned PageSize = 4,
+typename PagerType = stxxl::lru_pager<1>,
+unsigned BlockSize = STXXL_DEFAULT_BLOCK_SIZE(ValueType),
+typename AllocStr = STXXL_DEFAULT_ALLOC_STRATEGY,
+typename SizeType = stxxl::uint64 // will be deprecated soon
+>
+class vector {
 public:
     //! \name Standard Types
     //! \{
@@ -848,7 +723,6 @@ public:
 
     typedef PagerType pager_type;
     typedef AllocStr alloc_strategy_type;
-
     enum constants {
         block_size = BlockSize,
         page_size = PageSize,
@@ -857,12 +731,12 @@ public:
 
     //! iterator used to iterate through a vector, see \ref design_vector_notes.
     typedef vector_iterator<value_type, alloc_strategy_type, size_type,
-                            difference_type, block_size, pager_type, page_size> iterator;
+    difference_type, block_size, pager_type, page_size> iterator;
     friend class vector_iterator<value_type, alloc_strategy_type, size_type, difference_type, block_size, pager_type, page_size>;
 
     //! constant iterator used to iterate through a vector, see \ref design_vector_notes.
     typedef const_vector_iterator<value_type, alloc_strategy_type,
-                                  size_type, difference_type, block_size, pager_type, page_size> const_iterator;
+    size_type, difference_type, block_size, pager_type, page_size> const_iterator;
     friend class const_vector_iterator<value_type, alloc_strategy_type, size_type, difference_type, block_size, pager_type, page_size>;
     typedef std::reverse_iterator<iterator> reverse_iterator;
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
@@ -882,15 +756,13 @@ public:
     typedef vector_bufreader_reverse<const_iterator> bufreader_reverse_type;
 
     //! \internal
-    class bid_vector : public std::vector<stxxl::BID<block_size> >
-    {
+    class bid_vector : public std::vector<stxxl::BID<block_size> > {
     public:
         typedef std::vector<stxxl::BID<block_size> > super_type;
         typedef typename super_type::size_type size_type;
         typedef typename super_type::value_type bid_type;
-
-        bid_vector(size_type sz) : super_type(sz)
-        { }
+        bid_vector(size_type sz) : super_type(sz) {
+        }
     };
 
     typedef bid_vector bids_container_type;
@@ -911,7 +783,9 @@ private:
     mutable pager_type m_pager;
 
     // enum specifying status of a page of the vector
-    enum { valid_on_disk = 0, uninitialized = 1, dirty = 2 };
+    enum {
+        valid_on_disk = 0, uninitialized = 1, dirty = 2
+    };
     //! status of each page (valid_on_disk, uninitialized or dirty)
     mutable std::vector<unsigned char> m_page_status;
     mutable std::vector<stxxl::int_type> m_page_to_slot;
@@ -921,24 +795,19 @@ private:
     stxxl::file* m_from;
     stxxl::block_manager* m_bm;
     bool m_exported;
-
-    size_type size_from_file_length(stxxl::uint64 file_length) const
-    {
+    size_type size_from_file_length(stxxl::uint64 file_length) const {
         stxxl::uint64 blocks_fit = file_length / stxxl::uint64(block_type::raw_size);
         size_type cur_size = blocks_fit * stxxl::uint64(block_type::size);
         stxxl::uint64 rest = file_length - blocks_fit * stxxl::uint64(block_type::raw_size);
-        return (cur_size + rest / stxxl::uint64(sizeof(value_type)));
+        return (cur_size + rest / stxxl::uint64(sizeof (value_type)));
     }
-
-    stxxl::uint64 file_length() const
-    {
+    stxxl::uint64 file_length() const {
         typedef stxxl::uint64 file_size_type;
         size_type cur_size = size();
         size_type num_full_blocks = cur_size / block_type::size;
-        if (cur_size % block_type::size != 0)
-        {
+        if (cur_size % block_type::size != 0) {
             size_type rest = cur_size - num_full_blocks * block_type::size;
-            return file_size_type(num_full_blocks) * block_type::raw_size + rest * sizeof(value_type);
+            return file_size_type(num_full_blocks) * block_type::raw_size + rest * sizeof (value_type);
         }
         return file_size_type(num_full_blocks) * block_type::raw_size;
     }
@@ -952,23 +821,21 @@ public:
     //! \param n Number of elements.
     //! \param npages Number of cached pages.
     vector(size_type n = 0, stxxl::unsigned_type npages = pager_type().size())
-        : m_size(n),
-          m_bids((size_t)stxxl::div_ceil(n, block_type::size)),
-          m_pager(npages),
-          m_page_status(stxxl::div_ceil(m_bids.size(), page_size)),
-          m_page_to_slot(stxxl::div_ceil(m_bids.size(), page_size)),
-          m_slot_to_page(npages),
-          m_cache(NULL),
-          m_from(NULL),
-          m_exported(false)
-    {
-//            DEBUG("Im Called... :D");
+    : m_size(n),
+    m_bids((size_t) stxxl::div_ceil(n, block_type::size)),
+    m_pager(npages),
+    m_page_status(stxxl::div_ceil(m_bids.size(), page_size)),
+    m_page_to_slot(stxxl::div_ceil(m_bids.size(), page_size)),
+    m_slot_to_page(npages),
+    m_cache(NULL),
+    m_from(NULL),
+    m_exported(false) {
+        //            DEBUG("Im Called... :D");
         m_bm = stxxl::block_manager::get_instance();
 
         allocate_page_cache();
 
-        for (size_t i = 0; i < m_page_status.size(); ++i)
-        {
+        for (size_t i = 0; i < m_page_status.size(); ++i) {
             m_page_status[i] = uninitialized;
             m_page_to_slot[i] = on_disk;
         }
@@ -985,8 +852,7 @@ public:
     //! \{
 
     //! swap content
-    void swap(vector& obj)
-    {
+    void swap(vector& obj) {
         std::swap(m_alloc_strategy, obj.m_alloc_strategy);
         std::swap(m_size, obj.m_size);
         std::swap(m_bids, obj.m_bids);
@@ -1006,8 +872,7 @@ public:
     //! \{
 
     //! Allocate page cache, must be called to allow access to elements.
-    void allocate_page_cache() const
-    {
+    void allocate_page_cache() const {
         //  numpages() might be zero
         if (!m_cache && numpages() > 0)
             m_cache = new stxxl::simple_vector<block_type>(numpages() * page_size);
@@ -1015,8 +880,7 @@ public:
 
     //! allows to free the cache, but you may not access any element until call
     //! allocate_page_cache() again
-    void deallocate_page_cache() const
-    {
+    void deallocate_page_cache() const {
         flush();
         delete m_cache;
         m_cache = NULL;
@@ -1026,28 +890,23 @@ public:
     //! \{
 
     //! return the size of the vector.
-    size_type size() const
-    {
+    size_type size() const {
         return m_size;
     }
     //! true if the vector's size is zero.
-    bool empty() const
-    {
+    bool empty() const {
         return (!m_size);
     }
 
     //! Return the number of elelemtsn for which \a external memory has been
     //! allocated. capacity() is always greator than or equal to size().
-    size_type capacity() const
-    {
+    size_type capacity() const {
         return size_type(m_bids.size()) * block_type::size;
     }
     //! Returns the number of bytes that the vector has allocated on disks.
-    size_type raw_capacity() const
-    {
+    size_type raw_capacity() const {
         return size_type(m_bids.size()) * block_type::raw_size;
     }
-
     /*! \brief Reserves at least n elements in external memory.
      *
      * If n is less than or equal to capacity(), this call has no
@@ -1056,8 +915,7 @@ public:
      * greater than or equal to n; otherwise capacity() is unchanged. In either
      * case, size() is unchanged.
      */
-    void reserve(size_type n)
-    {
+    void reserve(size_type n) {
         if (n <= capacity())
             return;
 
@@ -1068,39 +926,33 @@ public:
         m_page_to_slot.resize(new_pages, on_disk);
 
         m_bids.resize(new_bids_size);
-        if (m_from == NULL)
-        {
+        if (m_from == NULL) {
             m_bm->new_blocks(m_alloc_strategy,
-                             m_bids.begin() + old_bids_size, m_bids.end(),
-                             old_bids_size);
-        }
-        else
-        {
+                    m_bids.begin() + old_bids_size, m_bids.end(),
+                    old_bids_size);
+        } else {
             size_type offset = size_type(old_bids_size) * size_type(block_type::raw_size);
             for (bids_container_iterator it = m_bids.begin() + old_bids_size;
-                 it != m_bids.end(); ++it, offset += size_type(block_type::raw_size))
-            {
+                    it != m_bids.end(); ++it, offset += size_type(block_type::raw_size)) {
                 (*it).storage = m_from;
                 (*it).offset = offset;
             }
             STXXL_VERBOSE_VECTOR("reserve(): Changing size of file " <<
-                                 ((void*)m_from) << " to " << offset);
+                    ((void*) m_from) << " to " << offset);
             m_from->set_size(offset);
         }
     }
 
     //! Resize vector contents to n items.
     //! \warning this will not call the constructor of objects in external memory!
-    void resize(size_type n)
-    {
+    void resize(size_type n) {
         _resize(n);
     }
 
     //! Resize vector contents to n items, and allow the allocated external
     //! memory to shrink. Internal memory allocation remains unchanged.
     //! \warning this will not call the constructor of objects in external memory!
-    void resize(size_type n, bool shrink_capacity)
-    {
+    void resize(size_type n, bool shrink_capacity) {
         if (shrink_capacity)
             _resize_shrink_capacity(n);
         else
@@ -1111,8 +963,7 @@ public:
 
 private:
     //! Resize vector, only allow capacity growth.
-    void _resize(size_type n)
-    {
+    void _resize(size_type n) {
         reserve(n);
         if (n < m_size) {
             // mark excess pages as uninitialized and evict them from cache
@@ -1129,23 +980,19 @@ private:
     }
 
     //! Resize vector, also allow reduction of external memory capacity.
-    void _resize_shrink_capacity(size_type n)
-    {
+    void _resize_shrink_capacity(size_type n) {
         stxxl::unsigned_type old_bids_size = m_bids.size();
         stxxl::unsigned_type new_bids_size = div_ceil(n, block_type::size);
 
-        if (new_bids_size > old_bids_size)
-        {
+        if (new_bids_size > old_bids_size) {
             reserve(n);
-        }
-        else if (new_bids_size < old_bids_size)
-        {
+        } else if (new_bids_size < old_bids_size) {
             stxxl::unsigned_type new_pages_size = stxxl::div_ceil(new_bids_size, page_size);
 
             STXXL_VERBOSE_VECTOR("shrinking from " << old_bids_size << " to " <<
-                                 new_bids_size << " blocks = from " <<
-                                 m_page_status.size() << " to " <<
-                                 new_pages_size << " pages");
+                    new_bids_size << " blocks = from " <<
+                    m_page_status.size() << " to " <<
+                    new_pages_size << " pages");
 
             // release blocks
             if (m_from != NULL)
@@ -1161,7 +1008,7 @@ private:
 
             // clear dirty flag, so these pages will be never written
             std::fill(m_page_status.begin() + new_pages_size,
-                      m_page_status.end(), (unsigned char)valid_on_disk);
+                    m_page_status.end(), (unsigned char) valid_on_disk);
         }
 
         m_size = n;
@@ -1173,8 +1020,7 @@ public:
 
     //! Erases all of the elements and deallocates all external memory that is
     //! occupied.
-    void clear()
-    {
+    void clear() {
         m_size = 0;
         if (m_from == NULL)
             m_bm->delete_blocks(m_bids.begin(), m_bids.end());
@@ -1193,15 +1039,13 @@ public:
     //! \{
 
     //! Append a new element at the end.
-    void push_back(const_reference obj)
-    {
+    void push_back(const_reference obj) {
         size_type old_size = m_size;
         resize(old_size + 1);
         element(old_size) = obj;
     }
     //! Removes the last element (without returning it, see back()).
-    void pop_back()
-    {
+    void pop_back() {
         resize(m_size - 1);
     }
 
@@ -1211,23 +1055,19 @@ public:
     //! \{
 
     //! Returns a reference to the last element, see \ref design_vector_notes.
-    reference back()
-    {
+    reference back() {
         return element(m_size - 1);
     }
     //! Returns a reference to the first element, see \ref design_vector_notes.
-    reference front()
-    {
+    reference front() {
         return element(0);
     }
     //! Returns a constant reference to the last element, see \ref design_vector_notes.
-    const_reference back() const
-    {
+    const_reference back() const {
         return const_element(m_size - 1);
     }
     //! Returns a constant reference to the first element, see \ref design_vector_notes.
-    const_reference front() const
-    {
+    const_reference front() const {
         return const_element(0);
     }
 
@@ -1244,22 +1084,20 @@ public:
     //! The block size of the vector must be a multiple of the element size
     //! \c sizeof(ValueType) and the page size (4096).
     vector(stxxl::file* from, size_type size = size_type(-1), stxxl::unsigned_type npages = pager_type().size())
-        : m_size((size == size_type(-1)) ? size_from_file_length(from->size()) : size),
-          m_bids((size_t)div_ceil(m_size, size_type(block_type::size))),
-          m_pager(npages),
-          m_page_status(div_ceil(m_bids.size(), page_size)),
-          m_page_to_slot(div_ceil(m_bids.size(), page_size)),
-          m_slot_to_page(npages),
-          m_cache(NULL),
-          m_from(from),
-          m_exported(false)
-    {
+    : m_size((size == size_type(-1)) ? size_from_file_length(from->size()) : size),
+    m_bids((size_t) div_ceil(m_size, size_type(block_type::size))),
+    m_pager(npages),
+    m_page_status(div_ceil(m_bids.size(), page_size)),
+    m_page_to_slot(div_ceil(m_bids.size(), page_size)),
+    m_slot_to_page(npages),
+    m_cache(NULL),
+    m_from(from),
+    m_exported(false) {
         // initialize from file
-        if (!block_type::has_only_data)
-        {
+        if (!block_type::has_only_data) {
             std::ostringstream str;
             str << "The block size for a vector that is mapped to a file must be a multiple of the element size (" <<
-                sizeof(value_type) << ") and the page size (4096).";
+                    sizeof (value_type) << ") and the page size (4096).";
             throw std::runtime_error(str.str());
         }
 
@@ -1267,8 +1105,7 @@ public:
 
         allocate_page_cache();
 
-        for (size_t i = 0; i < m_page_status.size(); ++i)
-        {
+        for (size_t i = 0; i < m_page_status.size(); ++i) {
             m_page_status[i] = valid_on_disk;
             m_page_to_slot[i] = on_disk;
         }
@@ -1280,8 +1117,7 @@ public:
         // allocate blocks equidistantly and in-order
         size_type offset = 0;
         for (bids_container_iterator it = m_bids.begin();
-             it != m_bids.end(); ++it, offset += size_type(block_type::raw_size))
-        {
+                it != m_bids.end(); ++it, offset += size_type(block_type::raw_size)) {
             (*it).storage = from;
             (*it).offset = offset;
         }
@@ -1290,23 +1126,21 @@ public:
 
     //! copy-constructor
     vector(const vector& obj)
-        : m_size(obj.size()),
-          m_bids((size_t)div_ceil(obj.size(), block_type::size)),
-          m_pager(obj.numpages()),
-          m_page_status(stxxl::div_ceil(m_bids.size(), page_size)),
-          m_page_to_slot(stxxl::div_ceil(m_bids.size(), page_size)),
-          m_slot_to_page(obj.numpages()),
-          m_cache(NULL),
-          m_from(NULL),
-          m_exported(false)
-    {
+    : m_size(obj.size()),
+    m_bids((size_t) div_ceil(obj.size(), block_type::size)),
+    m_pager(obj.numpages()),
+    m_page_status(stxxl::div_ceil(m_bids.size(), page_size)),
+    m_page_to_slot(stxxl::div_ceil(m_bids.size(), page_size)),
+    m_slot_to_page(obj.numpages()),
+    m_cache(NULL),
+    m_from(NULL),
+    m_exported(false) {
         assert(!obj.m_exported);
         m_bm = stxxl::block_manager::get_instance();
 
         allocate_page_cache();
 
-        for (size_t i = 0; i < m_page_status.size(); ++i)
-        {
+        for (size_t i = 0; i < m_page_status.size(); ++i) {
             m_page_status[i] = uninitialized;
             m_page_to_slot[i] = on_disk;
         }
@@ -1327,10 +1161,8 @@ public:
     //! \{
 
     //! assignment operator
-    vector& operator = (const vector& obj)
-    {
-        if (&obj != this)
-        {
+    vector& operator =(const vector& obj) {
+        if (&obj != this) {
             vector tmp(obj);
             this->swap(tmp);
         }
@@ -1343,64 +1175,52 @@ public:
     //! \{
 
     //! returns an iterator pointing to the beginning of the vector, see \ref design_vector_notes.
-    iterator begin()
-    {
+    iterator begin() {
         return iterator(this, 0);
     }
     //! returns a const_iterator pointing to the beginning of the vector, see \ref design_vector_notes.
-    const_iterator begin() const
-    {
+    const_iterator begin() const {
         return const_iterator(this, 0);
     }
     //! returns a const_iterator pointing to the beginning of the vector, see \ref design_vector_notes.
-    const_iterator cbegin() const
-    {
+    const_iterator cbegin() const {
         return begin();
     }
     //! returns an iterator pointing beyond the end of the vector, see \ref design_vector_notes.
-    iterator end()
-    {
+    iterator end() {
         return iterator(this, m_size);
     }
     //! returns a const_iterator pointing beyond the end of the vector, see \ref design_vector_notes.
-    const_iterator end() const
-    {
+    const_iterator end() const {
         return const_iterator(this, m_size);
     }
     //! returns a const_iterator pointing beyond the end of the vector, see \ref design_vector_notes.
-    const_iterator cend() const
-    {
+    const_iterator cend() const {
         return end();
     }
 
     //! returns a reverse_iterator pointing to the end of the vector.
-    reverse_iterator rbegin()
-    {
+    reverse_iterator rbegin() {
         return reverse_iterator(end());
     }
     //! returns a reverse_iterator pointing to the end of the vector.
-    const_reverse_iterator rbegin() const
-    {
+    const_reverse_iterator rbegin() const {
         return const_reverse_iterator(end());
     }
     //! returns a reverse_iterator pointing to the end of the vector.
-    const_reverse_iterator crbegin() const
-    {
+    const_reverse_iterator crbegin() const {
         return const_reverse_iterator(end());
     }
     //! returns a reverse_iterator pointing beyond the beginning of the vector.
-    reverse_iterator rend()
-    {
+    reverse_iterator rend() {
         return reverse_iterator(begin());
     }
     //! returns a reverse_iterator pointing beyond the beginning of the vector.
-    const_reverse_iterator rend() const
-    {
+    const_reverse_iterator rend() const {
         return const_reverse_iterator(begin());
     }
     //! returns a reverse_iterator pointing beyond the beginning of the vector.
-    const_reverse_iterator crend() const
-    {
+    const_reverse_iterator crend() const {
         return const_reverse_iterator(begin());
     }
 
@@ -1410,32 +1230,27 @@ public:
     //! \{
 
     //! access the element at the given vector's offset
-    reference operator [] (size_type offset)
-    {
+    reference operator [] (size_type offset) {
         return element(offset);
     }
     //! access the element at the given vector's offset
-    const_reference operator [] (size_type offset) const
-    {
+    const_reference operator [] (size_type offset) const {
         return const_element(offset);
     }
 
     //! access the element at the given vector's offset
-    reference at(size_type offset)
-    {
-        assert(offset < (size_type)size());
+    reference at(size_type offset) {
+        assert(offset < (size_type) size());
         return element(offset);
     }
     //! access the element at the given vector's offset
-    const_reference at(size_type offset) const
-    {
-        assert(offset < (size_type)size());
+    const_reference at(size_type offset) const {
+        assert(offset < (size_type) size());
         return const_element(offset);
     }
 
     //! return true if the given vector offset is in cache
-    bool is_element_cached(size_type offset) const
-    {
+    bool is_element_cached(size_type offset) const {
         return is_page_cached(blocked_index_type(offset));
     }
 
@@ -1445,27 +1260,23 @@ public:
     //! \{
 
     //! Flushes the cache pages to the external memory.
-    void flush() const
-    {
+    void flush() const {
         stxxl::simple_vector<bool> non_free_slots(numpages());
 
         for (stxxl::unsigned_type i = 0; i < numpages(); i++)
             non_free_slots[i] = true;
 
-        while (!m_free_slots.empty())
-        {
+        while (!m_free_slots.empty()) {
             non_free_slots[m_free_slots.front()] = false;
             m_free_slots.pop();
         }
 
-        for (stxxl::unsigned_type i = 0; i < numpages(); i++)
-        {
+        for (stxxl::unsigned_type i = 0; i < numpages(); i++) {
             m_free_slots.push(i);
             stxxl::int_type page_no = m_slot_to_page[i];
-            if (non_free_slots[i])
-            {
+            if (non_free_slots[i]) {
                 STXXL_VERBOSE_VECTOR("flush(): flushing page " << i << " at address " <<
-                                     (int64(page_no) * int64(block_type::size) * int64(page_size)));
+                        (int64(page_no) * int64(block_type::size) * int64(page_size)));
                 write_page(page_no, i);
 
                 m_page_to_slot[page_no] = on_disk;
@@ -1477,39 +1288,27 @@ public:
 
     //! \name Constructors/Destructors
     //! \{
-
-    ~vector()
-    {
+    ~vector() {
         STXXL_VERBOSE_VECTOR("~vector()");
-        try
-        {
+        try {
             flush();
-        }
-        catch (stxxl::io_error e)
-        {
+        }        catch (stxxl::io_error e) {
             STXXL_ERRMSG("io_error thrown in ~vector(): " << e.what());
-        }
-        catch (...)
-        {
+        }        catch (...) {
             STXXL_ERRMSG("Exception thrown in ~vector()");
         }
 
-        if (!m_exported)
-        {
+        if (!m_exported) {
             if (m_from == NULL) {
                 m_bm->delete_blocks(m_bids.begin(), m_bids.end());
-            }
-            else // file must be truncated
+            } else // file must be truncated
             {
                 STXXL_VERBOSE_VECTOR("~vector(): Changing size of file " <<
-                                     ((void*)m_from) << " to " << file_length());
+                        ((void*) m_from) << " to " << file_length());
                 STXXL_VERBOSE_VECTOR("~vector(): size of the vector is " << size());
-                try
-                {
+                try {
                     m_from->set_size(file_length());
-                }
-                catch (...)
-                {
+                }                catch (...) {
                     STXXL_ERRMSG("Exception thrown in ~vector()...set_size()");
                 }
             }
@@ -1524,16 +1323,15 @@ public:
 
     //! Export data such that it is persistent on the file system. Resulting
     //! files will be numbered ascending.
-    void export_files(std::string filename_prefix)
-    {
+    void export_files(std::string filename_prefix) {
         stxxl::int64 no = 0;
         for (bids_container_iterator i = m_bids.begin(); i != m_bids.end(); ++i) {
             std::ostringstream number;
             number << std::setw(9) << std::setfill('0') << no;
             size_type current_block_size =
-                ((i + 1) == m_bids.end() && m_size % block_type::size > 0) ?
-                (m_size % block_type::size) * sizeof(value_type) :
-                block_type::size * sizeof(value_type);
+                    ((i + 1) == m_bids.end() && m_size % block_type::size > 0) ?
+                    (m_size % block_type::size) * sizeof (value_type) :
+                    block_type::size * sizeof (value_type);
             (*i).storage->export_files((*i).offset, current_block_size, filename_prefix + number.str());
             ++no;
         }
@@ -1541,8 +1339,7 @@ public:
     }
 
     //! Get the file associated with this vector, or NULL.
-    stxxl::file * get_file() const
-    {
+    stxxl::file * get_file() const {
         return m_from;
     }
 
@@ -1554,8 +1351,7 @@ public:
     //! Set the blocks and the size of this container explicitly.
     //! The vector must be completely empty before.
     template <typename ForwardIterator>
-    void set_content(const ForwardIterator& bid_begin, const ForwardIterator& bid_end, size_type n)
-    {
+    void set_content(const ForwardIterator& bid_begin, const ForwardIterator& bid_end, size_type n) {
         stxxl::unsigned_type new_bids_size = div_ceil(n, block_type::size);
         m_bids.resize(new_bids_size);
         std::copy(bid_begin, bid_end, m_bids.begin());
@@ -1566,41 +1362,34 @@ public:
     }
 
     //! Number of pages used by the pager.
-    inline stxxl::unsigned_type numpages() const
-    {
+    inline stxxl::unsigned_type numpages() const {
         return m_pager.size();
     }
 
     //! \}
 
 protected: // Shifted from private to protected for overloading operators
-    bids_container_iterator bid(const size_type& offset)
-    {
+    bids_container_iterator bid(const size_type& offset) {
         return (m_bids.begin() +
                 static_cast<typename bids_container_type::size_type>
                 (offset / block_type::size));
     }
-    bids_container_iterator bid(const blocked_index_type& offset)
-    {
+    bids_container_iterator bid(const blocked_index_type& offset) {
         return (m_bids.begin() +
                 static_cast<typename bids_container_type::size_type>
                 (offset.get_block2() * PageSize + offset.get_block1()));
     }
-    const_bids_container_iterator bid(const size_type& offset) const
-    {
+    const_bids_container_iterator bid(const size_type& offset) const {
         return (m_bids.begin() +
                 static_cast<typename bids_container_type::size_type>
                 (offset / block_type::size));
     }
-    const_bids_container_iterator bid(const blocked_index_type& offset) const
-    {
+    const_bids_container_iterator bid(const blocked_index_type& offset) const {
         return (m_bids.begin() +
                 static_cast<typename bids_container_type::size_type>
                 (offset.get_block2() * PageSize + offset.get_block1()));
     }
-
-    void read_page(stxxl::int_type page_no, stxxl::int_type cache_slot) const
-    {
+    void read_page(stxxl::int_type page_no, stxxl::int_type cache_slot) const {
         assert(page_no < (stxxl::int_type)m_page_status.size());
         if (m_page_status[page_no] == uninitialized)
             return;
@@ -1609,16 +1398,14 @@ protected: // Shifted from private to protected for overloading operators
         stxxl::int_type block_no = page_no * page_size;
         stxxl::int_type last_block = stxxl::STXXL_MIN(block_no + page_size, stxxl::int_type(m_bids.size()));
         stxxl::int_type i = cache_slot * page_size, j = 0;
-        for ( ; block_no < last_block; ++block_no, ++i, ++j)
-        {
+        for (; block_no < last_block; ++block_no, ++i, ++j) {
             reqs[j] = (*m_cache)[i].read(m_bids[block_no]);
         }
         assert(last_block - page_no * page_size > 0);
         wait_all(reqs, last_block - page_no * page_size);
         delete[] reqs;
     }
-    void write_page(stxxl::int_type page_no, stxxl::int_type cache_slot) const
-    {
+    void write_page(stxxl::int_type page_no, stxxl::int_type cache_slot) const {
         assert(page_no < (stxxl::int_type)m_page_status.size());
         if (!(m_page_status[page_no] & dirty))
             return;
@@ -1628,8 +1415,7 @@ protected: // Shifted from private to protected for overloading operators
         stxxl::int_type last_block = stxxl::STXXL_MIN(block_no + page_size, stxxl::int_type(m_bids.size()));
         assert(block_no < last_block);
         stxxl::int_type i = cache_slot * page_size, j = 0;
-        for ( ; block_no < last_block; ++block_no, ++i, ++j)
-        {
+        for (; block_no < last_block; ++block_no, ++i, ++j) {
             reqs[j] = (*m_cache)[i].write(m_bids[block_no]);
         }
         m_page_status[page_no] = valid_on_disk;
@@ -1637,26 +1423,22 @@ protected: // Shifted from private to protected for overloading operators
         wait_all(reqs, last_block - page_no * page_size);
         delete[] reqs;
     }
-
-    reference element(size_type offset)
-    {
+    reference element(size_type offset) {
 #ifdef STXXL_RANGE_CHECK
-        assert(offset < (size_type)size());
+        assert(offset < (size_type) size());
 #endif
         return element(blocked_index_type(offset));
     }
-
-    reference element(const blocked_index_type& offset)
-    {
+    reference element(const blocked_index_type& offset) {
 #ifdef STXXL_RANGE_CHECK
         assert(offset.get_pos() < size());
 #endif
         stxxl::unsigned_type page_no = offset.get_block2();
-        assert(page_no < m_page_to_slot.size());   // fails if offset is too large, out of bound access
+        assert(page_no < m_page_to_slot.size()); // fails if offset is too large, out of bound access
         stxxl::int_type cache_slot = m_page_to_slot[page_no];
-        if (cache_slot < 0)                        // == on_disk
+        if (cache_slot < 0) // == on_disk
         {
-            if (m_free_slots.empty())              // has to kick
+            if (m_free_slots.empty()) // has to kick
             {
                 stxxl::int_type kicked_slot = m_pager.kick();
                 m_pager.hit(kicked_slot);
@@ -1671,9 +1453,7 @@ protected: // Shifted from private to protected for overloading operators
                 m_page_status[page_no] = dirty;
 
                 return (*m_cache)[kicked_slot * page_size + offset.get_block1()][offset.get_offset()];
-            }
-            else
-            {
+            } else {
                 stxxl::int_type free_slot = m_free_slots.front();
                 m_free_slots.pop();
                 m_pager.hit(free_slot);
@@ -1686,9 +1466,7 @@ protected: // Shifted from private to protected for overloading operators
 
                 return (*m_cache)[free_slot * page_size + offset.get_block1()][offset.get_offset()];
             }
-        }
-        else
-        {
+        } else {
             m_page_status[page_no] = dirty;
             m_pager.hit(cache_slot);
             return (*m_cache)[cache_slot * page_size + offset.get_block1()][offset.get_offset()];
@@ -1696,8 +1474,7 @@ protected: // Shifted from private to protected for overloading operators
     }
 
     // don't forget to first flush() the vector's cache before updating pages externally
-    void page_externally_updated(stxxl::unsigned_type page_no) const
-    {
+    void page_externally_updated(stxxl::unsigned_type page_no) const {
         // fails if offset is too large, out of bound access
         assert(page_no < m_page_status.size());
         // "A dirty page has been marked as newly initialized. The page content will be lost."
@@ -1707,36 +1484,27 @@ protected: // Shifted from private to protected for overloading operators
             m_free_slots.push(m_page_to_slot[page_no]);
             m_page_to_slot[page_no] = on_disk;
             STXXL_VERBOSE_VECTOR("page_externally_updated(): page_no=" << page_no << " flushed from cache.");
-        }
-        else {
+        } else {
             STXXL_VERBOSE_VECTOR("page_externally_updated(): page_no=" << page_no << " no need to flush.");
         }
         m_page_status[page_no] = valid_on_disk;
     }
-
-    void block_externally_updated(size_type offset) const
-    {
+    void block_externally_updated(size_type offset) const {
         page_externally_updated(offset / (block_type::size * page_size));
     }
-
-    void block_externally_updated(const blocked_index_type& offset) const
-    {
+    void block_externally_updated(const blocked_index_type& offset) const {
         page_externally_updated(offset.get_block2());
     }
-
-    const_reference const_element(size_type offset) const
-    {
+    const_reference const_element(size_type offset) const {
         return const_element(blocked_index_type(offset));
     }
-
-    const_reference const_element(const blocked_index_type& offset) const
-    {
+    const_reference const_element(const blocked_index_type& offset) const {
         stxxl::unsigned_type page_no = offset.get_block2();
-        assert(page_no < m_page_to_slot.size());   // fails if offset is too large, out of bound access
+        assert(page_no < m_page_to_slot.size()); // fails if offset is too large, out of bound access
         stxxl::int_type cache_slot = m_page_to_slot[page_no];
-        if (cache_slot < 0)                        // == on_disk
+        if (cache_slot < 0) // == on_disk
         {
-            if (m_free_slots.empty())              // has to kick
+            if (m_free_slots.empty()) // has to kick
             {
                 stxxl::int_type kicked_slot = m_pager.kick();
                 m_pager.hit(kicked_slot);
@@ -1749,9 +1517,7 @@ protected: // Shifted from private to protected for overloading operators
                 read_page(page_no, kicked_slot);
 
                 return (*m_cache)[kicked_slot * page_size + offset.get_block1()][offset.get_offset()];
-            }
-            else
-            {
+            } else {
                 stxxl::int_type free_slot = m_free_slots.front();
                 m_free_slots.pop();
                 m_pager.hit(free_slot);
@@ -1762,110 +1528,94 @@ protected: // Shifted from private to protected for overloading operators
 
                 return (*m_cache)[free_slot * page_size + offset.get_block1()][offset.get_offset()];
             }
-        }
-        else
-        {
+        } else {
             m_pager.hit(cache_slot);
             return (*m_cache)[cache_slot * page_size + offset.get_block1()][offset.get_offset()];
         }
     }
-
-    bool is_page_cached(const blocked_index_type& offset) const
-    {
+    bool is_page_cached(const blocked_index_type& offset) const {
         stxxl::unsigned_type page_no = offset.get_block2();
-        assert(page_no < m_page_to_slot.size());   // fails if offset is too large, out of bound access
+        assert(page_no < m_page_to_slot.size()); // fails if offset is too large, out of bound access
         stxxl::int_type cache_slot = m_page_to_slot[page_no];
-        return (cache_slot >= 0);                  // on_disk == -1
+        return (cache_slot >= 0); // on_disk == -1
     }
 };
-
 template <
-    typename ValueType,
-    unsigned PageSize,
-    typename PagerType,
-    unsigned BlockSize,
-    typename AllocStr,
-    typename SizeType>
-inline bool operator == (stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                       AllocStr, SizeType>& a,
-                         stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                       AllocStr, SizeType>& b)
-{
+typename ValueType,
+unsigned PageSize,
+typename PagerType,
+unsigned BlockSize,
+typename AllocStr,
+typename SizeType>
+inline bool operator ==(stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& a,
+        stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& b) {
     return a.size() == b.size() && std::equal(a.begin(), a.end(), b.begin());
 }
-
 template <
-    typename ValueType,
-    unsigned PageSize,
-    typename PagerType,
-    unsigned BlockSize,
-    typename AllocStr,
-    typename SizeType>
-inline bool operator != (stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                       AllocStr, SizeType>& a,
-                         stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                       AllocStr, SizeType>& b)
-{
+typename ValueType,
+unsigned PageSize,
+typename PagerType,
+unsigned BlockSize,
+typename AllocStr,
+typename SizeType>
+inline bool operator !=(stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& a,
+        stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& b) {
     return !(a == b);
 }
-
 template <
-    typename ValueType,
-    unsigned PageSize,
-    typename PagerType,
-    unsigned BlockSize,
-    typename AllocStr,
-    typename SizeType>
-inline bool operator < (stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                      AllocStr, SizeType>& a,
-                        stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                      AllocStr, SizeType>& b)
-{
+typename ValueType,
+unsigned PageSize,
+typename PagerType,
+unsigned BlockSize,
+typename AllocStr,
+typename SizeType>
+inline bool operator<(stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& a,
+        stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& b) {
     return std::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
 }
-
 template <
-    typename ValueType,
-    unsigned PageSize,
-    typename PagerType,
-    unsigned BlockSize,
-    typename AllocStr,
-    typename SizeType>
-inline bool operator > (stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                      AllocStr, SizeType>& a,
-                        stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                      AllocStr, SizeType>& b)
-{
+typename ValueType,
+unsigned PageSize,
+typename PagerType,
+unsigned BlockSize,
+typename AllocStr,
+typename SizeType>
+inline bool operator>(stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& a,
+        stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& b) {
     return b < a;
 }
-
 template <
-    typename ValueType,
-    unsigned PageSize,
-    typename PagerType,
-    unsigned BlockSize,
-    typename AllocStr,
-    typename SizeType>
-inline bool operator <= (stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                       AllocStr, SizeType>& a,
-                         stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                       AllocStr, SizeType>& b)
-{
+typename ValueType,
+unsigned PageSize,
+typename PagerType,
+unsigned BlockSize,
+typename AllocStr,
+typename SizeType>
+inline bool operator <=(stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& a,
+        stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& b) {
     return !(b < a);
 }
-
 template <
-    typename ValueType,
-    unsigned PageSize,
-    typename PagerType,
-    unsigned BlockSize,
-    typename AllocStr,
-    typename SizeType>
-inline bool operator >= (stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                       AllocStr, SizeType>& a,
-                         stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
-                                       AllocStr, SizeType>& b)
-{
+typename ValueType,
+unsigned PageSize,
+typename PagerType,
+unsigned BlockSize,
+typename AllocStr,
+typename SizeType>
+inline bool operator >=(stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& a,
+        stxxl::vector<ValueType, PageSize, PagerType, BlockSize,
+        AllocStr, SizeType>& b) {
     return !(a < b);
 }
 
@@ -1873,34 +1623,30 @@ inline bool operator >= (stxxl::vector<ValueType, PageSize, PagerType, BlockSize
 
 // specialization for stxxl::vector, to use only const_iterators
 template <typename ValueType, typename AllocStr, typename SizeType, typename DiffType,
-          unsigned BlockSize, typename PagerType, unsigned PageSize>
+unsigned BlockSize, typename PagerType, unsigned PageSize>
 bool is_sorted(
-    stxxl::vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> __first,
-    stxxl::vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> __last)
-{
+        stxxl::vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> __first,
+        stxxl::vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> __last) {
     return is_sorted_helper(
-        stxxl::const_vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize>(__first),
-        stxxl::const_vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize>(__last));
+            stxxl::const_vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize>(__first),
+            stxxl::const_vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize>(__last));
 }
-
 template <typename ValueType, typename AllocStr, typename SizeType, typename DiffType,
-          unsigned BlockSize, typename PagerType, unsigned PageSize, typename _StrictWeakOrdering>
+unsigned BlockSize, typename PagerType, unsigned PageSize, typename _StrictWeakOrdering>
 bool is_sorted(
-    stxxl::vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> __first,
-    stxxl::vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> __last,
-    _StrictWeakOrdering __comp)
-{
+        stxxl::vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> __first,
+        stxxl::vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize> __last,
+        _StrictWeakOrdering __comp) {
     return is_sorted_helper(
-        stxxl::const_vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize>(__first),
-        stxxl::const_vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize>(__last),
-        __comp);
+            stxxl::const_vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize>(__first),
+            stxxl::const_vector_iterator<ValueType, AllocStr, SizeType, DiffType, BlockSize, PagerType, PageSize>(__last),
+            __comp);
 }
 
 ////////////////////////////////////////////////////////////////////////////
 
 template <typename VectorBufReaderType>
 class vector_bufreader_iterator;
-
 /*!
  * Buffered sequential reader from a vector using overlapped I/O.
  *
@@ -1918,8 +1664,7 @@ class vector_bufreader_iterator;
  * See \ref tutorial_vector_buf
  */
 template <typename VectorIterator>
-class vector_bufreader : public stxxl::noncopyable
-{
+class vector_bufreader : public stxxl::noncopyable {
 public:
     //! template parameter: the vector iterator type
     typedef VectorIterator vector_iterator;
@@ -1967,10 +1712,9 @@ public:
     //! \param end iterator to position were to end reading in vector
     //! \param nbuffers number of buffers used for overlapped I/O (>= 2*D recommended)
     vector_bufreader(vector_iterator begin, vector_iterator end, stxxl::unsigned_type nbuffers = 0)
-        : m_begin(begin), m_end(end),
-          m_bufin(NULL),
-          m_nbuffers(nbuffers)
-    {
+    : m_begin(begin), m_end(end),
+    m_bufin(NULL),
+    m_nbuffers(nbuffers) {
         m_begin.flush(); // flush container
 
         if (m_nbuffers == 0)
@@ -1983,10 +1727,9 @@ public:
     //! \param vec vector to read
     //! \param nbuffers number of buffers used for overlapped I/O (>= 2*D recommended)
     vector_bufreader(const vector_type& vec, stxxl::unsigned_type nbuffers = 0)
-        : m_begin(vec.begin()), m_end(vec.end()),
-          m_bufin(NULL),
-          m_nbuffers(nbuffers)
-    {
+    : m_begin(vec.begin()), m_end(vec.end()),
+    m_bufin(NULL),
+    m_nbuffers(nbuffers) {
         m_begin.flush(); // flush container
 
         if (m_nbuffers == 0)
@@ -1997,8 +1740,7 @@ public:
 
     //! Rewind stream back to begin. Note that this recreates the buffered
     //! reader and is thus not cheap.
-    void rewind()
-    {
+    void rewind() {
         m_iter = m_begin;
         if (empty()) return;
 
@@ -2013,31 +1755,27 @@ public:
         // skip the beginning of the block, up to real beginning
         vector_iterator curr = m_begin - m_begin.block_offset();
 
-        for ( ; curr != m_begin; ++curr)
+        for (; curr != m_begin; ++curr)
             ++(*m_bufin);
     }
 
     //! Finish reading and free buffered reader.
-    ~vector_bufreader()
-    {
+    ~vector_bufreader() {
         if (m_bufin) delete m_bufin;
     }
 
     //! Return constant reference to current item
-    const value_type& operator * () const
-    {
+    const value_type& operator *() const {
         return *(*m_bufin);
     }
 
     //! Return constant pointer to current item
-    const value_type* operator -> () const
-    {
+    const value_type* operator -> () const {
         return &(*(*m_bufin));
     }
 
     //! Advance to next item (asserts if !empty()).
-    vector_bufreader& operator ++ ()
-    {
+    vector_bufreader& operator ++() {
         assert(!empty());
         ++m_iter;
         ++(*m_bufin);
@@ -2051,42 +1789,36 @@ public:
     }
 
     //! Read current item into variable and advance to next one.
-    vector_bufreader& operator >> (value_type& v)
-    {
-        v = operator * ();
-        operator ++ ();
+    vector_bufreader& operator >>(value_type& v) {
+        v = operator *();
+        operator ++();
 
         return *this;
     }
 
     //! Return remaining size.
-    size_t size() const
-    {
+    size_t size() const {
         assert(m_begin <= m_iter && m_iter <= m_end);
         return (m_end - m_iter);
     }
 
     //! Returns true once the whole range has been read.
-    bool empty() const
-    {
+    bool empty() const {
         return (m_iter == m_end);
     }
 
     //! Return vector_bufreader_iterator for C++11 range-based for loop
-    bufreader_iterator begin()
-    {
+    bufreader_iterator begin() {
         return bufreader_iterator(*this, m_begin);
     }
 
     //! Return vector_bufreader_iterator for C++11 range-based for loop
-    bufreader_iterator end()
-    {
+    bufreader_iterator end() {
         return bufreader_iterator(*this, m_end);
     }
 };
 
 ////////////////////////////////////////////////////////////////////////////
-
 /*!
  * Adapter for vector_bufreader to match iterator requirements of C++11
  * range-based loop construct.
@@ -2101,8 +1833,7 @@ public:
  * See \ref tutorial_vector_buf
  */
 template <typename VectorBufReaderType>
-class vector_bufreader_iterator
-{
+class vector_bufreader_iterator {
 public:
     //! The underlying buffered reader type
     typedef VectorBufReaderType vector_bufreader_type;
@@ -2123,50 +1854,44 @@ protected:
 public:
     //! Construct iterator using vector_iterator
     vector_bufreader_iterator(vector_bufreader_type& bufreader, const vector_iterator& iter)
-        : m_bufreader(bufreader), m_iter(iter)
-    { }
+    : m_bufreader(bufreader), m_iter(iter) {
+    }
 
     //! Return constant reference to current item
-    const value_type& operator * () const
-    {
+    const value_type& operator *() const {
         assert(m_bufreader.m_iter == m_iter);
-        return m_bufreader.operator * ();
+        return m_bufreader.operator *();
     }
 
     //! Return constant pointer to current item
-    const value_type* operator -> () const
-    {
+    const value_type* operator -> () const {
         assert(m_bufreader.m_iter == m_iter);
         return m_bufreader.operator -> ();
     }
 
     //! Make bufreader advance to next item (asserts if !empty() or if iterator
     //! does not point to current).
-    vector_bufreader_iterator& operator ++ ()
-    {
+    vector_bufreader_iterator& operator ++() {
         assert(m_bufreader.m_iter == m_iter);
-        m_bufreader.operator ++ ();
+        m_bufreader.operator ++();
         m_iter++;
         return *this;
     }
 
     //! Equality comparison operator
-    bool operator == (const vector_bufreader_iterator& vbi) const
-    {
+    bool operator ==(const vector_bufreader_iterator& vbi) const {
         assert(&m_bufreader == &vbi.m_bufreader);
         return (m_iter == vbi.m_iter);
     }
 
     //! Inequality comparison operator
-    bool operator != (const vector_bufreader_iterator& vbi) const
-    {
+    bool operator !=(const vector_bufreader_iterator& vbi) const {
         assert(&m_bufreader == &vbi.m_bufreader);
         return (m_iter != vbi.m_iter);
     }
 };
 
 ////////////////////////////////////////////////////////////////////////////
-
 /*!
  * Buffered sequential reverse reader from a vector using overlapped I/O.
  *
@@ -2185,8 +1910,7 @@ public:
  * See \ref tutorial_vector_buf
  */
 template <typename VectorIterator>
-class vector_bufreader_reverse : public stxxl::noncopyable
-{
+class vector_bufreader_reverse : public stxxl::noncopyable {
 public:
     //! template parameter: the vector iterator type
     typedef VectorIterator vector_iterator;
@@ -2228,10 +1952,9 @@ public:
     //! \param end iterator to position were to end reading in vector
     //! \param nbuffers number of buffers used for overlapped I/O (>= 2*D recommended)
     vector_bufreader_reverse(vector_iterator begin, vector_iterator end, stxxl::unsigned_type nbuffers = 0)
-        : m_begin(begin), m_end(end),
-          m_bufin(NULL),
-          m_nbuffers(nbuffers)
-    {
+    : m_begin(begin), m_end(end),
+    m_bufin(NULL),
+    m_nbuffers(nbuffers) {
         m_begin.flush(); // flush container
 
         if (m_nbuffers == 0)
@@ -2244,10 +1967,9 @@ public:
     //! \param vec vector to read
     //! \param nbuffers number of buffers used for overlapped I/O (>= 2*D recommended)
     vector_bufreader_reverse(const vector_type& vec, stxxl::unsigned_type nbuffers = 0)
-        : m_begin(vec.begin()), m_end(vec.end()),
-          m_bufin(NULL),
-          m_nbuffers(nbuffers)
-    {
+    : m_begin(vec.begin()), m_end(vec.end()),
+    m_bufin(NULL),
+    m_nbuffers(nbuffers) {
         m_begin.flush(); // flush container
 
         if (m_nbuffers == 0)
@@ -2258,8 +1980,7 @@ public:
 
     //! Rewind stream back to begin. Note that this recreates the buffered
     //! reader and is thus not cheap.
-    void rewind()
-    {
+    void rewind() {
         m_iter = m_end;
         if (empty()) return;
 
@@ -2275,36 +1996,31 @@ public:
         stxxl::int_type endoff = m_end.block_offset();
         if (endoff == 0) {
             // nothing to skip
-        }
-        else {
+        } else {
             // else, let ifstream_reverse skip last elements at end of block,
             // up to real end
-            for ( ; endoff != block_type::size; endoff++)
+            for (; endoff != block_type::size; endoff++)
                 ++(*m_bufin);
         }
     }
 
     //! Finish reading and free buffered reader.
-    ~vector_bufreader_reverse()
-    {
+    ~vector_bufreader_reverse() {
         if (m_bufin) delete m_bufin;
     }
 
     //! Return constant reference to current item
-    const value_type& operator * () const
-    {
+    const value_type& operator *() const {
         return *(*m_bufin);
     }
 
     //! Return constant pointer to current item
-    const value_type* operator -> () const
-    {
+    const value_type* operator -> () const {
         return &(*(*m_bufin));
     }
 
     //! Advance to next item (asserts if !empty()).
-    vector_bufreader_reverse& operator ++ ()
-    {
+    vector_bufreader_reverse& operator ++() {
         assert(!empty());
         --m_iter;
         ++(*m_bufin);
@@ -2318,30 +2034,26 @@ public:
     }
 
     //! Read current item into variable and advance to next one.
-    vector_bufreader_reverse& operator >> (value_type& v)
-    {
-        v = operator * ();
-        operator ++ ();
+    vector_bufreader_reverse& operator >>(value_type& v) {
+        v = operator *();
+        operator ++();
 
         return *this;
     }
 
     //! Return remaining size.
-    size_t size() const
-    {
+    size_t size() const {
         assert(m_begin <= m_iter && m_iter <= m_end);
         return (m_iter - m_begin);
     }
 
     //! Returns true once the whole range has been read.
-    bool empty() const
-    {
+    bool empty() const {
         return (m_iter == m_begin);
     }
 };
 
 ////////////////////////////////////////////////////////////////////////////
-
 /*!
  * Buffered sequential writer to a vector using overlapped I/O.
  *
@@ -2358,8 +2070,7 @@ public:
  * See \ref tutorial_vector_buf
  */
 template <typename VectorIterator>
-class vector_bufwriter : public stxxl::noncopyable
-{
+class vector_bufwriter : public stxxl::noncopyable {
 public:
     //! template parameter: the vector iterator type
     typedef VectorIterator iterator;
@@ -2408,13 +2119,12 @@ public:
     //! \param begin iterator to position were to start writing in vector
     //! \param nbuffers number of buffers used for overlapped I/O (>= 2D recommended)
     vector_bufwriter(vector_iterator begin,
-                     stxxl::unsigned_type nbuffers = 0)
-        : m_iter(begin),
-          m_end(m_iter.parent_vector()->end()),
-          m_grown(false),
-          m_bufout(NULL),
-          m_nbuffers(nbuffers)
-    {
+            stxxl::unsigned_type nbuffers = 0)
+    : m_iter(begin),
+    m_end(m_iter.parent_vector()->end()),
+    m_grown(false),
+    m_bufout(NULL),
+    m_nbuffers(nbuffers) {
         if (m_nbuffers == 0)
             m_nbuffers = 2 * stxxl::config::get_instance()->disks_number();
 
@@ -2425,13 +2135,12 @@ public:
     //! \param vec vector to write
     //! \param nbuffers number of buffers used for overlapped I/O (>= 2D recommended)
     vector_bufwriter(vector_type& vec,
-                     stxxl::unsigned_type nbuffers = 0)
-        : m_iter(vec.begin()),
-          m_end(m_iter.parent_vector()->end()),
-          m_grown(false),
-          m_bufout(NULL),
-          m_nbuffers(nbuffers)
-    {
+            stxxl::unsigned_type nbuffers = 0)
+    : m_iter(vec.begin()),
+    m_end(m_iter.parent_vector()->end()),
+    m_grown(false),
+    m_bufout(NULL),
+    m_nbuffers(nbuffers) {
         if (m_nbuffers == 0)
             m_nbuffers = 2 * stxxl::config::get_instance()->disks_number();
 
@@ -2439,17 +2148,14 @@ public:
     }
 
     //! Finish writing and flush output back to vector.
-    ~vector_bufwriter()
-    {
+    ~vector_bufwriter() {
         finish();
     }
 
     //! Return mutable reference to item at the position of the internal
     //! iterator.
-    value_type& operator * ()
-    {
-        if (UNLIKELY(m_iter == m_end))
-        {
+    value_type& operator *() {
+        if (UNLIKELY(m_iter == m_end)) {
             // iterator points to end of vector -> double vector's size
 
             if (m_bufout) {
@@ -2469,8 +2175,7 @@ public:
             vector_type& v = *m_iter.parent_vector();
             if (v.size() < 2 * block_type::size) {
                 v.resize(2 * block_type::size);
-            }
-            else {
+            } else {
                 v.resize(2 * v.size());
             }
             m_end = v.end();
@@ -2479,17 +2184,13 @@ public:
 
         assert(m_iter < m_end);
 
-        if (UNLIKELY(m_bufout == NULL))
-        {
-            if (m_iter.block_offset() != 0)
-            {
+        if (UNLIKELY(m_bufout == NULL)) {
+            if (m_iter.block_offset() != 0) {
                 // output position is not at the start of the block, we
                 // continue to use the iterator initially passed to the
                 // constructor.
                 return *m_iter;
-            }
-            else
-            {
+            } else {
                 // output position is start of block: create buffered writer
 
                 m_iter.flush(); // flush container
@@ -2511,43 +2212,38 @@ public:
             }
         }
 
-        return m_bufout->operator * ();
+        return m_bufout->operator *();
     }
 
     //! Advance internal iterator.
-    vector_bufwriter& operator ++ ()
-    {
+    vector_bufwriter& operator ++() {
         // always advance internal iterator
         ++m_iter;
 
         // if buf_ostream active, advance that too
-        if (LIKELY(m_bufout != NULL)) m_bufout->operator ++ ();
+        if (LIKELY(m_bufout != NULL)) m_bufout->operator ++();
 
         return *this;
     }
 
     //! Write value to the current position and advance the internal iterator.
-    vector_bufwriter& operator << (const value_type& v)
-    {
-        operator * () = v;
-        operator ++ ();
+    vector_bufwriter& operator <<(const value_type& v) {
+        operator *() = v;
+        operator ++();
 
         return *this;
     }
 
     //! Finish writing and flush output back to vector.
-    void finish()
-    {
-        if (m_bufout)
-        {
+    void finish() {
+        if (m_bufout) {
             // must finish the block started in the buffered writer: fill it with
             // the data in the vector
             vector_const_iterator const_out = m_iter;
 
-            while (const_out.block_offset() != 0)
-            {
-                m_bufout->operator * () = *const_out;
-                m_bufout->operator ++ ();
+            while (const_out.block_offset() != 0) {
+                m_bufout->operator *() = *const_out;
+                m_bufout->operator ++();
                 ++const_out;
             }
 
@@ -2561,8 +2257,7 @@ public:
             m_bufout = NULL;
         }
 
-        if (m_grown)
-        {
+        if (m_grown) {
             vector_type& v = *m_iter.parent_vector();
             v.resize(m_iter - v.begin());
 
@@ -2585,39 +2280,34 @@ public:
 //! \warning Do not store references to the elements of an external vector. Such references
 //! might be invalidated during any following access to elements of the vector
 template <
-    typename ValueType,
-    unsigned PageSize = 4,
-    unsigned CachePages = 8,
-    unsigned BlockSize = STXXL_DEFAULT_BLOCK_SIZE(ValueType),
-    typename AllocStr = STXXL_DEFAULT_ALLOC_STRATEGY,
-    stxxl::pager_type Pager = stxxl::lru
-    >
-struct VECTOR_GENERATOR
-{
+typename ValueType,
+unsigned PageSize = 4,
+unsigned CachePages = 8,
+unsigned BlockSize = STXXL_DEFAULT_BLOCK_SIZE(ValueType),
+typename AllocStr = STXXL_DEFAULT_ALLOC_STRATEGY,
+stxxl::pager_type Pager = stxxl::lru
+>
+struct VECTOR_GENERATOR {
     typedef typename stxxl::IF<Pager == stxxl::lru,
-                        stxxl::lru_pager<CachePages>, stxxl::random_pager<CachePages> >::result PagerType;
+    stxxl::lru_pager<CachePages>, stxxl::random_pager<CachePages> >::result PagerType;
 
     typedef vector<ValueType, PageSize, PagerType, BlockSize, AllocStr> result;
 };
 
 //! \}
 
-//STXXL_END_NAMESPACE
-
 //namespace std {
-//
-//template <
+//    template <
 //    typename ValueType,
 //    unsigned PageSize,
 //    typename PagerType,
 //    unsigned BlockSize,
 //    typename AllocStr,
 //    typename SizeType>
-//void swap(stxxl::vector<ValueType, PageSize, PagerType, BlockSize, AllocStr, SizeType>& a,
-//          stxxl::vector<ValueType, PageSize, PagerType, BlockSize, AllocStr, SizeType>& b)
-//{
-//    a.swap(b);
-//}
+//    void swap(vector<ValueType, PageSize, PagerType, BlockSize, AllocStr, SizeType>& a,
+//            vector<ValueType, PageSize, PagerType, BlockSize, AllocStr, SizeType>& b) {
+//        a.swap(b);
+//    }
 //
 //} // namespace std
 
