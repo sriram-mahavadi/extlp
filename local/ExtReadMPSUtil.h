@@ -308,7 +308,7 @@ endReadRows:
                 else {
                     int rowNumber = extDataSet.mapRowName.get(mps.field2());
                     if (val != 0.0) {
-                        packed_vector.add(rowNumber, val);
+                        packed_vector.add(rowNumber, val, true);
                         //                        vec[rowNumber] = val; //.add(idx, val);
                     }
                 }
@@ -324,7 +324,7 @@ endReadRows:
                     else {
                         int rowNumber = extDataSet.mapRowName.get(mps.field4());
                         if (val != 0.0) {
-                            packed_vector.add(rowNumber, val);
+                            packed_vector.add(rowNumber, val, true);
                             //                            vec[rowNumber] = val; //.add(idx, val);
                         }
                     }

@@ -139,7 +139,7 @@ public:
             vctPack.displayVector();
             unsigned int i;
             for (i = 0; i<sizeof (arrTest) / sizeof (REAL); i++) {
-                vctPack.add(i, arrTest[i]);
+                vctPack.add(i, arrTest[i], false);
                 vctPack.displayVector();
             }
             // Converting Mode Forcedly
@@ -238,7 +238,7 @@ public:
             for (unsigned int i = 0; i < testSize; i++) {
                 // Always add with autoConversion false if you donot want to convert
                 // This is typical while incase of forced initialization
-                vctPacked.add(i, (REAL) i);
+                vctPacked.add(i, (REAL) i, false);
             }
             DEBUG_MEMORY("Before ExtVector2 - Initialization of " << testSize << " elements");
             //            ExtPackedVector extPacked(vctPacked);

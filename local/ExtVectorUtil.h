@@ -196,7 +196,7 @@ public:
             REAL vct1_value = _get_scratch_pad_element(vct2_index);
             REAL vct2_value = packed_element.get_value();
             REAL element_value = vct1_value + lambda * vct2_value;
-            p_vct_result.add(vct2_index, element_value);
+            p_vct_result.add(vct2_index, element_value, false);
             _set_scratch_pad_element(vct2_index, 0.0F);
         }
         // re-initialize scratch_pad to 0
@@ -206,7 +206,7 @@ public:
             unsigned int vct1_index = packed_element.get_index();
             if (_get_scratch_pad_element(vct1_index) != 0.0F) {
                 REAL element_value = packed_element.get_value();
-                p_vct_result.add(vct1_index, element_value);
+                p_vct_result.add(vct1_index, element_value, false);
                 _set_scratch_pad_element(packed_element.get_index(), 0.0F);
             }
         }

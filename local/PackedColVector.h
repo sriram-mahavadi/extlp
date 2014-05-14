@@ -63,7 +63,7 @@ public:
         m_vct_col.clear();
         m_vct_col.resize(p_vec.size());
         for (unsigned int i = 0; i < p_vec.size(); i++) {
-            m_vct_col.add(i, p_vec[i]);
+            m_vct_col.add(i, p_vec[i], false);
         }
     }
     //! }

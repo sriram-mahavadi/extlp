@@ -67,10 +67,10 @@ public:
             ptr = ptr->getNext();
             return *this;
         }
-        iterator operator+(int incr){
-            LinkedListNode<ItemClass>* temp  = ptr;
-            while(incr!=0){
-                temp=temp->getNext();
+        iterator operator+(int incr) {
+            LinkedListNode<ItemClass>* temp = ptr;
+            while (incr != 0) {
+                temp = temp->getNext();
                 incr--;
             }
             iterator itr;
@@ -97,13 +97,13 @@ public:
     }
     //! Copy Constructor. Does shallow copy by default hence need to be careful
     //! Overriding for creating a deep copy of LinkedList
-    LinkedList(LinkedList& p_list){
+    LinkedList(LinkedList& p_list) {
         DEBUG_WARNING("Copying Linked List.");
         head = NULL;
         tail = NULL;
         m_size = 0;
         LinkedList<ItemClass>::iterator itr = p_list.begin();
-        while(itr!=p_list.end()){
+        while (itr != p_list.end()) {
             add(*itr);
             itr++;
         }
@@ -141,11 +141,48 @@ public:
         }
         m_size++;
     }
-    //! Adds the item after the given iterator/position of list
-    void add(iterator itr, ItemClass item){
+
+    //! Adds the item in the sorted (assending order) fashion
+    void add_sorted(ItemClass p_item) {
+        LinkedListNode<ItemClass>* ptr = head;
+        LinkedListNode<ItemClass>* prev_ptr = NULL;
+        // Simple appending. Natural case most often.
+        if (tail!=NULL && tail->getItem() < p_item) { 
+            ptr = NULL;
+            prev_ptr = tail;
+        }
+        while (ptr != NULL) {
+            ItemClass item = ptr->getItem();
+            if (p_item < item) {
+                break;
+            }
+            prev_ptr = ptr;
+            ptr = ptr->getNext();
+        }
+        LinkedListNode<ItemClass> *new_item = new LinkedListNode<ItemClass>(p_item);
+        if (prev_ptr == NULL && ptr == NULL) {
+            // List is empty first node to be added
+            head = tail = new_item;
+        } else if (prev_ptr == NULL) {
+            // Position of insertion is head
+            new_item->setNext(head);
+            head = new_item;
+        } else if (ptr == NULL) {
+            // Position of the insertion is tail
+            prev_ptr->setNext(new_item);
+            tail = new_item; // Already new_item->next is NULL
+        } else {
+            // Position of insertion is in between of the list
+            prev_ptr->setNext(new_item);
+            new_item->setNext(ptr);
+        }
+    }
+    
+    //! Adds the item before the given iterator/position of list
+    void add(iterator itr, ItemClass item) {
         LinkedListNode<ItemClass>* list_node = itr.ptr;
         // If the iterator shows null. possible when the list is empty
-        if(list_node==NULL){
+        if (list_node == NULL) {
             add(item);
             return;
         }
