@@ -1,0 +1,46 @@
+/////////////////////// --------- Setting up the Project into NetBeans Environment
+
+1. Install NetBeans
+	-> For This install jdk
+	sudo apt-get install openjdk-7-jre
+	-> If both jdk-6 and jdk-7 are present choose jdk-7 as follows
+	sudo update-alternatives --config java 
+	-> Run netbeans shell script
+2. Clone/Fetch the extlp project from online git repository
+	-> Install git if not present already
+	sudo apt-get install git0
+	-> Cloning the project using git
+	git clone https://github.com/sriram-mahavadi/extlp.git
+3. IF git is giving any set of errors: see the links below
+	https://help.github.com/articles/error-permission-denied-publickey
+	https://help.github.com/articles/generating-ssh-keys#step-3-add-your-ssh-key-to-github
+	
+3. Open extlp project using Netbeans
+4. Install cmake if not present already
+	sudo apt-get install cmake
+5. Perform following commands for building the project
+	got to project folder extlp and then execute the commands
+	mkdir build
+	cd build
+	cmake -DCMAKE_BUILD_TYPE=Debug ..
+	make
+6. Add the .gitignore file into git 
+6. Go back to Netbeans and check if clean and build is working fine
+7. Copy/Fetch the Input folder for LP input from miplib2010 and soplex
+8. Setting up the disks for stxxl 
+	-> add .stxxl file into extlp/build/local directory having contents as follows:
+		disk=/var/tmp/stxxl,20GiB,syscall
+		disk=/media/Abhishek/stxxl,10GiB,syscall
+		disk=/media/Sriram/stxxl,300GiB,syscall autogrow
+		disk=/media/TOSHIBA\ EXT/stxxl, 300GiB, syscall autogrow
+	-> We may precreate the disks to improve performance as follows:
+	   Note that ./stxxl_tool is present in /extlp/build/tools directory
+		./stxxl_tool create_files 20GiB /var/tmp/stxxl
+		./stxxl_tool create_files 10GiB /media/Abhishek/stxxl
+		./stxxl_tool create_files 300GiB /media/Sriram/stxxl
+		./stxxl_tool create_files 300GiB /media/TOSHIBA\ EXT/stxxl
+
+
+
+		
+
