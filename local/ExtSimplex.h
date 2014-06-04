@@ -8,6 +8,12 @@
 #ifndef EXTSIMPLEX_H
 #define	EXTSIMPLEX_H
 
+#define SIMPLEX_CJZJ_POSITIVE
+#define SIMPLEX_CJZJ_UNINTIALIZED
+#define SIMPLEX_CJZJ_NEGATIVE
+#define SIMPLEX_CJZJ_ZERO
+#define SIMPLEX_INVALID_MIN_RATIO
+
 #include "ExtLPDSSet.h"
 #include "ExtVectorUtil.h"
 ///////////////////////////////////////////////////////////
@@ -52,6 +58,8 @@ public:
         //        debug_base_col_indices();
         //        debug_rhs_values();
         //        debug_objective_values();
+        
+        
         update_simplex_iteration();
         update_simplex_iteration();
         update_simplex_iteration();
@@ -110,6 +118,8 @@ public:
         REAL min_ratio = 0.0F;
         //! Finding r - leaving variable 
         for (unsigned int row_index = 0; row_index < y.get_size(); row_index++) {
+            if(y[row_index]==0.0F)continue; // Ignoring when yk=0
+            if(m_vct_rhs[row_index]>=0.0F && y[row_index]<0.0F)continue;// Ignoring when ration<0
             REAL ratio = m_vct_rhs[row_index] / y[row_index];
             if ((min_ratio == 0.0F && ratio > 0.0) ||
                     (ratio > 0.0 && ratio < min_ratio)) {
