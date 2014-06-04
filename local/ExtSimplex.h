@@ -47,10 +47,11 @@ public:
     //! and initialization of B Inverse. 
     //! TODO - Need to find a proper base using pre-solve rather than Identity matrix every time.
     void init_simplex() {
+        extDataSet.setObjSense(MIN);
         m_base_col_indices = extDataSet.A.standardize_matrix();
         extDataSet.BInverse.build_matrix_b_inverse(extDataSet.A, m_base_col_indices);
         extDataSet.A.store_row_rhs_values(m_vct_rhs);
-        extDataSet.A.store_col_objective_values(m_vct_obj, m_base_col_indices);
+        extDataSet.A.store_col_objective_values(m_vct_obj, m_base_col_indices, extDataSet.get_objective_sense_bool());
     }
     //! solving the linear program
     void solve() {
@@ -75,7 +76,7 @@ public:
         // Simple reference to make coding easy
         ExtMatrixA& A = extDataSet.A;
         ExtMatrixBInverse &b_inverse = extDataSet.BInverse;
-
+        bool is_min = extDataSet.get_objective_sense_bool();
         //! Finding the Entering Variable - k 
         //! Note: k index is with respect to Matrix A
 
@@ -93,6 +94,7 @@ public:
                 PackedVector a_col_vector(get_basis_dimension());
                 A.store_column(j, a_col_vector, false);
                 REAL cj = col_attr.get_objective_value(); // cj value
+                if(is_min)cj*=-1;
                 REAL zj = 0.0F;
                 ExtVectorUtil::store_dot_product(w, a_col_vector, zj);
                 REAL reduced_cost = cj - zj;
@@ -164,8 +166,10 @@ public:
         m_base_col_indices[r] = k;
 
         // Updating the objective values
-        m_vct_obj[r] = A.get_col_attr(k).get_objective_value();
-
+        REAL k_coef_value = A.get_col_attr(k).get_objective_value();
+        if(is_min)k_coef_value*=-1;
+        m_vct_obj[r] = k_coef_value;
+        
         // Updating RHS vector
         ExtVectorUtil::update_rhs(eta_vector, m_vct_rhs);
         //        debug_rhs();

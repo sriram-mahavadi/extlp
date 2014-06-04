@@ -239,7 +239,7 @@ public:
         m_vct_col_attr[p_col_index] = p_col_attr;
     }
     //! Stores the col objective values into the packed vector in the order of base col indices
-    void store_col_objective_values(SimpleVector<REAL>& p_vct_obj, SimpleVector<unsigned int> base_col_indices) {
+    void store_col_objective_values(SimpleVector<REAL>& p_vct_obj, SimpleVector<unsigned int> base_col_indices, bool is_min) {
         unsigned int base_col_size = base_col_indices.get_size();
         // Making vct obj good for storage
         p_vct_obj.clear();
@@ -247,6 +247,7 @@ public:
         for (unsigned col_index = 0; col_index < base_col_size; col_index++) {
             REAL a_col_index = base_col_indices[col_index];
             REAL obj_value = m_vct_read_only_col_attr[a_col_index].get_objective_value();
+            if(is_min)obj_value*=-1;
             p_vct_obj[col_index] = obj_value;
         }
     }

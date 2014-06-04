@@ -306,6 +306,7 @@ public:
                 new_b_inverse.add_column(new_b_inverse_col, a_col_index);
             }
         }
+        b_inverse.clear_matrix_b_inverse();
         b_inverse.swap(new_b_inverse);
         //                std::swap(b_inverse, new_b_inverse);
     }

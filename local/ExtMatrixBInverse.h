@@ -286,9 +286,11 @@ public:
     //! Clearing the whole BInverse container 
     void clear_matrix_b_inverse() {
         m_vct_col_attr.clear();
-        m_vct_row_attr.clear();
         m_vct_col_disk.clear();
-        m_vct_row_disk.clear();
+        if (m_is_row_build_necessary) {
+            m_vct_row_attr.clear();
+            m_vct_row_disk.clear();
+        }
     }
 
     //! Building the matrix from Matrix A and the basis col matrix
@@ -327,9 +329,11 @@ public:
     // TODO - Check if the const read only references are affected mistakenly
     void swap(ExtMatrixBInverse& other) {
         m_vct_col_attr.swap(other.m_vct_col_attr);
-        m_vct_row_attr.swap(other.m_vct_row_attr);
         m_vct_col_disk.swap(other.m_vct_col_disk);
-        m_vct_row_disk.swap(other.m_vct_row_disk);
+        if (m_is_row_build_necessary) {
+            m_vct_row_attr.swap(other.m_vct_row_attr);
+            m_vct_row_disk.swap(other.m_vct_row_disk);
+        }
     }
     //    //! ReBuilding the matrix from itself and Eta Vector
     //    void rebuild_matrix_b_inverse(EtaVector& eta_vector) {
