@@ -216,6 +216,7 @@ public:
             if(prev_ptr->getNext()==NULL){
                 tail = prev_ptr;
             }
+            delete ptr;
             m_size--;
             return true;
         }
