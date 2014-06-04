@@ -8,11 +8,11 @@
 #ifndef EXTSIMPLEX_H
 #define	EXTSIMPLEX_H
 
-#define SIMPLEX_CJZJ_POSITIVE
-#define SIMPLEX_CJZJ_UNINTIALIZED
-#define SIMPLEX_CJZJ_NEGATIVE
-#define SIMPLEX_CJZJ_ZERO
-#define SIMPLEX_INVALID_MIN_RATIO
+#define SIMPLEX_CJZJ_UNINTIALIZED 0
+#define SIMPLEX_CJZJ_POSITIVE 1
+#define SIMPLEX_CJZJ_NEGATIVE 2
+#define SIMPLEX_CJZJ_ZERO 3
+#define SIMPLEX_INVALID_MIN_RATIO 4
 
 #include "ExtLPDSSet.h"
 #include "ExtVectorUtil.h"
@@ -58,11 +58,11 @@ public:
         //        debug_base_col_indices();
         //        debug_rhs_values();
         //        debug_objective_values();
-        
-        
-        update_simplex_iteration();
-        update_simplex_iteration();
-        update_simplex_iteration();
+        unsigned int status = SIMPLEX_CJZJ_UNINTIALIZED;
+        do{
+        status = update_simplex_iteration();
+        }while(status==SIMPLEX_CJZJ_POSITIVE);
+        print_solution();
     }
 
     //! Returns the dimension m from the mxm base matrix
@@ -71,7 +71,7 @@ public:
     }
 
     //! Simplex iteration process
-    void update_simplex_iteration() {
+    unsigned int update_simplex_iteration() {
         // Simple reference to make coding easy
         ExtMatrixA& A = extDataSet.A;
         ExtMatrixBInverse &b_inverse = extDataSet.BInverse;
@@ -103,8 +103,9 @@ public:
                 DEBUG("Col: " << j << ", Reduced Cost: " << reduced_cost);
             }
         }
-
-
+        if(max_reduced_cost==0.0F) return SIMPLEX_CJZJ_ZERO;
+        else if(max_reduced_cost<0.0F) return SIMPLEX_CJZJ_NEGATIVE;
+        
         //! Getting column-k of Matrix A
         PackedVector ak_vector(get_basis_dimension());
         A.store_column(k, ak_vector, false);
@@ -114,18 +115,22 @@ public:
         //! Finding yk
         SimpleVector<REAL> y(get_basis_dimension());
         ExtVectorUtil::store_dot_product(b_inverse, ak_vector, y);
+        debug_y(y);
         unsigned int r; // leaving variable
-        REAL min_ratio = 0.0F;
+        REAL min_ratio = -1.0F;
         //! Finding r - leaving variable 
         for (unsigned int row_index = 0; row_index < y.get_size(); row_index++) {
             if(y[row_index]==0.0F)continue; // Ignoring when yk=0
             if(m_vct_rhs[row_index]>=0.0F && y[row_index]<0.0F)continue;// Ignoring when ration<0
             REAL ratio = m_vct_rhs[row_index] / y[row_index];
-            if ((min_ratio == 0.0F && ratio > 0.0) ||
+            if ((min_ratio == -1.0F && ratio >= 0.0) ||
                     (ratio > 0.0 && ratio < min_ratio)) {
                 min_ratio = ratio;
                 r = row_index;
             }
+        }
+        if(min_ratio==-1.0){
+            return SIMPLEX_INVALID_MIN_RATIO;
         }
         // Getting the Eta Vector for updating data structures for next iteration
         EtaVector eta_vector(r, y);
@@ -161,8 +166,6 @@ public:
         // Updating the objective values
         m_vct_obj[r] = A.get_col_attr(k).get_objective_value();
 
-
-
         // Updating RHS vector
         ExtVectorUtil::update_rhs(eta_vector, m_vct_rhs);
         //        debug_rhs();
@@ -175,11 +178,14 @@ public:
         debug_objective_values();
         debug_rhs();
         debug_b_inverse();
-
+        return SIMPLEX_CJZJ_POSITIVE;
     }
-    //! validates if further iterations need to take place
-    bool vaidate_next_iteration() {
-        return true;
+    //! Performs the Cb*b
+    void print_solution(){
+        // objective value
+        REAL z=0.0F;
+        ExtVectorUtil::store_dot_product(m_vct_obj, m_vct_rhs, z);
+        CONSOLE_PRINTLN("Objective Value: "<<z);
     }
     //////////////////////////////////////////////////////////////////////
     ///////////////////////// Debug Functions ////////////////////////////

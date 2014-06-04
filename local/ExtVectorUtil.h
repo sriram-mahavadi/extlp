@@ -120,7 +120,18 @@ public:
         }
         p_dot_product = dot_product_value;
     }
-
+    
+    //! Dot product of two vectors(one row and one col vector) < vct1.vct2 >.
+    //! Both of the vectors are already scattered. 
+    static void store_dot_product(SimpleVector<REAL>& p_vct1, SimpleVector<REAL>& p_vct2, REAL& p_dot_product) {
+        REAL dot_product_value = 0.0F;
+        assert(p_vct1.get_size()==p_vct2.get_size());
+        // Calculating dot product, Already p_vct1 is scattered
+        for(unsigned int i=0; i<p_vct1.get_size(); i++){
+            dot_product_value += (p_vct1[i] * p_vct2[i]);
+        }
+        p_dot_product = dot_product_value;
+    }
 
     //! Dot product of two vectors(one row and one col vector) < vct1.vct2 >.
     //! One of the vector is already scattered. 
