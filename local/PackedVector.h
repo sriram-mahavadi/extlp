@@ -1,224 +1,315 @@
 /* 
  * File:   PackedVector.h
- * Author: sriram
+ * Author: Sriram Mahavadi
  *
- * Created on 5 April, 2014, 9:54 AM
+ * Created on 23 April, 2014, 1:51 AM
  */
 
 #ifndef PACKEDVECTOR_H
 #define	PACKEDVECTOR_H
-
+#include <stdio.h>
+#include <assert.h>
+#include "LinkedList.h"
 #include "GlobalDefines.h"
+#include "stxxl/vector"
+#include "SimpleVector.h"
 
-/// Struct needs to be accessed outside by the get() method
-/// Basic <index, value> pair to represent array/vector in packed form
-struct PackedElement {
-public:
-    int index;
+//! Basic <index, value> pair to represent array/vector in packed form.
+//! Struct needs to be accessed outside by the get() and set() methods only.
+class PackedElement {
+private:
+    unsigned int index;
     REAL value;
+public:
+    PackedElement() {
+    }
+    PackedElement(unsigned int index, REAL value) {
+        this->index = index;
+        this->value = value;
+    }
+    void set_index(unsigned int index) {
+        this->index = index;
+    }
+    void set_value(REAL value) {
+        this->value = value;
+    }
+    unsigned int get_index() const {
+        return this->index;
+    }
+    REAL get_value() const {
+        return this->value;
+    }
+    bool operator==(const PackedElement& other) const {
+        return (this->index == other.index && this->value == other.value);
+    }
+    //! For sorting based on index.
+    //! Used in LinkedList for adding in sorting order.
+    bool operator<(const PackedElement& other) const {
+        return (this->index < other.index);
+    }
+    //! Simple string with index and value
+    std::string debug_contents(){
+        std::stringstream packed_element_stream;
+        packed_element_stream<<"[ Index: "<<index<<"; Value: "<<value<<" ]";
+        return packed_element_stream.str();
+    }
 };
 
-/// Checks if the vector has sparsity>0.5 and stores in packed form if it does
-/// otherwise it will store the complete vector
-/// This is the best form to store on disk to reduce the number of I/O(compressed storage)
+//! Container for storing the packed form of the vector.
+//! Simple Vector of PackedElements.
 class PackedVector {
 private:
-    int nnz; /// Number of non-zeros, define the packed or unpacked form of vector
-    /// It is the compressed size in Packed form
-    int realSize; /// Max number of elements in unpacked form
-    std::vector<REAL> vctUnpacked;
-    std::vector<PackedElement> vctPacked;
-
+    //! Total Number of non zeros in the vector.
+    unsigned int m_nnz;
+    //! Max size of the unpacked vector.
+    unsigned int m_real_size;
+    //! Storage for packed compressed vector.
+    typedef LinkedList< PackedElement > ll_packedelement_type;
+    ll_packedelement_type m_vct_packed;
+    //! Boolean Identifier to specify if the vector is sorted by index.
+    bool m_is_sorted_by_index;
 public:
-    enum VectorStatus {
-        UNINITIALIZED, /// Vector status unknown and not yet initialized
-        PACKED, /// Vector is in compressed form
-        UNPACKED /// Vector is full-length vector
-    };
+    //! LinkedList iterator for iterating through Packed Vector.
+    friend class LinkedList< PackedElement >::iterator;
+    typedef typename LinkedList< PackedElement >::iterator iterator;
 
-    VectorStatus status;
-    /// Initialization section
-    PackedVector() {
-        nnz = 0;
-        realSize = 0;
-        status = UNINITIALIZED;
+    //! Initialization section.
+    //! PackedVector need to know the real size of vector in advance.
+    void initializeDefaults(unsigned int p_realSize) {
+        m_nnz = 0;
+        m_real_size = p_realSize;
+        m_is_sorted_by_index = true;
     }
+
+    //! Copy Construction - to check Memory Leak.
+    //! Do not allow copy constructor. May lead to shallow copy of linked list.
+    //! This might lead to clearing linked list twice leading to error while freeing.
+    PackedVector(PackedVector& p_packed_vector) : m_nnz(p_packed_vector.m_nnz),
+    m_real_size(p_packed_vector.m_real_size), m_vct_packed(p_packed_vector.m_vct_packed),
+    m_is_sorted_by_index(p_packed_vector.m_is_sorted_by_index) {
+        DEBUG_WARNING("Copying Packed Vector.");
+    }
+
+    //! Simple initialization
+    //! Sorted PackedVector by default
+    PackedVector(unsigned int p_size, bool p_is_sorted_by_index = true) :
+    m_real_size(p_size), m_is_sorted_by_index(p_is_sorted_by_index) {
+        m_nnz = 0;
+    }
+
+    //! Complete initialization from std::vector.
+    //! No more modifications to the existing input vector of elements.
     PackedVector(std::vector<REAL> &vct) {
-        /// Calculating the number of non-zeros
-        /// Adding the elements into Packed form by default
+        initializeDefaults(vct.size());
         unsigned int i;
-        status = PACKED;
         for (i = 0; i < vct.size(); i++) {
-            if (vct[i] != 0.0) {
-                PackedElement element;
-                nnz++;
-                element.index = i;
-                element.value = vct[i];
-                vctPacked.push_back(element);
-            }
-        }
-        realSize = vct.size();
-    }
-
-    /// Get the total number of non zeros in the vector
-    int getPackedSize() {
-        validateStatus();
-        if (status == UNINITIALIZED)
-            return 0;
-        return nnz;
-    }
-
-    /// Get the max capacity of the vector including the zeros
-    int getUnPackedSize() {
-        validateStatus();
-        if (status == UNINITIALIZED)
-            return 0;
-        return realSize;
-    }
-
-    /// Get the sparsity of the vector
-    float getSparsity() {
-        validateStatus();
-        if (status == UNINITIALIZED)
-            return 0;
-        return (float) nnz / realSize;
-    }
-    int size() {
-        if (status == PACKED) {
-            return nnz;
-        } else if (status == UNPACKED) {
-            return realSize;
-        } else if (status == UNINITIALIZED) {
-            // Still Uninitialized
-            return 0;
-        } else {
-            DEBUG_ERROR("Vector Status is Unknown");
-            return -1;
+            add(i, vct[i], false);
         }
     }
-    void convertToPacked() {
-        if (status == PACKED || status == UNINITIALIZED)return;
-        status = PACKED;
+
+    //! Complete initialization from Simple Vector.
+    PackedVector(SimpleVector<REAL> &vct) {
+        initializeDefaults(vct.get_size());
         unsigned int i;
-        nnz = 0;
-        vctPacked.clear();
-        for (i = 0; i < vctUnpacked.size(); i++) {
-            if (vctUnpacked[i] != 0.0) {
-                PackedElement element;
-                nnz++;
-                element.index = i;
-                element.value = vctUnpacked[i];
-                vctPacked.push_back(element);
-            }
+        for (i = 0; i < vct.get_size(); i++) {
+            add(i, vct[i], false);
         }
-        vctUnpacked.clear();
     }
-    void convertToUnPacked() {
-        if (status == UNPACKED || status == UNINITIALIZED)return;
-        status = UNPACKED;
+
+    //! Destroying PackedVector.
+    ~PackedVector() {
+        clear();
+    }
+
+    //! Get the total number of non zeros in the vector.
+    unsigned int get_nnz() {
+        return m_nnz;
+    }
+
+    //! Get the max capacity of the vector including the zeros.
+    unsigned int get_real_size() {
+        return m_real_size;
+    }
+
+    //! Get the sparsity of the vector.
+    float get_sparsity() {
+        return (float) (m_real_size - m_nnz)*100.0 / m_real_size;
+    }
+
+    //! Complete Initialization.
+    //! Override the existing vector
+    void store_from_vector(std::vector<REAL> &vct) {
+        clear();
+        initializeDefaults(vct.size());
+        for (unsigned int i = 0; i < vct.size(); i++) {
+            add(i, vct[i], false);
+        }
+    }
+
+    //! Complete initialization from Simple Vector.
+    void store_from_vector(SimpleVector<REAL> &vct) {
+        clear();
+        initializeDefaults(vct.get_size());
         unsigned int i;
-        vctUnpacked.clear();
-        vctUnpacked.resize(realSize);
-        for (i = 0; i < vctPacked.size(); i++) {
-            if (vctPacked[i].value != 0.0) {
-                int index = vctPacked[i].index;
-                REAL value = vctPacked[i].value;
-                vctUnpacked[index] = value;
+        for (i = 0; i < vct.get_size(); i++) {
+            add(i, vct[i], false);
+        }
+    }
+    //! Returns if the vector is sorted by index.
+    bool is_sorted_by_index() const {
+        return m_is_sorted_by_index;
+    }
+
+    //! Adds the simple <index, value> pair into the vector.
+    //! Also allows duplication check if given index already exists. 
+    //! Does not allow duplication by default.
+    //! Ignores add of element if index already exists and index_duplication_check is true.
+    //! Adds in sorted fashion if the PackedVector is sorted by index.
+    void add(unsigned int index, REAL value, bool p_index_duplication_check) {
+        // Check for non zero condition
+        if (value == 0.0F)return;
+        // Simply return if index is already present
+        if (p_index_duplication_check) {
+            iterator itr = m_vct_packed.begin();
+            while (itr != m_vct_packed.end()) {
+                if (index == (*itr).get_index()) {
+                    DEBUG_WARNING("Trying to add an index already existing...");
+                    return;
+                }
+                itr++;
             }
         }
-        vctPacked.clear();
-    }
-
-    /// Store unpacked vector externally into vctUnpack
-    void storeUnpackedVector(std::vector<REAL> &vctUnpack) {
-        if (status == UNINITIALIZED)return;
-        if (status == UNPACKED) {
-            vctUnpack = vctUnpacked;
-            return;
-        }
-        unsigned int i;
-        vctUnpack.clear();
-        vctUnpack.resize(realSize);
-        for (i = 0; i < vctPacked.size(); i++) {
-            if (vctPacked[i].value != 0.0) {
-                int index = vctPacked[i].index;
-                REAL value = vctPacked[i].value;
-                vctUnpack[index] = value;
-            }
-        }
-    }
-
-    /// Best for performing disk read
-    /// Main intution is to reduce disk I/O
-    void convertForDiskWrite() {
-        if (nnz > realSize / 2) {
-            convertToUnPacked();
-        } else {
-            convertToPacked();
-        }
-    }
-
-    /// Adds into packed form without even checking,
-    /// if the index already exists
-    void add(int index, REAL value) {
-        if (status == UNINITIALIZED) {
-            status = PACKED;
-            PackedElement element;
-            element.index = index;
-            element.value = value;
-            vctPacked.push_back(element);
-        } else if (status == PACKED) {
-            PackedElement element;
-            element.index = index;
-            element.value = value;
-            vctPacked.push_back(element);
-        }
-    }
-
-    /// Gets the packed or unpacked element present in the 
-    /// absolute index position input within corresponding vector
-    /// When element index is returned to be -1, there is some error
-    /// Which is either that vector is unintizlized, array out of bounds,
-    /// or that vector status is unknown
-    PackedElement get(int index) {
         PackedElement element;
-        if (status == UNINITIALIZED) {
-            element.index = -1;
-            DEBUG_WARNING("Vector is uninitialized!!!");
-        } else if (status == PACKED) {
-            if (index >= nnz) { // Array out of bounds
-                element.index = -1;
-            } else {
-                element.index = vctPacked[index].index;
-                element.value = vctPacked[index].value;
-            }
-        } else if (status == UNPACKED) {
-            if (index >= realSize) { // Array out of bounds
-                element.index = -1;
-            } else {
-                element.index = index;
-                element.value = vctUnpacked[index];
-            }
+        element.set_index(index);
+        element.set_value(value);
+        m_nnz++;
+        if (!is_sorted_by_index()) {
+            m_vct_packed.add(element);
         } else {
-            element.index = -1;
-            DEBUG_ERROR("Vector Status is Unknown");
+            m_vct_packed.add_sorted(element);
         }
-        return element;
     }
 
-    /// checks if the status of the vector is packed
-    bool isPacked() {
-        if (status == PACKED)return true;
-        return false;
+    //    //! Adds the simple <index, value> pair into the vector
+    //    //! Also allows duplication check if given index already exists. 
+    //    //! Does not allow duplication by default
+    //    //! Ignores add of element if index already exists and index_duplication_check is true
+    //    void add(unsigned int index, REAL value, bool p_index_duplication_check = true) {
+    //        // Check for non zero condition
+    //        if (value == 0.0F)return;
+    //        // Simply return if index is already present
+    //        if (p_index_duplication_check) {
+    //            iterator itr = m_vct_packed.begin();
+    //            while (itr != m_vct_packed.end()) {
+    //                if (index == (*itr).get_index())
+    //                    return;
+    //                itr++;
+    //            }
+    //        }
+    //        PackedElement element;
+    //        element.set_index(index);
+    //        element.set_value(value);
+    //        m_nnz++;
+    //        m_vct_packed.add(element);
+    //    }
+
+    //! Not a Efficient operation to randomly access item
+    //! from Packed Vector. Only need to be done if very much necessary.
+    REAL get(unsigned int index) const {
+        iterator itr = m_vct_packed.begin();
+        while (itr != m_vct_packed.end()) {
+            unsigned int current_index = (*itr).get_index();
+            if (index == current_index)
+                return (*itr).get_value();
+            if (is_sorted_by_index() && index < current_index)
+                return 0.0F;
+            itr++;
+        }
+        return 0.0F;
     }
 
-    // Status should take either of the values in the Status enum
-    void validateStatus() {
-        assert(status == PACKED || status == UNINITIALIZED || status == UNPACKED);
+    //! Removes an element with given absolute index.
+    //! Removal is done only if index is present
+    void remove(PackedElement packed_element){
+        bool is_removed = m_vct_packed.remove(packed_element);
+        if(is_removed)
+            m_nnz--;
+    }
+    
+    // Not a Efficient operation to randomly access item.
+    // from Packed Vector. Only need to be done if very much necessary.
+    REAL operator[](unsigned int index) const {
+        return get(index);
     }
 
+    //! Improve the size of the exising vector. Expand the vector.
+    //! The size need to be extended only. the vector cannot shrink.
+    //! TODO - Check the case in which we might mistakenly shrink the vector.
+    void resize(unsigned int p_size) {
+        // For now resizing only allows expansion and no shrinking
+        assert(p_size >= m_real_size);
+        m_real_size = p_size;
+    }
+
+    //! Sorts the Packed Vector based on the index.
+    //! Selection sort is employed for simple implementation.
+    //! TODO - Simply expand and compress incase it is less of a computation.
+    void sort_by_index() {
+        iterator itr1 = m_vct_packed.begin();
+        iterator itr2, min_itr;
+        while ((itr1 + 1) != m_vct_packed.end()) {
+            itr2 = itr1 + 1;
+            min_itr = itr1;
+            while (itr2 != m_vct_packed.end()) {
+                if ((*min_itr).get_index() > (*itr2).get_index()) {
+                    min_itr = itr2;
+                }
+                itr2++;
+            }
+            // Swapping the elements
+            if (min_itr != itr1) {
+                PackedElement packed_element = *itr1;
+                *itr1 = *min_itr;
+                *min_itr = packed_element;
+            }
+            itr1++;
+        }
+    }
+
+    //! Clear all the elements in the packed vector.
+    //! Initialize to defaults.
+    void clear() {
+        m_vct_packed.clear();
+        initializeDefaults(m_real_size);
+    }
+
+    //! Returns iterator to the beginning(first) element in the vector.
+    iterator begin() {
+        return m_vct_packed.begin();
+    }
+
+    //! Returns iterator to the ending(last) of the vector.
+    iterator end() {
+        return m_vct_packed.end();
+    }
+
+    //! Simple display of vector elements.
+    void displayVector() {
+        CONSOLE_PRINTLN("********* Vector Display ************");
+        CONSOLE_PRINTLN("Vector Status is: Packed");
+        CONSOLE_PRINTLN("Vector Real size is: " << get_real_size());
+        CONSOLE_PRINTLN("Vector No of Non-Zeros is: " << get_nnz());
+        CONSOLE_PRINTLN("Sparsity is: " << get_sparsity());
+        iterator itr = m_vct_packed.begin();
+        while (itr != m_vct_packed.end()) {
+            std::stringstream packedStr;
+            packedStr << "Index: " << (*itr).get_index();
+            packedStr << ", Value: " << (*itr).get_value();
+            CONSOLE_PRINTLN(packedStr.str());
+            itr++;
+        }
+        CONSOLE_PRINTLN(" ----------- *** --------------");
+    }
 };
-
-
-#endif	/* PACKEDVECTOR_H */
+#endif	/* PACKEDVECTOR2_H */
 

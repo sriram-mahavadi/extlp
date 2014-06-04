@@ -40,7 +40,7 @@ protected:
     bool delete_pools;
 
 public:
-    //! Constructs pool.
+    //! Constructs pool.l
     //! \param init_size_prefetch initial number of blocks in the prefetch pool
     //! \param init_size_write initial number of blocks in the write pool
     explicit read_write_pool(size_type init_size_prefetch = 1, size_type init_size_write = 1) :

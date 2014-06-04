@@ -7,18 +7,31 @@
 
 #ifndef CONSOLE_H
 #define	CONSOLE_H
+#include "GlobalDefines.h"
 // Performs the console input and output operations.
 class Console {
 public:
+    //! Console Priting options 
+    //! Better use the Global Debug macros to print on console
+    //    static void println(std::string x) {
+    //        std::cout << x << std::endl;
+    //    }
+    //    static void println(std::string x, REAL r) {
+    //        std::cout << x << r << std::endl;
+    //    }
+    //    static void println(std::string x, std::string r) {
+    //        std::cout << x << r << std::endl;
+    //    }
+    //    static void print(std::string x) {
+    //        std::cout << x;
+    //        std::cout<<std::flush;
+    //    }
+    //    static void print(std::string x, REAL r) {
+    //        std::cout << x << r;
+    //        std::cout<<std::flush;
+    //    }
 
-    static void println(std::string x) {
-        std::cout << x << "\r\n";
-    }
 
-    static void print(std::string x) {
-        std::cout << x;
-    }
-    
     // Prints the simple version and license information
     static void printVersionInfo() {
         const char* banner1 =
@@ -39,13 +52,12 @@ public:
                 "************************************************************************\n"
                 ;
 
-        Console::println(banner1);
-        Console::println(banner2);
+        CONSOLE_PRINTLN(banner1);
+        CONSOLE_PRINTLN(banner2);
     }
 
     // Prints the usage of console - command line format
     // and exits the solver after display.
-
     static void printUsage(const char* const argv[]) {
         const char* usage =
                 "[options] LPfile [Basfile]\n\n"

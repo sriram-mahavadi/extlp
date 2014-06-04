@@ -8,7 +8,7 @@
 #ifndef LPCOL_H
 #define	LPCOL_H
 
-#include "GlobalDefines.h"
+#include "../GlobalDefines.h"
 
 /**@brief   LP column.
    @ingroup Algo

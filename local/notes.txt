@@ -49,5 +49,46 @@ git commit --amend -m 'Notes added for description and some configuration detail
 git push --force origin sriram-dev
 
 git reset
+
+#Changing git author name:
+https://help.github.com/articles/setting-your-username-in-git
+http://stackoverflow.com/questions/750172/how-do-i-change-the-author-of-a-commit-in-git
+
+
+STXXL Disks Configuration:
+``````````````````````````
+
+
+Memory Calculations:
+````````````````````
+n3seq24.mps
+For 6000 rows*100000 columns=> 35*6*10^8 => 21 GB write log
+                            => 100000 * 2MB(min block size => too much for just 6000) => 
+mpss16.mps
+For 561657 rows * __________ columns => 
+
+
+
+How to 
 // Changed //
 ** updated sofar***
+
+Awesome Errors Report:
+``````````````````````
+If we send some structure by pass by value we need to be careful as follows
+-> There is a possible shallow copy of linked list in the structure
+-> if so the list will get deleted on destructor after the function completes execution :P
+
+
+Shell Scripts for standardizing MPS file:
+``````````````````````````````````````````
+sed 's/^ E/ L/' afiro.mps > afiro_standard.mps
+
+Shell Scripts for Project meta data:
+```````````````````````````````````
+git ls-files | xargs cat | wc -l
+git ls-files | xargs wc -l
+Getting LOC in current branch:
+git diff --stat 4b825dc642cb6eb9a060e54bf8d69288fbee4904
+find local/* -type f -maxdepth 1 | sed s,^./,, | xargs wc -l 
+find local/* -maxdepth 1 -type f | sed s,^./,, | xargs wc -l 

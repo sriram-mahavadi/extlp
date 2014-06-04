@@ -131,6 +131,8 @@
         </df>
         <df name="local">
           <df name="CMakeFiles">
+            <df name="extlp.dir">
+            </df>
             <df name="main.dir">
             </df>
             <df name="test1.dir">
@@ -142,6 +144,8 @@
             <df name="miplib2010">
             </df>
             <df name="soplex">
+            </df>
+            <df name="soplex_standard">
             </df>
           </df>
         </df>
@@ -467,30 +471,49 @@
       <df name="local">
         <df name="CMakeFiles">
         </df>
-        <df name="Utils">
+        <df name="deprecated">
+          <in>ExtColVector.h</in>
+          <in>ExtFixedMatrix.h</in>
+          <in>ExtPackedVector.h</in>
+          <in>ExtReadMPSUtil.h</in>
+          <in>ExtRowVector.h</in>
+          <in>ExtStringVector.h</in>
+          <in>ExtVectorPrototype.h</in>
+          <in>Fraction.h</in>
+          <in>LPCol.h</in>
+          <in>LPRow.h</in>
+          <in>MixedFraction.h</in>
+          <in>PackedVectorPrototype.h</in>
+          <in>PackedVectorTemplate.h</in>
+          <in>ReadLPUtil.h</in>
+          <in>ReadMPSUtil.h</in>
+          <in>Timer.h</in>
         </df>
         <in>Console.h</in>
-        <in>ExtLPCol.h</in>
-        <in>ExtLPMatrix.h</in>
-        <in>Fraction.h</in>
+        <in>ExtLPDSSet.h</in>
+        <in>ExtMatrixA.h</in>
+        <in>ExtMatrixB.h</in>
+        <in>ExtMatrixBInverse.h</in>
+        <in>ExtNameMap.h</in>
+        <in>ExtPackedVector.h</in>
+        <in>ExtReadMPSUtil.h</in>
+        <in>ExtStxxlVector.h</in>
+        <in>ExtVector.h</in>
+        <in>ExtVectorUtil.h</in>
+        <in>FixedString.h</in>
+        <in>FixedStringUtil.h</in>
+        <in>GlobalDebug.h</in>
         <in>GlobalDefines.h</in>
-        <in>LPCol.h</in>
-        <in>LPParser.h</in>
-        <in>LPProblem.h</in>
-        <in>LPRow.h</in>
-        <in>LPSolver.h</in>
-        <in>MPSParser.h</in>
-        <in>MixedFraction.h</in>
+        <in>LinkedList.h</in>
+        <in>PackedColVector.h</in>
+        <in>PackedRowVector.h</in>
         <in>PackedVector.h</in>
-        <in>PackedVectorUtil.h</in>
         <in>ReadFileUtil.h</in>
-        <in>ReadLPUtil.h</in>
-        <in>ReadMPSUtil.h</in>
-        <in>Timer.h</in>
-        <in>main.cpp</in>
+        <in>SimpleVector.h</in>
+        <in>Test.h</in>
+        <in>extlp.cpp</in>
         <in>mpsinput.h</in>
         <in>notes.txt</in>
-        <in>test1.cpp</in>
       </df>
       <df name="misc">
         <df name="cmake">
@@ -638,6 +661,8 @@
         <in>mlock.cpp</in>
         <in>stxxl_tool.cpp</in>
       </df>
+      <in>myloc.sh</in>
+      <in>slocc.sh</in>
     </df>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -681,8 +706,9 @@
           <runcommandpicklistitem>./main -t -L20 test.mps</runcommandpicklistitem>
           <runcommandpicklistitem>./main -t -L20 input/afiro.mps</runcommandpicklistitem>
           <runcommandpicklistitem>./main -t -L20 input/soplex/afiro.mps</runcommandpicklistitem>
+          <runcommandpicklistitem>./extlp -t -L20 input/soplex/afiro.mps</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>./main -t -L20 input/soplex/afiro.mps</runcommand>
+        <runcommand>./extlp -t -L20 input/soplex/afiro.mps</runcommand>
         <rundir>./build/local</rundir>
         <buildfirst>false</buildfirst>
         <terminal-type>0</terminal-type>

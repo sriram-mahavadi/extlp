@@ -9,7 +9,7 @@
 #define	LPROW_H
 
 
-#include "GlobalDefines.h"
+#include "../GlobalDefines.h"
 
 /**@brief   (In)equality for LPs.
    @ingroup Algo

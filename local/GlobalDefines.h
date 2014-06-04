@@ -1,98 +1,66 @@
 /* 
  * File:   GlobalDefines.h
- * Author: sriram
+ * Author: Sriram Mahavadi
  *
  * Created on 18 March, 2014, 3:59 PM
  */
 
 #ifndef GLOBALDEFINES_H
 #define	GLOBALDEFINES_H
-#include <stxxl/map>
-#include <stxxl/vector>
-#include <stxxl/map>
+#include "GlobalDebug.h"
 
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 // Data types and constants that are useful across the project  //
 //////////////////////////////////////////////////////////////////
 
-// Datatype for the cells of matrix and column cells of simplex
-// algorithm - Can be replaced with Fraction, MixedFraction
+//! Datatype for the cells of matrix and column cells of simplex
+//! algorithm - Can be replaced with Fraction, MixedFraction
 #define REAL double
 
-// Used to represent infinity values in the matrix and column 
-// cells of simplex algorithm
+//! Used to represent infinity values in the matrix and column 
+//! cells of simplex algorithm
 #define INFINITY_VALUE 1e100
 
-// Used to represent the block size of various I/O operations
-// Storing 4 KB = 1<<12 block size by default
-#define BLOCK_SIZE 1<<12;
-typedef stxxl::VECTOR_GENERATOR<REAL>::result real_vector;
+//! Vector template parameters are set for configuring external memory operations performance are as follows:
+//! template parameters<ValueType, PageSize, CachePages, BlockSize, AllocStratg>
 
-#define DATA_NODE_BLOCK_SIZE (4096)
-#define DATA_LEAF_BLOCK_SIZE (4096)
+//! Matrix B Block Configurations
+//! Total Size taken in physical memory => 2*(5MB*10) + 1MB + 1MB => 102MB
+#define MATRIX_B_BLOCK_SIZE 10*1024*1024
+#define MATRIX_B_COL_BLOCK_SIZE MATRIX_B_BLOCK_SIZE/2
+#define MATRIX_B_ROW_BLOCK_SIZE MATRIX_B_BLOCK_SIZE/2
+#define MATRIX_B_COL_PAGE_CACHE 10
+#define MATRIX_B_ROW_PAGE_CACHE 10
+#define MATRIX_B_COL_BLOCKS_PER_PAGE 1
+#define MATRIX_B_ROW_BLOCKS_PER_PAGE 1
+#define MATRIX_B_COL_DATA_BLOCK_SIZE 1*1024*1024
+#define MATRIX_B_ROW_DATA_BLOCK_SIZE 1*1024*1024
 
-//! [comparator]
+//! Matrix A Block Configurations
+//! Total Size taken in physical memory => (10MB*10) + 1MB + 1MB => 102MB
+#define MATRIX_A_BLOCK_SIZE 10*1024*1024
+#define MATRIX_A_PAGE_CACHE 1
+#define MATRIX_A_BLOCKS_PER_PAGE 10
+#define MATRIX_A_COL_DATA_BLOCK_SIZE 1*1024*1024
+#define MATRIX_A_ROW_DATA_BLOCK_SIZE 1*1024*1024
 
-struct CompareGreater {
-
-    bool operator () (const int& a, const int& b) const {
-        return a > b;
-    }
-
-    static int max_value() {
-        return std::numeric_limits<int>::min();
-    }
-};
-// template parameter <KeyType, DataType, CompareType, RawNodeSize, RawLeafSize, PDAllocStrategy (optional)>
-typedef stxxl::map<int, char, CompareGreater, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> int_map;
-
-
-
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-// Console output/Debug operations that are useful across the project  ////
-///////////////////////////////////////////////////////////////////////////
-// Used for development purpose debugging
-#define COMMON_DEBUG true
-// Development purpose debug only related to parsing
-#define PARSER_DEBUG true
-// Simple debugging messages also may be visible to users
-#define SIMPLE_DEBUG true
-// Warning messages from all across the project
-#define WARNING_DEBUG true
-// Error messages from all across the project
-#define ERROR_DEBUG true
-
-#define DEBUG(x) \
-if(COMMON_DEBUG == true){ \
-        std::cout <<"COMMON MSG- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
-        std::cout.flush();\
-}
-
-#define DEBUG_SIMPLE(x) \
-if(SIMPLE_DEBUG == true){ \
-        std::cout << "*** " << x << " ***"<<std::endl;\
-        std::cout.flush();\
-}
-
-#define DEBUG_PARSER(x) \
-if(PARSER_DEBUG == true){ \
-	std::cout <<"PARSER MSG- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
-        std::cout.flush();\
-}
-
-#define DEBUG_ERROR(x) \
-if(ERROR_DEBUG == true){ \
-        std::cout <<"GENERAL ERR- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
-        std::cout.flush();\
-}
-
-#define DEBUG_WARNING(x) \
-if(WARNING_DEBUG == true){ \
-        std::cout <<"GENERAL WRN- File:"<< __FILE__ <<",Line:" <<__LINE__ <<",msg:"<< x << std::endl;\
-        std::cout.flush();\
-}
+//! Map Block Configurations for storing rownames and colnames
+//! Two maps are maintained for purpose of mapping rows and columns respectively
+//! Total Size taken in physical memory => 2*(2MB*5) => 20MB
+#define DATA_NODE_BLOCK_SIZE (2*1024*1024)
+#define DATA_LEAF_BLOCK_SIZE (2*1024*1024)
+#define DATA_NODE_CACHE_COUNT 5
+#define DATA_LEAF_CACHE_COUNT 5
+#define MAX_KEY_LEN 10
 
 #endif	/* GLOBALDEFINES_H */
+
+/**
+ * Additional Data structures residing on physical memory through out the program
+ * ```````````````````````````````````````````````````````````````````````````````
+ * SimpleVector<unsigned int> for storing base indices => O(m)
+ * SimpleVector<REAL> for storing rhs values => O(m)
+ * SimpleVector<REAL> for storing base obj values => O(m)
+ */
 
