@@ -33,6 +33,21 @@ public:
         for (unsigned int i = 0; i < p_size; i++)
             m_vct_values[i] = 0;
     }
+    
+    //! Deep copy for SimpleVector copy constructor
+    //! Shallow copy would cause problems for SimpleVector
+    SimpleVector(SimpleVector& other){
+        m_vct_values = new ItemClass[other.get_size()];
+        m_size = other.get_size();
+        for(unsigned int i=0; i<m_size; i++){
+            m_vct_values[i] = other[i];
+        }
+    }
+    
+    //! Simple Deallocation
+    ~SimpleVector(){
+        delete m_vct_values;
+    }
 
     //! Resizes the vector with an option to allow shrinking if necessary
     //! Shrinking is not allowed by default
