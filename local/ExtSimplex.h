@@ -62,6 +62,7 @@ public:
         unsigned int status = SIMPLEX_CJZJ_UNINTIALIZED;
         do{
         status = update_simplex_iteration();
+         print_solution();
         }while(status==SIMPLEX_CJZJ_POSITIVE);
         print_solution();
     }
@@ -86,7 +87,7 @@ public:
 
         // Getting j for which cj-zj gives max positive value => k
         unsigned int k = -1;
-        REAL max_reduced_cost = 0.0F;
+        REAL max_reduced_cost = -INFINITY_VALUE;
         for (unsigned int j = 0; j < A.get_columns_count(); j++) {
             ExtMatrixA::ColAttr col_attr = A.get_col_attr(j);
             if (!col_attr.get_is_basic_col()) {
@@ -126,7 +127,7 @@ public:
             if(m_vct_rhs[row_index]>=0.0F && y[row_index]<0.0F)continue;// Ignoring when ration<0
             REAL ratio = m_vct_rhs[row_index] / y[row_index];
             if ((min_ratio == -1.0F && ratio >= 0.0) ||
-                    (ratio > 0.0 && ratio < min_ratio)) {
+                    (ratio >= 0.0 && ratio < min_ratio)) {
                 min_ratio = ratio;
                 r = row_index;
             }
@@ -145,7 +146,7 @@ public:
         debug_rhs();
         debug_y(y);
         debug_eta(eta_vector);
-        debug_b_inverse();
+//        debug_b_inverse();
 
         // Updating A Matrix for setting cols to basic 
         unsigned int a_r_index = b_inverse.get_col_attr(r).get_a_col_index();
@@ -291,7 +292,7 @@ public:
     }
     void debug_eta(EtaVector& eta) {
         PackedVector& eta_col = eta.get_col_vector();
-        DEBUG("eta_col = [ Non-Identity col ]. Values are as follows.");
+        DEBUG("eta_col = [ Non-Identity col: "<< eta.get_col_index()<<"]. Values are as follows.");
         std::stringstream eta_stream;
         eta_stream << "eta_col[r]: " << eta.get_col_index() << ", ";
         PackedVector::iterator itr = eta_col.begin();
