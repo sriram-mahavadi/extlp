@@ -47,7 +47,7 @@ public:
     //! and initialization of B Inverse. 
     //! TODO - Need to find a proper base using pre-solve rather than Identity matrix every time.
     void init_simplex() {
-        extDataSet.setObjSense(MIN);
+        extDataSet.setObjSense(MAX);
         m_base_col_indices = extDataSet.A.standardize_matrix();
         extDataSet.BInverse.build_matrix_b_inverse(extDataSet.A, m_base_col_indices);
         extDataSet.A.store_row_rhs_values(m_vct_rhs);
@@ -60,10 +60,16 @@ public:
         //        debug_rhs_values();
         //        debug_objective_values();
         unsigned int status = SIMPLEX_CJZJ_UNINTIALIZED;
-        do{
-        status = update_simplex_iteration();
-         print_solution();
-        }while(status==SIMPLEX_CJZJ_POSITIVE);
+        do {
+            stxxl::stats * Stats = stxxl::stats::get_instance();
+            stxxl::stats_data stats_begin(*Stats);
+
+            status = update_simplex_iteration();
+            
+            stxxl::stats_data diff_data = stxxl::stats_data(*Stats) - stats_begin;
+            print_io_statistics(diff_data, extDataSet, (m_iteration_count==1));
+            //         print_solution();
+        } while (status == SIMPLEX_CJZJ_POSITIVE);
         print_solution();
     }
 
@@ -95,7 +101,7 @@ public:
                 PackedVector a_col_vector(get_basis_dimension());
                 A.store_column(j, a_col_vector, false);
                 REAL cj = col_attr.get_objective_value(); // cj value
-                if(is_min)cj*=-1;
+                if (is_min)cj *= -1;
                 REAL zj = 0.0F;
                 ExtVectorUtil::store_dot_product(w, a_col_vector, zj);
                 REAL reduced_cost = cj - zj;
@@ -103,12 +109,12 @@ public:
                     max_reduced_cost = reduced_cost;
                     k = j;
                 }
-                DEBUG("Col: " << j << ", Reduced Cost: " << reduced_cost);
+//                DEBUG("Col: " << j << ", Reduced Cost: " << reduced_cost);
             }
         }
-        if(max_reduced_cost==0.0F) return SIMPLEX_CJZJ_ZERO;
-        else if(max_reduced_cost<0.0F) return SIMPLEX_CJZJ_NEGATIVE;
-        
+        if (max_reduced_cost == 0.0F) return SIMPLEX_CJZJ_ZERO;
+        else if (max_reduced_cost < 0.0F) return SIMPLEX_CJZJ_NEGATIVE;
+
         //! Getting column-k of Matrix A
         PackedVector ak_vector(get_basis_dimension());
         A.store_column(k, ak_vector, false);
@@ -118,13 +124,13 @@ public:
         //! Finding yk
         SimpleVector<REAL> y(get_basis_dimension());
         ExtVectorUtil::store_dot_product(b_inverse, ak_vector, y);
-        debug_y(y);
+//        debug_y(y);
         unsigned int r; // leaving variable
         REAL min_ratio = -1.0F;
         //! Finding r - leaving variable 
         for (unsigned int row_index = 0; row_index < y.get_size(); row_index++) {
-            if(y[row_index]==0.0F)continue; // Ignoring when yk=0
-            if(m_vct_rhs[row_index]>=0.0F && y[row_index]<0.0F)continue;// Ignoring when ration<0
+            if (y[row_index] == 0.0F)continue; // Ignoring when yk=0
+            if (m_vct_rhs[row_index] >= 0.0F && y[row_index] < 0.0F)continue; // Ignoring when ration<0
             REAL ratio = m_vct_rhs[row_index] / y[row_index];
             if ((min_ratio == -1.0F && ratio >= 0.0) ||
                     (ratio >= 0.0 && ratio < min_ratio)) {
@@ -132,21 +138,21 @@ public:
                 r = row_index;
             }
         }
-        if(min_ratio==-1.0){
+        if (min_ratio == -1.0) {
             return SIMPLEX_INVALID_MIN_RATIO;
         }
         // Getting the Eta Vector for updating data structures for next iteration
         EtaVector eta_vector(r, y);
 
-        DEBUG_SIMPLE("*************************** BEFORE ITERERATION " << m_iteration_count << " ******************************************");
-        DEBUG_SIMPLE("             **************************************************");
-        debug_objective_values();
-        debug_w(w);
-        debug_ak(ak_vector);
-        debug_rhs();
-        debug_y(y);
-        debug_eta(eta_vector);
-//        debug_b_inverse();
+        //        DEBUG_SIMPLE("*************************** BEFORE ITERERATION " << m_iteration_count << " ******************************************");
+        //        DEBUG_SIMPLE("             **************************************************");
+        //        debug_objective_values();
+        //        debug_w(w);
+        //        debug_ak(ak_vector);
+        //        debug_rhs();
+        //        debug_y(y);
+        //        debug_eta(eta_vector);
+        //        debug_b_inverse();
 
         // Updating A Matrix for setting cols to basic 
         unsigned int a_r_index = b_inverse.get_col_attr(r).get_a_col_index();
@@ -168,29 +174,60 @@ public:
 
         // Updating the objective values
         REAL k_coef_value = A.get_col_attr(k).get_objective_value();
-        if(is_min)k_coef_value*=-1;
+        if (is_min)k_coef_value *= -1;
         m_vct_obj[r] = k_coef_value;
-        
+
         // Updating RHS vector
         ExtVectorUtil::update_rhs(eta_vector, m_vct_rhs);
         //        debug_rhs();
-        
+
         // Updating iteration count
         m_iteration_count++;
-        
-        DEBUG_SIMPLE("*************************** AFTER ITERERATION " << m_iteration_count-1 << " ******************************************");
-        DEBUG_SIMPLE("             **************************************************");
-        debug_objective_values();
-        debug_rhs();
-        debug_b_inverse();
+
+        //        DEBUG_SIMPLE("*************************** AFTER ITERERATION " << m_iteration_count-1 << " ******************************************");
+        //        DEBUG_SIMPLE("             **************************************************");
+        //        debug_objective_values();
+        //        debug_rhs();
+        //        debug_b_inverse();
         return SIMPLEX_CJZJ_POSITIVE;
     }
+    void print_io_statistics(stxxl::stats_data diff_data, ExtLPDSSet& extDataSet, bool print_header = false) {
+        int width = 15;
+        if (print_header) {
+            std::stringstream header_stream;
+            header_stream << std::setw(width) << "Iteration" << ", ";
+            header_stream << std::setw(width) << "Act. Read IO" << ", ";
+            header_stream << std::setw(width) << "Act. Write IO" << ", ";
+            header_stream << std::setw(width) << "Est. Read IO" << ", ";
+            header_stream << std::setw(width) << "Est. Write IO" << ", ";
+            header_stream << std::setw(width) << "NNZ B.Inv" << ", ";
+            header_stream << std::setw(width) << "Density B.Inv" << ", ";
+            header_stream << std::setw(width) << "IO Wait Time" << ", ";
+            header_stream << std::setw(width) << "Parl. Read T" << ", ";
+            header_stream << std::setw(width) << "Parl. Write T" << ", ";
+            header_stream << std::setw(width) << "Elapsed Time" << ", ";
+            CONSOLE_PRINTLN(header_stream.str());
+        }
+        std::stringstream statistics_stream;
+        statistics_stream << std::setw(width) << m_iteration_count << ", ";
+        statistics_stream << std::setw(width) << diff_data.get_reads() << ", ";
+        statistics_stream << std::setw(width) << diff_data.get_writes() << ", ";
+        statistics_stream << std::setw(width) << diff_data.get_reads() << ", "; // Todo Estimate
+        statistics_stream << std::setw(width) << diff_data.get_writes() << ", ";// Todo Estimate
+        statistics_stream << std::setw(width) << extDataSet.BInverse.get_overall_nnz() << ", ";
+        statistics_stream << std::setw(width) << extDataSet.BInverse.get_overall_density() << ", ";
+        statistics_stream << std::setw(width) << diff_data.get_io_wait_time() << ", ";
+        statistics_stream << std::setw(width) << diff_data.get_pread_time() << ", ";
+        statistics_stream << std::setw(width) << diff_data.get_pwrite_time() << ", ";
+        statistics_stream << std::setw(width) << diff_data.get_elapsed_time() << ", ";
+        CONSOLE_PRINTLN(statistics_stream.str());
+    }
     //! Performs the Cb*b
-    void print_solution(){
+    void print_solution() {
         // objective value
-        REAL z=0.0F;
+        REAL z = 0.0F;
         ExtVectorUtil::store_dot_product(m_vct_obj, m_vct_rhs, z);
-        CONSOLE_PRINTLN("Objective Value: "<<z);
+        CONSOLE_PRINTLN("Objective Value: " << z);
     }
     //////////////////////////////////////////////////////////////////////
     ///////////////////////// Debug Functions ////////////////////////////
@@ -292,7 +329,7 @@ public:
     }
     void debug_eta(EtaVector& eta) {
         PackedVector& eta_col = eta.get_col_vector();
-        DEBUG("eta_col = [ Non-Identity col: "<< eta.get_col_index()<<"]. Values are as follows.");
+        DEBUG("eta_col = [ Non-Identity col: " << eta.get_col_index() << "]. Values are as follows.");
         std::stringstream eta_stream;
         eta_stream << "eta_col[r]: " << eta.get_col_index() << ", ";
         PackedVector::iterator itr = eta_col.begin();

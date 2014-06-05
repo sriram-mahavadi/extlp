@@ -1,4 +1,4 @@
-NAME          MySample
+xNAME          MySample
 ROWS
  L  R01
  L  R02

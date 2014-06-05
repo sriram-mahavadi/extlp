@@ -204,6 +204,15 @@ public:
         unsigned int real_size = get_rows_count();
         return ((float) (real_size - nnz))*100.0 / real_size;
     }
+
+    //! Returns the density of given p_col_index column. 
+    //! Use this to get sparsity instead of fetching entire column
+    float get_col_density(unsigned int p_col_index) {
+        unsigned int nnz = get_col_nnz(p_col_index);
+        unsigned int real_size = get_rows_count();
+        return ((float) (nnz))*100.0 / real_size;
+    }
+
     //! Sets the input column attributes associated with the p_col_index
     void set_col_attr(unsigned int p_col_index, ColAttr p_col_attr) {
         m_vct_col_attr[p_col_index] = p_col_attr;
@@ -292,6 +301,31 @@ public:
             m_vct_row_disk.clear();
         }
     }
+
+    //! Returns the overall number of nonzeros of the matrix 
+    float get_overall_nnz() {
+        unsigned int total_nnz = 0;
+        for (unsigned int i = 0; i < get_columns_count(); i++) {
+            unsigned int nnz_i = get_col_nnz(i);
+            total_nnz += nnz_i;
+        }
+        return total_nnz;
+    }
+
+    //! Returns the overall sparsity of the matrix 
+    float get_overall_sparsity() {
+        unsigned int total_nnz = get_overall_nnz();
+        unsigned int total_size = get_rows_count() * get_columns_count();
+        return (float) (total_size - total_nnz)*100.0 / total_size;
+    }
+
+    //! Returns the overall density of the matrix 
+    float get_overall_density() {
+        unsigned int total_nnz = get_overall_nnz();
+        unsigned int total_size = get_rows_count() * get_columns_count();
+        return (float) (total_nnz)*100.0 / total_size;
+    }
+
 
     //! Building the matrix from Matrix A and the basis col matrix
     //! Initial Assumption AX + S = b making S (Identity matrix)to be the B and B inverse
