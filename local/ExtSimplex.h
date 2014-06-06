@@ -65,13 +65,15 @@ public:
             stxxl::stats_data stats_begin(*Stats);
 
             status = update_simplex_iteration();
-            
+
             stxxl::stats_data diff_data = stxxl::stats_data(*Stats) - stats_begin;
-//            print_io_statistics(diff_data, extDataSet, (m_iteration_count==1));
+            print_io_statistics(diff_data, extDataSet, (m_iteration_count == 1), true);
             //         print_solution();
         } while (status == SIMPLEX_CJZJ_POSITIVE);
-        if(status==SIMPLEX_INVALID_MIN_RATIO)
-            DEBUG("INVALID MIN RATIO");
+        if (status == SIMPLEX_INVALID_MIN_RATIO) {
+            DEBUG("Unbounded Solution!!!");
+            exit(0);
+        }
         print_solution();
     }
 
@@ -107,16 +109,17 @@ public:
                 REAL zj = 0.0F;
                 ExtVectorUtil::store_dot_product(w, a_col_vector, zj);
                 REAL reduced_cost = cj - zj;
+                // Always pick the first max postive cj-zj - Bland Method
                 if (reduced_cost > max_reduced_cost) {
                     max_reduced_cost = reduced_cost;
                     k = j;
                 }
-                DEBUG("Col: " << j << ", Reduced Cost: " << reduced_cost);
+                //                DEBUG("Col: " << j << ", Reduced Cost: " << reduced_cost);
             }
         }
-        debug_objective_values();
-        debug_b_inverse();
-        debug_w(w);
+        //        debug_objective_values();
+        //        debug_b_inverse();
+        //        debug_w(w);
         if (max_reduced_cost == 0.0F) return SIMPLEX_CJZJ_ZERO;
         else if (max_reduced_cost < 0.0F) return SIMPLEX_CJZJ_NEGATIVE;
 
@@ -129,7 +132,7 @@ public:
         //! Finding yk
         SimpleVector<REAL> y(get_basis_dimension());
         ExtVectorUtil::store_dot_product(b_inverse, ak_vector, y);
-//        debug_y(y);
+        //        debug_y(y);
         unsigned int r; // leaving variable
         REAL min_ratio = -1.0F;
         //! Finding r - leaving variable 
@@ -142,18 +145,27 @@ public:
                 min_ratio = ratio;
                 r = row_index;
             }
+            // Elimintating Cycles in Simplex - Bland Method
+            if(ratio>=0.0F && ratio==min_ratio){
+                // Already existing leaving variable may have a greater index value, then replace it
+                unsigned int a_r_index = b_inverse.get_col_attr(r).get_a_col_index();
+                unsigned int a_row_index = b_inverse.get_col_attr(row_index).get_a_col_index();
+                if(a_r_index>a_row_index){
+                    r = row_index;
+                }
+            }
         }
         if (min_ratio == -1.0F) {
             return SIMPLEX_INVALID_MIN_RATIO;
         }
-        
-        
-        debug_ak(ak_vector);
-        debug_y(y);
-        debug_rhs();
+
+
+        //        debug_ak(ak_vector);
+        //        debug_y(y);
+        //        debug_rhs();
         // Getting the Eta Vector for updating data structures for next iteration
         EtaVector eta_vector(r, y);
-        debug_eta(eta_vector);
+        //        debug_eta(eta_vector);
 
         //        DEBUG_SIMPLE("*************************** BEFORE ITERERATION " << m_iteration_count << " ******************************************");
         //        DEBUG_SIMPLE("             **************************************************");
@@ -180,7 +192,7 @@ public:
         col_attr.set_a_col_index(k);
         b_inverse.set_col_attr(r, col_attr);
 
-        debug_base_col_indices();
+        //        debug_base_col_indices();
         // Updating Base Col indices
         m_base_col_indices[r] = k;
 
@@ -201,10 +213,10 @@ public:
         //        debug_objective_values();
         //        debug_rhs();
         //        debug_b_inverse();
-        debug_base_col_indices();
+        //        debug_base_col_indices();
         return SIMPLEX_CJZJ_POSITIVE;
     }
-    void print_io_statistics(stxxl::stats_data diff_data, ExtLPDSSet& extDataSet, bool print_header = false) {
+    void print_io_statistics(stxxl::stats_data diff_data, ExtLPDSSet& extDataSet, bool print_header = false, bool is_objective_reqd=false) {
         int width = 15;
         if (print_header) {
             std::stringstream header_stream;
@@ -219,6 +231,8 @@ public:
             header_stream << std::setw(width) << "Parl. Read T" << ", ";
             header_stream << std::setw(width) << "Parl. Write T" << ", ";
             header_stream << std::setw(width) << "Elapsed Time" << ", ";
+            if (is_objective_reqd)
+                header_stream << std::setw(width) << "Obj Fnct. Val." << ", ";
             CONSOLE_PRINTLN(header_stream.str());
         }
         std::stringstream statistics_stream;
@@ -226,20 +240,27 @@ public:
         statistics_stream << std::setw(width) << diff_data.get_reads() << ", ";
         statistics_stream << std::setw(width) << diff_data.get_writes() << ", ";
         statistics_stream << std::setw(width) << diff_data.get_reads() << ", "; // Todo Estimate
-        statistics_stream << std::setw(width) << diff_data.get_writes() << ", ";// Todo Estimate
+        statistics_stream << std::setw(width) << diff_data.get_writes() << ", "; // Todo Estimate
         statistics_stream << std::setw(width) << extDataSet.BInverse.get_overall_nnz() << ", ";
         statistics_stream << std::setw(width) << extDataSet.BInverse.get_overall_density() << ", ";
         statistics_stream << std::setw(width) << diff_data.get_io_wait_time() << ", ";
         statistics_stream << std::setw(width) << diff_data.get_pread_time() << ", ";
         statistics_stream << std::setw(width) << diff_data.get_pwrite_time() << ", ";
         statistics_stream << std::setw(width) << diff_data.get_elapsed_time() << ", ";
+        if (is_objective_reqd)
+            statistics_stream << std::setw(width) << get_objective_function_value() << ", ";
         CONSOLE_PRINTLN(statistics_stream.str());
+    }
+    REAL get_objective_function_value() {
+        REAL z = 0.0F;
+        ExtVectorUtil::store_dot_product(m_vct_obj, m_vct_rhs, z);
+        return z;
     }
     //! Performs the Cb*b
     void print_solution() {
         // objective value
         REAL z = 0.0F;
-        ExtVectorUtil::store_dot_product(m_vct_obj, m_vct_rhs, z);
+        z=get_objective_function_value();
         CONSOLE_PRINTLN("Objective Value: " << z);
     }
     //////////////////////////////////////////////////////////////////////

@@ -1,0 +1,363 @@
+MT2012160@myweb:~/scripts$ ./lp_standardizer.sh 
+30_70_45_095_100.mps          :Ign: Negative RHS             :
+30n20b8.mps                   :Successful [BOUNDS]           :
+50v-10.mps                    :Ign: Negative RHS             :
+a1c1s1.mps                    :Successful                    :
+acc-tight4.mps                :Ign: Negative RHS             :
+acc-tight5.mps                :Ign: Negative RHS             :
+acc-tight6.mps                :Ign: Negative RHS             :
+aflow40b.mps                  :Successful [BOUNDS]           :
+air04.mps                     :Successful [BOUNDS]           :
+app1-2.mps                    :Ign: Negative RHS             :
+ash608gpia-3col.mps           :Successful [BOUNDS]           :
+atlanta-ip.mps                :Ign: Negative RHS             :
+atm20-100.mps                 :Ign: Negative RHS             :
+b2c1s1.mps                    :Successful [BOUNDS]           :
+bab1.mps                      :Successful [BOUNDS]           :
+bab3.mps                      :Ign: Negative RHS             :
+bab5.mps                      :Ign: Negative RHS             :
+beasleyC3.mps                 :Ign: Negative RHS             :
+berlin_5_8_0.mps              :Ign: Negative RHS             :
+bg512142.mps                  :Ign: Negative RHS             :
+biella1.mps                   :Ign: Negative RHS             :
+bienst2.mps                   :Successful [BOUNDS]           :
+binkar10_1.mps                :Ign: Negative RHS             :
+bley_xl1.mps                  :Ign: Negative RHS             :
+blp-ar98.mps                  :Successful [BOUNDS]           :
+blp-ic97.mps                  :Successful [BOUNDS]           :
+bnatt350.mps                  :Ign: Negative RHS             :
+bnatt400.mps                  :Ign: Negative RHS             :
+buildingenergy.mps            :Successful [RANGES]           :
+cdma.mps                      :Ign: Negative RHS             :
+circ10-3.mps                  :Ign: Negative RHS             :
+co-100.mps                    :Successful [BOUNDS]           :
+core2536-691.mps              :Ign: Negative RHS             :
+core4872-1529.mps             :Ign: Negative RHS             :
+cov1075.mps                   :Successful [BOUNDS]           :
+csched007.mps                 :Ign: Negative RHS             :
+csched008.mps                 :Successful [BOUNDS]           :
+csched010.mps                 :Ign: Negative RHS             :
+d10200.mps                    :Successful [BOUNDS]           :
+d20200.mps                    :Successful [BOUNDS]           :
+dano3mip.mps                  :Ign: Negative RHS             :
+danoint.mps                   :Successful [BOUNDS]           :
+datt256.mps                   :Successful [BOUNDS]           :
+dc1c.mps                      :Ign: Negative RHS             :
+dc1l.mps                      :Ign: Negative RHS             :
+dfn-gwin-UUM.mps              :Ign: Negative RHS             :
+dg012142.mps                  :Ign: Negative RHS             :
+dolom1.mps                    :Ign: Negative RHS             :
+ds-big.mps                    :Successful [BOUNDS]           :
+eil33-2.mps                   :Successful                    :
+eilA101-2.mps                 :Successful                    :
+eilB101.mps                   :Successful                    :
+enlight13.mps                 :Ign: Negative RHS             :
+enlight14.mps                 :Ign: Negative RHS             :
+enlight15.mps                 :Ign: Negative RHS             :
+enlight16.mps                 :Ign: Negative RHS             :
+enlight9.mps                  :Ign: Negative RHS             :
+ex1010-pi.mps                 :Successful [BOUNDS]           :
+ex10.mps                      :Successful [BOUNDS]           :
+ex9.mps                       :Successful [BOUNDS]           :
+f2000.mps                     :Ign: Negative RHS             :
+g200x740i.mps                 :Ign: Negative RHS             :
+ger50_17_trans.mps            :Ign: Negative RHS             :
+germanrr.mps                  :Successful [BOUNDS]           :
+germany50-DBM.mps             :Ign: Negative RHS             :
+glass4.mps                    :Ign: Negative RHS             :
+gmu-35-40.mps                 :Successful [BOUNDS]           :
+gmu-35-50.mps                 :Successful [BOUNDS]           :
+gmut-75-50.mps                :Successful [BOUNDS]           :
+gmut-77-40.mps                :Successful [BOUNDS]           :
+go19.mps                      :Successful [BOUNDS]           :
+hanoi5.mps                    :Ign: Negative RHS             :
+harp2.mps                     :Successful [BOUNDS]           :
+hawaiiv10-130.mps             :Successful [RANGES]           :
+ic97_potential.mps            :Successful [BOUNDS]           :
+iis-100-0-cov.mps             :Successful [BOUNDS]           :
+iis-bupa-cov.mps              :Successful [BOUNDS]           :
+iis-pima-cov.mps              :Successful [BOUNDS]           :
+in.mps                        :Successful [BOUNDS]           :
+ivu06-big.mps                 :Successful [BOUNDS]           :
+ivu52.mps                     :Successful [BOUNDS]           :
+janos-us-DDM.mps              :Ign: Negative RHS             :
+k16x240.mps                   :Ign: Negative RHS             :
+lectsched-1.mps               :Ign: Negative RHS             :
+lectsched-1-obj.mps           :Ign: Negative RHS             :
+lectsched-2.mps               :Ign: Negative RHS             :
+lectsched-3.mps               :Ign: Negative RHS             :
+lectsched-4-obj.mps           :Ign: Negative RHS             :
+leo1.mps                      :Successful [BOUNDS]           :
+leo2.mps                      :Successful [BOUNDS]           :
+liu.mps                       :Ign: Negative RHS             :
+lotsize.mps                   :Successful [BOUNDS]           :
+lrsa120.mps                   :Ign: Negative RHS             :
+m100n500k4r1.mps              :Successful [BOUNDS]           :
+macrophage.mps                :Successful [BOUNDS]           :
+map06.mps                     :Successful [BOUNDS]           :
+map10.mps                     :Successful [BOUNDS]           :
+map14.mps                     :Successful [BOUNDS]           :
+map18.mps                     :Successful [BOUNDS]           :
+map20.mps                     :Successful [BOUNDS]           :
+markshare_5_0.mps             :Successful [BOUNDS]           :
+maxgasflow.mps                :Ign: Negative RHS             :
+mc11.mps                      :Ign: Negative RHS             :
+mcsched.mps                   :Successful [BOUNDS]           :
+methanosarcina.mps            :Successful [BOUNDS]           :
+mik-250-1-100-1.mps           :Successful [BOUNDS]           :
+mine-166-5.mps                :Successful [BOUNDS]           :
+mine-90-10.mps                :Successful [BOUNDS]           :
+mining.mps                    :Successful [RANGES]           :
+mkc.mps                       :Successful [BOUNDS]           :
+momentum1.mps                 :Ign: Negative RHS             :
+momentum2.mps                 :Ign: Negative RHS             :
+momentum3.mps                 :Ign: Negative RHS             :
+msc98-ip.mps                  :Successful [BOUNDS]           :
+mspp16.mps                    :Successful [BOUNDS]           :
+mzzv11.mps                    :Successful [BOUNDS]           :
+n15-3.mps                     :Ign: Negative RHS             :
+n3-3.mps                      :Ign: Negative RHS             :
+n3700.mps                     :Successful [BOUNDS]           :
+n3705.mps                     :Successful [BOUNDS]           :
+n370a.mps                     :Successful [BOUNDS]           :
+n3div36.mps                   :Successful [BOUNDS]           :
+n3seq24.mps                   :Successful [BOUNDS]           :
+n4-3.mps                      :Ign: Negative RHS             :
+n9-3.mps                      :Ign: Negative RHS             :
+nag.mps                       :Ign: Negative RHS             :
+nb10tb.mps                    :Ign: Negative RHS             :
+neos-1109824.mps              :Successful [BOUNDS]           :
+neos-1112782.mps              :Ign: Negative RHS             :
+neos-1112787.mps              :Ign: Negative RHS             :
+neos-1140050.mps              :Ign: Negative RHS             :
+neos-1171692.mps              :Successful [BOUNDS]           :
+neos-1171737.mps              :Successful [BOUNDS]           :
+neos-1224597.mps              :Successful [RANGES]           :
+neos-1225589.mps              :Ign: Negative RHS             :
+neos-1311124.mps              :Successful [BOUNDS]           :
+neos-1337307.mps              :Ign: Negative RHS             :
+neos-1396125.mps              :Ign: Negative RHS             :
+neos13.mps                    :Successful [BOUNDS]           :
+neos-1426635.mps              :Successful [BOUNDS]           :
+neos-1426662.mps              :Successful [BOUNDS]           :
+neos-1429212.mps              :Successful [BOUNDS]           :
+neos-1436709.mps              :Successful [BOUNDS]           :
+neos-1440225.mps              :Successful [BOUNDS]           :
+neos-1440460.mps              :Successful [BOUNDS]           :
+neos-1442119.mps              :Successful [BOUNDS]           :
+neos-1442657.mps              :Successful [BOUNDS]           :
+neos15.mps                    :Successful [BOUNDS]           :
+neos-1601936.mps              :Successful [BOUNDS]           :
+neos-1605061.mps              :Successful [BOUNDS]           :
+neos-1605075.mps              :Successful [BOUNDS]           :
+neos-1616732.mps              :Successful [BOUNDS]           :
+neos-1620770.mps              :Successful [BOUNDS]           :
+neos16.mps                    :Ign: Negative RHS             :
+neos18.mps                    :Ign: Negative RHS             :
+neos-476283.mps               :Ign: Negative RHS             :
+neos-506422.mps               :Successful [BOUNDS]           :
+neos-506428.mps               :Successful [BOUNDS]           :
+neos-520729.mps               :Successful [BOUNDS]           :
+neos-555424.mps               :Successful [BOUNDS]           :
+neos-631710.mps               :Successful [BOUNDS]           :
+neos-686190.mps               :Ign: Negative RHS             :
+neos-693347.mps               :Ign: Negative RHS             :
+neos6.mps                     :Successful [BOUNDS]           :
+neos-738098.mps               :Successful [BOUNDS]           :
+neos-777800.mps               :Successful [BOUNDS]           :
+neos-785912.mps               :Ign: Negative RHS             :
+neos788725.mps                :Successful [BOUNDS]           :
+neos-799711.mps               :Ign: Negative RHS             :
+neos-807456.mps               :Successful [BOUNDS]           :
+neos808444.mps                :Successful [BOUNDS]           :
+neos-820146.mps               :Ign: Negative RHS             :
+neos-820157.mps               :Ign: Negative RHS             :
+neos-824661.mps               :Ign: Negative RHS             :
+neos-824695.mps               :Ign: Negative RHS             :
+neos-826650.mps               :Ign: Negative RHS             :
+neos-826694.mps               :Ign: Negative RHS             :
+neos-826812.mps               :Ign: Negative RHS             :
+neos-826841.mps               :Ign: Negative RHS             :
+neos-847302.mps               :Ign: Negative RHS             :
+neos-849702.mps               :Successful [BOUNDS]           :
+neos858960.mps                :Ign: Negative RHS             :
+neos-859770.mps               :Successful [BOUNDS]           :
+neos-885086.mps               :Successful [BOUNDS]           :
+neos-885524.mps               :Successful [BOUNDS]           :
+neos-911880.mps               :Successful [BOUNDS]           :
+neos-916792.mps               :Ign: Negative RHS             :
+neos-932816.mps               :Successful [BOUNDS]           :
+neos-933638.mps               :Successful [BOUNDS]           :
+neos-933966.mps               :Successful [BOUNDS]           :
+neos-934278.mps               :Successful [BOUNDS]           :
+neos-935627.mps               :Successful [BOUNDS]           :
+neos-935769.mps               :Successful [BOUNDS]           :
+neos-937511.mps               :Successful [BOUNDS]           :
+neos-937815.mps               :Successful [BOUNDS]           :
+neos-941262.mps               :Successful [BOUNDS]           :
+neos-941313.mps               :Successful [BOUNDS]           :
+neos-942830.mps               :Ign: Negative RHS             :
+neos-948126.mps               :Successful [BOUNDS]           :
+neos-952987.mps               :Successful [BOUNDS]           :
+neos-957389.mps               :Successful [BOUNDS]           :
+neos-984165.mps               :Ign: Negative RHS             :
+net12.mps                     :Ign: Negative RHS             :
+netdiversion.mps              :Ign: Negative RHS             :
+newdano.mps                   :Successful [BOUNDS]           :
+nobel-eu-DBE.mps              :Ign: Negative RHS             :
+noswot.mps                    :Ign: Negative RHS             :
+npmv07.mps                    :Successful [BOUNDS]           :
+ns1111636.mps                 :Ign: Negative RHS             :
+ns1116954.mps                 :Ign: Negative RHS             :
+ns1158817.mps                 :Ign: Negative RHS             :
+ns1208400.mps                 :Successful [BOUNDS]           :
+ns1456591.mps                 :Successful [BOUNDS]           :
+ns1606230.mps                 :Successful [BOUNDS]           :
+ns1631475.mps                 :Ign: Negative RHS             :
+ns1644855.mps                 :Ign: Negative RHS             :
+ns1663818.mps                 :Ign: Negative RHS             :
+ns1685374.mps                 :Ign: Negative RHS             :
+ns1686196.mps                 :Ign: Negative RHS             :
+ns1688347.mps                 :Ign: Negative RHS             :
+ns1696083.mps                 :Ign: Negative RHS             :
+ns1702808.mps                 :Ign: Negative RHS             :
+ns1745726.mps                 :Ign: Negative RHS             :
+ns1758913.mps                 :Successful [BOUNDS]           :
+ns1766074.mps                 :Successful [BOUNDS]           :
+ns1769397.mps                 :Ign: Negative RHS             :
+ns1778858.mps                 :Successful [BOUNDS]           :
+ns1830653.mps                 :Ign: Negative RHS             :
+ns1853823.mps                 :Ign: Negative RHS             :
+ns1854840.mps                 :Ign: Negative RHS             :
+ns1856153.mps                 :Ign: Negative RHS             :
+ns1904248.mps                 :Ign: Negative RHS             :
+ns1905797.mps                 :Ign: Negative RHS             :
+ns1905800.mps                 :Ign: Negative RHS             :
+ns1952667.mps                 :Successful [BOUNDS]           :
+ns2017839.mps                 :Ign: Negative RHS             :
+ns2081729.mps                 :Ign: Negative RHS             :
+ns2118727.mps                 :Ign: Negative RHS             :
+ns2122603.mps                 :Ign: Negative RHS             :
+ns2124243.mps                 :Ign: Negative RHS             :
+ns2137859.mps                 :Successful [BOUNDS]           :
+ns4-pr3.mps                   :Ign: Negative RHS             :
+ns4-pr9.mps                   :Ign: Negative RHS             :
+ns894236.mps                  :Successful [BOUNDS]           :
+ns894244.mps                  :Successful [BOUNDS]           :
+ns894786.mps                  :Successful [BOUNDS]           :
+ns894788.mps                  :Successful [BOUNDS]           :
+ns903616.mps                  :Successful [BOUNDS]           :
+ns930473.mps                  :Successful [RANGES]           :
+nsr8k.mps                     :Ign: Negative RHS             :
+nu120-pr3.mps                 :Ign: Negative RHS             :
+nu60-pr9.mps                  :Ign: Negative RHS             :
+ofi.mps                       :Ign: Negative RHS             :
+opm2-z10-s2.mps               :Successful [BOUNDS]           :
+opm2-z11-s8.mps               :Successful [BOUNDS]           :
+opm2-z12-s14.mps              :Successful [BOUNDS]           :
+opm2-z12-s7.mps               :Successful [BOUNDS]           :
+opm2-z7-s2.mps                :Successful [BOUNDS]           :
+p100x588b.mps                 :Ign: Negative RHS             :
+p2m2p1m1p0n100.mps            :Successful [RANGES]           :
+p6b.mps                       :Successful [BOUNDS]           :
+p80x400b.mps                  :Ign: Negative RHS             :
+pb-simp-nonunif.mps           :Ign: Negative RHS             :
+pg5_34.mps                    :Successful [BOUNDS]           :
+pg.mps                        :Successful [BOUNDS]           :
+pigeon-10.mps                 :Successful [BOUNDS]           :
+pigeon-11.mps                 :Successful [BOUNDS]           :
+pigeon-12.mps                 :Successful [BOUNDS]           :
+pigeon-13.mps                 :Successful [BOUNDS]           :
+pigeon-19.mps                 :Successful [BOUNDS]           :
+probportfolio.mps             :Successful [BOUNDS]           :
+protfold.mps                  :Ign: Negative RHS             :
+pw-myciel4.mps                :Successful [BOUNDS]           :
+qiu.mps                       :Successful [BOUNDS]           :
+queens-30.mps                 :Successful [BOUNDS]           :
+r80x800.mps                   :Ign: Negative RHS             :
+rail01.mps                    :Successful [BOUNDS]           :
+rail02.mps                    :Successful [BOUNDS]           :
+rail03.mps                    :Successful [BOUNDS]           :
+rail507.mps                   :Ign: Negative RHS             :
+ramos3.mps                    :Ign: Negative RHS             :
+ran14x18-disj-8.mps           :Ign: Negative RHS             :
+ran14x18.mps                  :Successful [BOUNDS]           :
+ran16x16.mps                  :Successful [BOUNDS]           :
+reblock166.mps                :Successful [BOUNDS]           :
+reblock354.mps                :Successful [BOUNDS]           :
+reblock420.mps                :Successful [BOUNDS]           :
+reblock67.mps                 :Successful [BOUNDS]           :
+rmatr100-p10.mps              :Successful [BOUNDS]           :
+rmatr100-p5.mps               :Successful [BOUNDS]           :
+rmatr200-p10.mps              :Successful [BOUNDS]           :
+rmatr200-p20.mps              :Successful [BOUNDS]           :
+rmatr200-p5.mps               :Successful [BOUNDS]           :
+rmine10.mps                   :Successful [BOUNDS]           :
+rmine14.mps                   :Successful [BOUNDS]           :
+rmine21.mps                   :Successful [BOUNDS]           :
+rmine25.mps                   :Successful [BOUNDS]           :
+rmine6.mps                    :Successful [BOUNDS]           :
+rocII-4-11.mps                :Ign: Negative RHS             :
+rocII-7-11.mps                :Ign: Negative RHS             :
+rocII-9-11.mps                :Ign: Negative RHS             :
+rococoB10-011000.mps          :Successful [BOUNDS]           :
+rococoC10-001000.mps          :Successful [BOUNDS]           :
+rococoC11-011100.mps          :Successful [BOUNDS]           :
+rococoC12-111000.mps          :Successful [BOUNDS]           :
+roll3000.mps                  :Successful [BOUNDS]           :
+rvb-sub.mps                   :Successful [BOUNDS]           :
+satellites1-25.mps            :Ign: Negative RHS             :
+satellites2-60-fs.mps         :Ign: Negative RHS             :
+satellites2-60.mps            :Ign: Negative RHS             :
+satellites3-40-fs.mps         :Ign: Negative RHS             :
+satellites3-40.mps            :Ign: Negative RHS             :
+sct1.mps                      :Successful [BOUNDS]           :
+sct32.mps                     :Successful [BOUNDS]           :
+sct5.mps                      :Successful [BOUNDS]           :
+set3-10.mps                   :Successful [BOUNDS]           :
+set3-15.mps                   :Successful [BOUNDS]           :
+set3-20.mps                   :Successful [BOUNDS]           :
+seymour-disj-10.mps           :Successful [BOUNDS]           :
+seymour.mps                   :Successful [BOUNDS]           :
+shipsched.mps                 :Ign: Negative RHS             :
+shs1023.mps                   :Ign: Negative RHS             :
+siena1.mps                    :Ign: Negative RHS             :
+sing161.mps                   :Ign: Negative RHS             :
+sing245.mps                   :Ign: Negative RHS             :
+sing2.mps                     :Ign: Negative RHS             :
+sing359.mps                   :Ign: Negative RHS             :
+sp97ar.mps                    :Successful [BOUNDS]           :
+sp98ic.mps                    :Successful [BOUNDS]           :
+sp98ir.mps                    :Ign: Negative RHS             :
+splan1.mps                    :Ign: Negative RHS             :
+stockholm.mps                 :Ign: Negative RHS             :
+stp3d.mps                     :Successful [BOUNDS]           :
+sts405.mps                    :Successful [BOUNDS]           :
+sts729.mps                    :Successful [BOUNDS]           :
+swath.mps                     :Successful [BOUNDS]           :
+t1717.mps                     :Successful [BOUNDS]           :
+t1722.mps                     :Successful [BOUNDS]           :
+tanglegram1.mps               :Successful [BOUNDS]           :
+tanglegram2.mps               :Successful [BOUNDS]           :
+timtab1.mps                   :Ign: Negative RHS             :
+toll-like.mps                 :Successful [BOUNDS]           :
+transportmoment.mps           :Ign: Negative RHS             :
+triptim1.mps                  :Successful [BOUNDS]           :
+triptim2.mps                  :Successful [BOUNDS]           :
+triptim3.mps                  :Successful [BOUNDS]           :
+tw-myciel4.mps                :Successful [BOUNDS]           :
+uc-case11.mps                 :Ign: Negative RHS             :
+uc-case3.mps                  :Ign: Negative RHS             :
+uct-subprob.mps               :Successful [BOUNDS]           :
+umts.mps                      :Successful [BOUNDS]           :
+unitcal_7.mps                 :Ign: Negative RHS             :
+usAbbrv-8-25_70.mps           :Ign: Negative RHS             :
+van.mps                       :Successful [BOUNDS]           :
+vpphard2.mps                  :Successful [BOUNDS]           :
+vpphard.mps                   :Successful [BOUNDS]           :
+wachplan.mps                  :Successful [BOUNDS]           :
+wnq-n100-mw99-14.mps          :Ign: Negative RHS             :
+zib01.mps                     :Ign: Negative RHS             :
+zib02.mps                     :Successful [BOUNDS]           :
+zib54-UUE.mps                 :Ign: Negative RHS             :
+

@@ -24,6 +24,8 @@ EXCLUDE_FOLDER=build
 #scp -r /media/New Volume/sriram_thesis/miplib2010_complete.tar.gz MT2012160@192.168.10.47:/home/MT2012160/inputs
 
 scp ${PROJECT_FOLDER} ${USER}@${HOST}:${DESTINATION_FOLDER}
+#scp /home/harsha/Desktop/sriram_thesis/codebase/extlp/lp_*.sh MT2012160@192.168.10.47:/home/MT2012160/scripts
+
 # rsync -av --exclude '*.svn' user@server:/my/dir .
 #rsync -av --exclude "${EXCLUDE_FOLDER}" ${USER}@${HOST}:${DESTINATION_FOLDER}
 echo "Uploaded ${PROJECT_FOLDER} Successfully..."

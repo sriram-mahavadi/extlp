@@ -59,7 +59,6 @@ int main(int argc, char *argv[]) {
                 default:
                     Console::printUsage(argv);
             }
-
         }
         // generate stats instance
         stxxl::stats * Stats = stxxl::stats::get_instance();
