@@ -247,7 +247,7 @@ public:
         for (unsigned col_index = 0; col_index < base_col_size; col_index++) {
             REAL a_col_index = base_col_indices[col_index];
             REAL obj_value = m_vct_read_only_col_attr[a_col_index].get_objective_value();
-            if(is_min)obj_value*=-1;
+            if (is_min)obj_value *= -1;
             p_vct_obj[col_index] = obj_value;
         }
     }
@@ -324,8 +324,10 @@ public:
                     // Pre addition of the row needs to be done much before while
                     // Initialization itself
                     // Case Equals
+                    DEBUG_WARNING("EQUALS CASE UNHANDLED YET");
                     break;
                 case 1:
+                    DEBUG_WARNING("GREATER THATN EQUALS CASE UNHANDLED YET");
                     // Case >=
                     break;
                 case 2:
@@ -337,6 +339,7 @@ public:
                     vct_base_col_indices.add(i, get_columns_count() - 1);
                     break;
                 case 5:
+                    DEBUG_WARNING("RANGE CASE UNHANDLED YET");
                     // Case Range
                     break;
             }

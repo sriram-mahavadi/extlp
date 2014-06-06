@@ -47,7 +47,7 @@ public:
     //! and initialization of B Inverse. 
     //! TODO - Need to find a proper base using pre-solve rather than Identity matrix every time.
     void init_simplex() {
-        extDataSet.setObjSense(MAX);
+        extDataSet.setObjSense(MIN);
         m_base_col_indices = extDataSet.A.standardize_matrix();
         extDataSet.BInverse.build_matrix_b_inverse(extDataSet.A, m_base_col_indices);
         extDataSet.A.store_row_rhs_values(m_vct_rhs);
@@ -67,9 +67,11 @@ public:
             status = update_simplex_iteration();
             
             stxxl::stats_data diff_data = stxxl::stats_data(*Stats) - stats_begin;
-            print_io_statistics(diff_data, extDataSet, (m_iteration_count==1));
+//            print_io_statistics(diff_data, extDataSet, (m_iteration_count==1));
             //         print_solution();
         } while (status == SIMPLEX_CJZJ_POSITIVE);
+        if(status==SIMPLEX_INVALID_MIN_RATIO)
+            DEBUG("INVALID MIN RATIO");
         print_solution();
     }
 
@@ -109,9 +111,12 @@ public:
                     max_reduced_cost = reduced_cost;
                     k = j;
                 }
-//                DEBUG("Col: " << j << ", Reduced Cost: " << reduced_cost);
+                DEBUG("Col: " << j << ", Reduced Cost: " << reduced_cost);
             }
         }
+        debug_objective_values();
+        debug_b_inverse();
+        debug_w(w);
         if (max_reduced_cost == 0.0F) return SIMPLEX_CJZJ_ZERO;
         else if (max_reduced_cost < 0.0F) return SIMPLEX_CJZJ_NEGATIVE;
 
@@ -132,17 +137,23 @@ public:
             if (y[row_index] == 0.0F)continue; // Ignoring when yk=0
             if (m_vct_rhs[row_index] >= 0.0F && y[row_index] < 0.0F)continue; // Ignoring when ration<0
             REAL ratio = m_vct_rhs[row_index] / y[row_index];
-            if ((min_ratio == -1.0F && ratio >= 0.0) ||
-                    (ratio >= 0.0 && ratio < min_ratio)) {
+            if ((min_ratio == -1.0F && ratio >= 0.0F) ||
+                    (ratio >= 0.0F && ratio < min_ratio)) {
                 min_ratio = ratio;
                 r = row_index;
             }
         }
-        if (min_ratio == -1.0) {
+        if (min_ratio == -1.0F) {
             return SIMPLEX_INVALID_MIN_RATIO;
         }
+        
+        
+        debug_ak(ak_vector);
+        debug_y(y);
+        debug_rhs();
         // Getting the Eta Vector for updating data structures for next iteration
         EtaVector eta_vector(r, y);
+        debug_eta(eta_vector);
 
         //        DEBUG_SIMPLE("*************************** BEFORE ITERERATION " << m_iteration_count << " ******************************************");
         //        DEBUG_SIMPLE("             **************************************************");
@@ -169,6 +180,7 @@ public:
         col_attr.set_a_col_index(k);
         b_inverse.set_col_attr(r, col_attr);
 
+        debug_base_col_indices();
         // Updating Base Col indices
         m_base_col_indices[r] = k;
 
@@ -189,6 +201,7 @@ public:
         //        debug_objective_values();
         //        debug_rhs();
         //        debug_b_inverse();
+        debug_base_col_indices();
         return SIMPLEX_CJZJ_POSITIVE;
     }
     void print_io_statistics(stxxl::stats_data diff_data, ExtLPDSSet& extDataSet, bool print_header = false) {
