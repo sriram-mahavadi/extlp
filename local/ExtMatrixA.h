@@ -124,7 +124,7 @@ class ExtMatrixA {
 private:
     //! Vector to store the Items onto external memory
     //! template parameters<ValueType, PageSize, CachePages, BlockSize, AllocStratg>
-    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_A_BLOCKS_PER_PAGE, MATRIX_A_PAGE_CACHE, MATRIX_A_BLOCK_SIZE>::result item_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_A_BLOCKS_PER_PAGE, MATRIX_A_PAGE_CACHE, MATRIX_A_BLOCK_SIZE, stxxl::RC, stxxl::random>::result item_vector;
     item_vector m_vct_disk;
     const item_vector& m_vct_read_only_disk;
     //! Vector to keep track of columns in the matrix
@@ -310,6 +310,38 @@ public:
     //////////////////////////// - Common Matrix Operations - //////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
+    // Returns the size of the element in the matrix
+    unsigned int get_element_size(){
+        return sizeof(m_vct_read_only_disk[0]);
+    }
+    
+    // Returns the size of the meta-element in the matrix
+    unsigned int get_col_meta_element_size(){
+        return sizeof(m_vct_read_only_col_attr[0]);
+    }
+    
+    // Returns the size of the meta-element in the matrix
+    unsigned int get_row_meta_element_size(){
+        return sizeof(m_vct_read_only_row_attr[0]);
+    }
+    
+    //! Returns the overall density of the matrix 
+    float get_overall_density() {
+        unsigned int total_nnz = get_overall_nnz();
+        unsigned int total_size = get_rows_count() * get_columns_count();
+        return (float) (total_nnz)*100.0 / total_size;
+    }
+    
+    //! Returns the overall number of nonzeros of the matrix 
+    float get_overall_nnz() {
+        unsigned int total_nnz = 0;
+        for (unsigned int i = 0; i < get_columns_count(); i++) {
+            unsigned int nnz_i = get_col_nnz(i);
+            total_nnz += nnz_i;
+        }
+        return total_nnz;
+    }
+    
     //! Standardizing the LP Tableau (MatrixA) for performing simplex
     //! Returns the base column indices in order 
     SimpleVector<unsigned int> standardize_matrix() {

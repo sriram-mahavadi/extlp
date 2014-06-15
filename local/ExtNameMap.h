@@ -10,6 +10,7 @@
 #include "stxxl/map"
 #include "FixedString.h"
 #include "GlobalDefines.h"
+#include "GlobalDebug.h"
 // template parameter <KeyType, DataType, CompareType, RawNodeSize, RawLeafSize, PDAllocStrategy (optional)>
 typedef stxxl::map<FixedString, unsigned int, comp_Fixed_String, DATA_NODE_BLOCK_SIZE, DATA_LEAF_BLOCK_SIZE> fixed_name_map;
 class ExtNameMap {
@@ -23,15 +24,19 @@ public:
     //! Check if the element exists
     bool contains(const std::string &key) {
         FixedString fixedStringKey = FixedString::getFixedString(key);
-        return (nameMap.find(fixedStringKey) != nameMap.end());
+        fixed_name_map::const_iterator itrMap = nameMap.find(fixedStringKey);
+        return ( itrMap != nameMap.end());
     }
 
     //! Get the element value
     //! Returns -1 if element does not exist
     unsigned int get(const std::string &key) {
         FixedString fixedStringKey = FixedString::getFixedString(key);
-        fixed_name_map::iterator itrMap = nameMap.find(fixedStringKey);
-        if (itrMap == nameMap.end()) return -1;
+        fixed_name_map::const_iterator itrMap = nameMap.find(fixedStringKey);
+        if (itrMap == nameMap.end()) {
+            DEBUG_WARNING("Requesting for a row/col name not present.");
+            return -1;
+        }
         return itrMap->second;
     }
     void set(const std::string &key, unsigned int value) {

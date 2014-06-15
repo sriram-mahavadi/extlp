@@ -92,7 +92,7 @@ public:
 
     //! Simple initialization
     //! Sorted PackedVector by default
-    PackedVector(unsigned int p_size, bool p_is_sorted_by_index = true) :
+    PackedVector(unsigned int p_size, bool p_is_sorted_by_index = false) :
     m_real_size(p_size), m_is_sorted_by_index(p_is_sorted_by_index) {
         m_nnz = 0;
     }

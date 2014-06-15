@@ -1,0 +1,97 @@
+\form#0:$ \mathcal{O}(1) $
+\form#1:$ \mathcal{O}(1/DB) $
+\form#2:$ n/B $
+\form#3:$ 2 \times n/B $
+\form#4:$ BlockSize \times CachePages \times PageSize $
+\form#5:$ k \leq 2B $
+\form#6:$ (push^{r_i}, push^{r_j})^k $
+\form#7:$ 1 \leq j \leq k $
+\form#8:$ r_i $
+\form#9:$ r_j $
+\form#10:$ 2 \times BlockSize \times PageSize $
+\form#11:$ BlockSize $
+\form#12:$ PageSize $
+\form#13:$ (push^{i_j}pop^{r_j})^k $
+\form#14:$ k \in N $
+\form#15:$ i_j $
+\form#16:$ PageSize \cdot D $
+\form#17:$ \mathcal{O}(\frac{1}{B}\log_{M/B}(I/B)) $
+\form#18:$ I $
+\form#19:$ \mathcal{O}(\log I) $
+\form#20:$ \mathcal{O}(1/B) $
+\form#21:$ G_1,\ldots, G_R $
+\form#22:$ G_i $
+\form#23:$ m k^{i-1} $
+\form#24:$ m << M $
+\form#25:$ G_{i+1} $
+\form#26:$ \mathcal{O}(\log_{B}(n)) $
+\form#27:$ \mathcal{O}(R/B) $
+\form#28:$ \mathcal{O}(n/B) $
+\form#29:$ \mathcal{O}(\frac{N}{DB}\log_{M/B}\frac{N}{B}) $
+\form#30:$ \Omega(\frac{N}{DB}\log_{\Theta(\frac{M}{DB})}\frac{N}{B}) $
+\form#31:$ \Theta(\frac{N}{DB}\log_{\Theta(M/B)}\frac{N}{B}) $
+\form#32:$ \Theta(M) $
+\form#33:$ k = \mathcal{O}(M/B) $
+\form#34:$ \mathcal{O}(D) $
+\form#35:$ k+\Theta(D) $
+\form#36:$ M/2 $
+\form#37:$ M/2 - \mathcal{O}(DB) $
+\form#38:$ \max(2T_{\mathrm{sort}}(M/2)N/M,\frac{2LN}{DB}) + \mathcal{O}(\frac{LM}{DB}) $
+\form#39:$ T_{\mathrm{sort}}(x) $
+\form#40:$ 2M $
+\form#41:$ N'/B $
+\form#42:$ N'=N $
+\form#43:$ \sigma $
+\form#44:$ \mathcal{O}(\log k) $
+\form#45:$ \mathcal{O}(N'\log k) $
+\form#46:$ \fboxsep0.5mm\framebox{$1^{B-1}2$}\framebox{$3^{B-1}4$}\framebox{$5^{B-1}6$} \cdots $
+\form#47:$ k(B-1) $
+\form#48:$ k+3D $
+\form#49:$ 2DB $
+\form#50:$ DB $
+\form#51:$ \max\left(\frac{2LN'}{DB}, \ell N'\right)+\mathcal{O}(L\lceil\frac{k}{D}\rceil) $
+\form#52:$ \ell $
+\form#53:$ i,\ldots,i+D-1 $
+\form#54:$ m = \Theta(D) $
+\form#55:$ (1-\mathcal{O}(D/m))D $
+\form#56:$ (\mathrm{key},\mathrm{pointerToElement}) $
+\form#57:$ 2^{21} $
+\form#58:$ n \leq 4 $
+\form#59:$ n \in \{ 5..16 \} $
+\form#60:$ n > 16 $
+\form#61:$ \sigma' $
+\form#62:$ \mathcal{O}( N \log N ) $
+\form#63:$ N = (last - first) \cdot \texttt{sizeof(ExtIterator::value\_type)} $
+\form#64:$ (2N/DB)(1 + \lceil {\log}_{M/B}(2N/M) \rceil) $
+\form#65:$ \lceil {\log}_{M/B}(2N/M) \rceil) = 1 $
+\form#66:$ M > DB $
+\form#67:$ N < M^2/2DB $
+\form#68:$ [M^2/(4N),3M^2/(8N)] $
+\form#69:$ 4N/DB $
+\form#70:$ N/DB $
+\form#71:$ 2N/DB $
+\form#72:$ G $
+\form#73:$ V = F \cup S \cup R $
+\form#74:$ E $
+\form#75:$ F $
+\form#76:$ S $
+\form#77:$ R $
+\form#78:$ \mathrm{scan}(N) = \Theta(N / (DB)) $
+\form#79:$ \mathrm{sort}(N) = \Theta(N / (DB) \cdot \log_{M/B} (N/M)) $
+\form#80:$ \mathrm{search}(N) = \Theta(\log_{DB} (N)) $
+\form#81:$\mathcal{O}(1)$
+\form#82:$ 7N/DB $
+\form#83:$ 3N/DB $
+\form#84:$\alpha$
+\form#85:$a^Tx \le \alpha$
+\form#86:$a^Tx = \alpha$
+\form#87:$a^Tx \ge \alpha$
+\form#88:$\lambda \le a^Tx \le \rho$
+\form#89:\[ \begin{array}{rl} \hbox{max} & c^T x \\ \hbox{s.t.} & Ax \le b \\ & l \le x \le u \end{array} \]
+\form#90:$\pm\infty$
+\form#91:$\infty$
+\form#92:\[ l \le a^Tx \le r, \]
+\form#93:$\pm$
+\form#94:\[ a^Tx \sim \alpha, \]
+\form#95:$\sim$
+\form#96:$\le, =, \ge$

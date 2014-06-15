@@ -1,0 +1,33 @@
+iiitb@iiitb-Latitude-E6400:~/Desktop/sriram_thesis_main/codebase/extlp$ ./lp_standardizer.sh
+adlittle.mps                  :Ign: Negative RHS             :
+afiro.mps                     :Successful [ENDATA]           :
+agg.mps                       :Successful [ENDATA]           :
+beaconfd.mps                  :Successful [ENDATA]           :
+blend.mps                     :Successful [ENDATA]           :
+blend_standard.mps            :Successful [ENDATA]           :
+bore3d.mps                    :Successful [BOUNDS]           :
+brandy.mps                    :Ign: Negative RHS             :
+capri.mps                     :Ign: Negative RHS             :
+etamacro.mps                  :Successful [BOUNDS]           :
+finnis.mps                    :Successful [BOUNDS]           :
+grow7.mps                     :Successful [BOUNDS]           :
+israel.mps                    :Ign: Negative RHS             :
+kb2.mps                       :Successful [BOUNDS]           :
+lotfi.mps                     :Ign: Negative RHS             :
+recipe.mps                    :Successful [BOUNDS]           :
+sc105.mps                     :Successful [ENDATA]           :
+sc205.mps                     :Successful [ENDATA]           :
+sc50a.mps                     :Successful [ENDATA]           :
+sc50b.mps                     :Successful [ENDATA]           :
+scagr25.mps                   :Ign: Negative RHS             :
+scagr7.mps                    :Ign: Negative RHS             :
+scfxm1.mps                    :Ign: Negative RHS             :
+scorpion.mps                  :Successful [ENDATA]           :
+scrs8.mps                     :Ign: Negative RHS             :
+scsd1.mps                     :Ign: Negative RHS             :
+seba.mps                      :Successful [RANGES]           :
+share1b.mps                   :Successful [ENDATA]           :
+share2b.mps                   :Successful [ENDATA]           :
+shell.mps                     :Successful [BOUNDS]           :
+vtp-base.mps                  :Successful [BOUNDS]           :
+

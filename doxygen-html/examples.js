@@ -1,0 +1,27 @@
+var examples =
+[
+    [ "examples/algo/copy_and_sort_file.cpp", "examples_2algo_2copy_and_sort_file_8cpp-example.html", null ],
+    [ "examples/algo/phonebills.cpp", "examples_2algo_2phonebills_8cpp-example.html", null ],
+    [ "examples/algo/phonebills_genlog.cpp", "examples_2algo_2phonebills_genlog_8cpp-example.html", null ],
+    [ "examples/algo/sort_file.cpp", "examples_2algo_2sort_file_8cpp-example.html", null ],
+    [ "examples/applications/skew3.cpp", "examples_2applications_2skew3_8cpp-example.html", null ],
+    [ "examples/common/cmdline.cpp", "examples_2common_2cmdline_8cpp-example.html", null ],
+    [ "examples/containers/copy_file.cpp", "examples_2containers_2copy_file_8cpp-example.html", null ],
+    [ "examples/containers/deque1.cpp", "examples_2containers_2deque1_8cpp-example.html", null ],
+    [ "examples/containers/deque2.cpp", "examples_2containers_2deque2_8cpp-example.html", null ],
+    [ "examples/containers/map1.cpp", "examples_2containers_2map1_8cpp-example.html", null ],
+    [ "examples/containers/matrix1.cpp", "examples_2containers_2matrix1_8cpp-example.html", null ],
+    [ "examples/containers/pqueue1.cpp", "examples_2containers_2pqueue1_8cpp-example.html", null ],
+    [ "examples/containers/pqueue2.cpp", "examples_2containers_2pqueue2_8cpp-example.html", null ],
+    [ "examples/containers/queue1.cpp", "examples_2containers_2queue1_8cpp-example.html", null ],
+    [ "examples/containers/queue2.cpp", "examples_2containers_2queue2_8cpp-example.html", null ],
+    [ "examples/containers/sequence1.cpp", "examples_2containers_2sequence1_8cpp-example.html", null ],
+    [ "examples/containers/sorter1.cpp", "examples_2containers_2sorter1_8cpp-example.html", null ],
+    [ "examples/containers/sorter2.cpp", "examples_2containers_2sorter2_8cpp-example.html", null ],
+    [ "examples/containers/stack1.cpp", "examples_2containers_2stack1_8cpp-example.html", null ],
+    [ "examples/containers/stack2.cpp", "examples_2containers_2stack2_8cpp-example.html", null ],
+    [ "examples/containers/vector1.cpp", "examples_2containers_2vector1_8cpp-example.html", null ],
+    [ "examples/containers/vector2.cpp", "examples_2containers_2vector2_8cpp-example.html", null ],
+    [ "examples/containers/vector_buf.cpp", "examples_2containers_2vector_buf_8cpp-example.html", null ],
+    [ "examples/stream/stream1.cpp", "examples_2stream_2stream1_8cpp-example.html", null ]
+];

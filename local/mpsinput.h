@@ -232,6 +232,7 @@ public:
         //      MSG_ERROR( spxout << "Syntax error in line " << m_lineno << std::endl; )
         m_section = ENDATA;
         m_has_error = true;
+        exit(1);
     }
     ///
     void entryIgnored(
@@ -280,7 +281,7 @@ public:
         int len;
         int space;
         char* s;
-        bool is_marker;
+        bool is_marker = false;
 
         do {
             m_f0 = m_f1 = m_f2 = m_f3 = m_f4 = m_f5 = 0;
@@ -386,8 +387,10 @@ public:
                     m_f2 = 0;
                     break;
                 }
-                if (!strcmp(m_f2, "'MARKER'"))
-                    is_marker = true;
+                if (!strcmp(m_f2, "'MARKER'")) {
+                    is_marker = true; // Actually a marker but simply return
+                    return true; // Added for simply returning
+                }
 
                 if ((0 == (m_f3 = strtok(0, " "))) || (*m_f3 == '$')) {
                     m_f3 = 0;
@@ -402,9 +405,10 @@ public:
                         break; // unknown marker
                 }
 
-                if (!strcmp(m_f3, "'MARKER'"))
-                    is_marker = true;
-
+                if (!strcmp(m_f3, "'MARKER'")) {
+                    is_marker = true; // Actually a marker but simply return
+                    return true; // Added for simply returning
+                }
                 if ((0 == (m_f4 = strtok(0, " "))) || (*m_f4 == '$')) {
                     m_f4 = 0;
                     break;

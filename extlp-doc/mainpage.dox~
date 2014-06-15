@@ -1,0 +1,45 @@
+// -*- mode: c++; mode: visual-line; mode: flyspell; fill-column: 100000 -*-
+/***************************************************************************
+ *  doc/mainpage.dox
+ *
+ *  Main page of STXXL doxygen tree. All doc pages should be linked here.
+ *
+ *  Part of the STXXL. See http://stxxl.sourceforge.net
+ *
+ *  Copyright (C) 2013 Timo Bingmann <tb@panthema.net>
+ *
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  (See accompanying file LICENSE_1_0.txt or copy at
+ *  http://www.boost.org/LICENSE_1_0.txt)
+ **************************************************************************/
+
+/** \mainpage Welcome to ExtLP
+
+Optimization is an increasingly important task in various areas such as finance and engineering. The need to compute large scale linear programs is increasing with the complex functional requirements that are needed to be met for solving present real world optimization problems. When problems exceed reasonable dimensions, they end up in huge computational and storage requirements. Using external memory to
+store and process such large problems turn out to be an efficient and cost-effective approach towards solving them.
+
+This project aims at developing an linear program solver which implements an external memory supported version of an established revised simplex algorithm for solving large scale linear programming problems. The dimensions of the problems that can be solved by the other general linear program solvers is constrained by the physical memory of the system; a barrier definitively broken by the present solution.
+
+In this thesis we shall define and evaluate different implementations of simplex which use external memory to solve large scale linear programs.
+
+The estimated results show that the revised simplex implementation using PFI saves I/O by about 1000 times in comparison with tableau simplex using unpacked data structures and also saves I/O significantly in comparison with tableau simplex using packed data structures on a long run by maintaining good sparsity throughout the simplex process.
+
+
+The following list of authors have contributed to ExtLP:
+
+\verbinclude AUTHORS
+
+\page textfiles_install INSTALL
+
+\verbinclude INSTALL
+
+\page license LICENSE_1_0.txt
+
+\verbinclude LICENSE_1_0.txt
+
+\page todo TODO
+
+\verbinclude TODO
+
+ */
+

@@ -1,0 +1,335 @@
+[ Sun Jun  8 01:09:36 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:09:36 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:09:36 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:09:36 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:09:36 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:09:36 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:09:36 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:09:36 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:09:36 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:09:36 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:09:38 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:09:38 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:09:38 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:09:38 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:09:38 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:09:39 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:09:39 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:09:39 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:09:39 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:09:39 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:09:59 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:09:59 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:09:59 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:09:59 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:09:59 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:09:59 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:09:59 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:09:59 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:09:59 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:09:59 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:10:01 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:10:01 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:10:01 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:10:01 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:10:01 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:10:02 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:10:02 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:10:02 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:10:02 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:10:02 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:10:47 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:10:47 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:10:47 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:10:47 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:10:47 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:32 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:32 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:32 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:32 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:32 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:32 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:32 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:32 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:32 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:32 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:32 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:32 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:32 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:33 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:33 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:33 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:33 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:33 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:36 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:36 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:36 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:36 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:36 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:49 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:49 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:49 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:49 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:49 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:50 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:50 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:50 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:50 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:50 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:52 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:52 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:52 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:52 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:52 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:53 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:53 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:53 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:53 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:53 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:11:53 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:11:53 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:11:53 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:11:53 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:11:53 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:12:07 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:12:07 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:12:07 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:12:07 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:12:07 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:12:10 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:12:10 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:12:10 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:12:10 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:12:10 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Sun Jun  8 01:12:11 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Sun Jun  8 01:12:11 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Sun Jun  8 01:12:11 2014 ]:  --- Reading Rows Completed --- 
+[ Sun Jun  8 01:12:11 2014 ]:  --- Reading Columns Completed --- 
+[ Sun Jun  8 01:12:11 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:07 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:07 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:07 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:07 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:07 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:08 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:08 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:08 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:08 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:08 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:09 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:09 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:09 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:09 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:09 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:09 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:09 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:09 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:09 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:10 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:10 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:10 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:10 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:10 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:10 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:10 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:10 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:10 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:10 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:10 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:10 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:10 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:10 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:10 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:11 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:11 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:11 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:12 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:12 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:13 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:13 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:13 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:13 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:13 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:13 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:13 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:13 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:13 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:13 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:15 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:15 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:15 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:15 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:15 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:16 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:16 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:16 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:16 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:16 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:18 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:18 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:18 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:18 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:18 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:19 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:19 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:19 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:19 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:19 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:19 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:19 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:19 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:19 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:19 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:20 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:20 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:20 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:20 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:20 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:21 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:21 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:21 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:21 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:21 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:22 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:22 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:22 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:22 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:22 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:22:23 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:22:23 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:22:23 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:22:23 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:22:23 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:32 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:32 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:32 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:32 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:32 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:33 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:33 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:33 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:33 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:33 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:33 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:33 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:33 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:33 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:33 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:33 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:33 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:33 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:33 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:33 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:34 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:34 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:34 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:34 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:34 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:34 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:34 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:34 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:34 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:34 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:34 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:34 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:34 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:34 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:34 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:35 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:35 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:35 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:35 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:35 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:35 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:35 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:35 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:35 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:35 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:36 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:36 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:36 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:36 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:36 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:38 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:38 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:38 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:38 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:38 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:38 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:38 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:38 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:38 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:38 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:39 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:39 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:39 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:39 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:39 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:41 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:41 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:41 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:41 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:41 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:42 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:42 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:42 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:42 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:42 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:44 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:44 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:44 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:44 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:44 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:44 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:44 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:44 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:44 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:44 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:44 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:44 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:44 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:44 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:44 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:45 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:45 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:45 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:45 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:45 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:47 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:47 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:47 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:47 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:47 2014 ]:  --- Completed Reading LP Tableau --- 
+[ Mon Jun  9 10:23:47 2014 ]:  ------------------------- LP Problem -----------------------------
+[ Mon Jun  9 10:23:47 2014 ]:  *** Reading MPS File and Writing on External Memory *** 
+[ Mon Jun  9 10:23:47 2014 ]:  --- Reading Rows Completed --- 
+[ Mon Jun  9 10:23:47 2014 ]:  --- Reading Columns Completed --- 
+[ Mon Jun  9 10:23:47 2014 ]:  --- Completed Reading LP Tableau --- 

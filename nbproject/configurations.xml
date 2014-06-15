@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="90">
+<configurationDescriptor version="94">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
       <df name="lib">
@@ -46,30 +46,7 @@
         </df>
       </df>
       <df name="local">
-        <df name="deprecated">
-          <in>ExtColVector.h</in>
-          <in>ExtFixedMatrix.h</in>
-          <in>ExtReadMPSUtil.h</in>
-          <in>ExtRowVector.h</in>
-          <in>ExtStringVector.h</in>
-          <in>ExtVectorPrototype.h</in>
-        </df>
-        <in>ExtLPDSSet.h</in>
-        <in>ExtMatrixA.h</in>
-        <in>ExtMatrixB.h</in>
-        <in>ExtMatrixBInverse.h</in>
-        <in>ExtNameMap.h</in>
-        <in>ExtReadMPSUtil.h</in>
-        <in>ExtStxxlVector.h</in>
-        <in>ExtVectorUtil.h</in>
-        <in>FixedString.h</in>
-        <in>FixedStringUtil.h</in>
-        <in>GlobalDebug.h</in>
-        <in>PackedColVector.h</in>
-        <in>PackedRowVector.h</in>
-        <in>SimpleVector.h</in>
         <in>extlp.cpp</in>
-        <in>notes.txt</in>
       </df>
       <df name="tools">
         <in>benchmark_disks.cpp</in>
@@ -82,8 +59,6 @@
         <in>mlock.cpp</in>
         <in>stxxl_tool.cpp</in>
       </df>
-      <in>myloc.sh</in>
-      <in>slocc.sh</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -123,9 +98,6 @@
               <Elem>_FILE_OFFSET_BITS=64</Elem>
               <Elem>_LARGEFILE_SOURCE</Elem>
               <Elem>_LARGE_FILES</Elem>
-              <Elem>_OPENMP=200805</Elem>
-              <Elem>_PTHREADS=1</Elem>
-              <Elem>_REENTRANT=1</Elem>
             </preprocessorList>
           </ccTool>
         </makeTool>
@@ -152,228 +124,93 @@
         </ccTool>
       </folder>
       <item path="lib/algo/async_schedule.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/common/cmdline.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/common/exithandler.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/common/log.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/common/rand.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/common/seed.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/common/utils.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/common/verbose.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/common/version.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/boostfd_file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/create_file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/disk_queued_file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/fileperblock_file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/iostats.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/mem_file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/mmap_file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/request.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/request_queue_impl_1q.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/request_queue_impl_qwqr.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/request_queue_impl_worker.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/request_with_state.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/request_with_waiters.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/serving_request.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/simdisk_file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/syscall_file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/ufs_file_base.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/wbtl_file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/wfs_file_base.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/io/wincall_file.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/mng/block_manager.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/mng/config.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="lib/mng/disk_allocator.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
-      </item>
-      <item path="local/ExtLPDSSet.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/ExtMatrixA.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/ExtMatrixB.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/ExtMatrixBInverse.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/ExtNameMap.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/ExtReadMPSUtil.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/ExtStxxlVector.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/ExtVectorUtil.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/FixedString.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/FixedStringUtil.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/GlobalDebug.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/PackedColVector.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/PackedRowVector.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/SimpleVector.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/deprecated/ExtColVector.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/deprecated/ExtFixedMatrix.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/deprecated/ExtReadMPSUtil.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/deprecated/ExtRowVector.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/deprecated/ExtStringVector.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="local/deprecated/ExtVectorPrototype.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
       </item>
       <item path="local/extlp.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
-      </item>
-      <item path="local/notes.txt" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="myloc.sh" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="slocc.sh" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tools/benchmark_disks.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="tools/benchmark_disks_random.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="tools/benchmark_files.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="tools/benchmark_pqueue.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="tools/benchmark_sort.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="tools/create_files.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="tools/mallinfo.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="tools/mlock.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
       <item path="tools/stxxl_tool.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool>
-        </ccTool>
       </item>
     </conf>
   </confs>

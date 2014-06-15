@@ -1,0 +1,2 @@
+[STXXL-MSG] STXXL v1.4.99 (prerelease/Debug) (git c92521a91aedb950d57cd7e0f596cc622f2e67c8)
+[STXXL-MSG] Disk '/var/tmp/stxxl' is allocated, space: 1000 MiB, I/O implementation: syscall autogrow delete_on_exit queue=0

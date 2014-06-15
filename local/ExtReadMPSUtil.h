@@ -49,9 +49,9 @@ public:
             if (!mps.readLine() || (mps.field1() == 0))
                 break;
             if (!strcmp(mps.field1(), "MIN"))
-                mps.setObjSense(false);
-            else if (!strcmp(mps.field1(), "MAX"))
                 mps.setObjSense(true);
+            else if (!strcmp(mps.field1(), "MAX"))
+                mps.setObjSense(false);
             else
                 break;
             // Look for ROWS or OBJNAME Section
@@ -110,6 +110,9 @@ public:
                 if (extDataSet.mapRowName.contains(mps.field2()))
                     break;
                 extDataSet.mapRowName.set(mps.field2(), i++);
+                if(i%10000==0){
+                    DEBUG_SIMPLE("Added Rows: "<<i);
+                }
                 row.set_name(mps.field2());
                 switch (*mps.field1()) {
                     case 'G':
@@ -261,29 +264,37 @@ endReadRows:
                     break;
                 }
                 if (colname[0] != '\0') {
-                    packed_vector.sort_by_index();
+                    //                    packed_vector.sort_by_index();
                     extDataSet.A.add_column(packed_col_vector);
                     //                    ExtColVector extCol(col);
                     //                    extDataSet.vctCols.push_back(extCol);
                     count_cols_read++;
-                    //                    DEBUG_SIMPLE("Read Col " << count_cols_read << ", with name: " << extCol.getName() << ", Sparsity: " << extCol.);
+                    if (count_cols_read % 10000 == 0)
+                        DEBUG_SIMPLE("Read Col " << count_cols_read);
                 }
                 mps.setSection(MPSInput::RHS);
                 return;
             }
-            if ((mps.field1() == 0) || (mps.field2() == 0) || (mps.field3() == 0))
+            //            DEBUG(mps.field1());
+            //            DEBUG(mps.field2());
+            //            DEBUG(mps.field3());
+            if (mps.field2() != 0 && strcmp("'MARKER'", mps.field2()) == 0)continue; // Ignore Marker
+            if ((mps.field1() == 0) || (mps.field2() == 0) || (mps.field3() == 0)) {
                 break;
-
+            }
             // new column?
             if (strcmp(colname, mps.field1())) {
+                //                DEBUG("Field: " << mps.field1());
+                //                exit(0);
                 // first column?
                 if (colname[0] != '\0') {
                     //                    ExtColVector extCol(col);
                     //                    extDataSet.vctCols.push_back(extCol);
-                    packed_vector.sort_by_index();
+                    //                    packed_vector.sort_by_index();
                     extDataSet.A.add_column(packed_col_vector);
                     count_cols_read++;
-                    //                    DEBUG_SIMPLE("Read Col " << count_cols_read << ", with name: " << extCol.getName() << ", Sparsity: " << extCol.get_sparsity());
+                    if (count_cols_read % 10000 == 0)
+                        DEBUG_SIMPLE("Read Col " << count_cols_read);
                 }
                 // save copy of string (make sure string ends with \0)
                 strncpy(colname, mps.field1(), MPSInput::MAX_LINE_LEN - 1);
@@ -298,6 +309,7 @@ endReadRows:
                 packed_col_vector.set_lower_bound(0.0);
                 packed_col_vector.set_upper_bound(INFINITY_VALUE);
             }
+            //            DEBUG("CAME HERE");
             val = atof(mps.field3());
             if (!strcmp(mps.field2(), mps.objName()))
                 packed_col_vector.set_objective_value(val);
@@ -331,6 +343,7 @@ endReadRows:
                 }
             }
         }
+        DEBUG("CAME HERE");
         mps.syntaxError();
     }
 
@@ -438,6 +451,7 @@ endReadRhs:
         DEBUG_PARSER("Reading Problem Name!!!");
         readName(mpsInput);
         extDataSet.set_problem_name(mpsInput.probName());
+        extDataSet.setObjSense(true);
         //    mpsSectionData = mpsSectionData + "Name: " + mpsInput.probName() + "\r\n";
         if (mpsInput.section() == MPSInput::OBJSEN) {
             DEBUG_PARSER("Reading Objective Sense!!!");

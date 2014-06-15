@@ -99,8 +99,8 @@ class ExtMatrixBInverse {
 private:
     //! Vector to store the Items onto external memory
     //! template parameters<ValueType, PageSize, CachePages, BlockSize, AllocStratg>
-    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_B_COL_BLOCKS_PER_PAGE, MATRIX_B_COL_PAGE_CACHE, MATRIX_B_COL_BLOCK_SIZE>::result item_col_vector;
-    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_B_ROW_BLOCKS_PER_PAGE, MATRIX_B_ROW_PAGE_CACHE, MATRIX_B_ROW_BLOCK_SIZE>::result item_row_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_B_COL_BLOCKS_PER_PAGE, MATRIX_B_COL_PAGE_CACHE, MATRIX_B_COL_BLOCK_SIZE, stxxl::RC, stxxl::random>::result item_col_vector;
+    typedef typename stxxl::VECTOR_GENERATOR<PackedElement, MATRIX_B_ROW_BLOCKS_PER_PAGE, MATRIX_B_ROW_PAGE_CACHE, MATRIX_B_ROW_BLOCK_SIZE, stxxl::RC, stxxl::random>::result item_row_vector;
     //! Storage for column-wise representation
     item_col_vector m_vct_col_disk;
     const item_col_vector& m_vct_read_only_col_disk;
@@ -125,7 +125,7 @@ public:
     typedef MatrixBInverseRowAttr RowAttr;
 
     //! Simple Initialization
-    ExtMatrixBInverse(bool p_is_row_build_necessary = true) :
+    ExtMatrixBInverse(bool p_is_row_build_necessary = false) :
     m_vct_read_only_col_disk(m_vct_col_disk),
     m_vct_read_only_row_disk(m_vct_row_disk),
     m_vct_read_only_col_attr(m_vct_col_attr),
@@ -292,6 +292,21 @@ public:
     //////////////////////////// - Common Matrix Operations - //////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
+    // Returns the size of the element in the matrix
+    unsigned int get_element_size(){
+        return sizeof(m_vct_read_only_col_disk[0]);
+    }
+    
+        // Returns the size of the meta-element in the matrix
+    unsigned int get_col_meta_element_size(){
+        return sizeof(m_vct_read_only_col_attr[0]);
+    }
+    
+    // Returns the size of the meta-element in the matrix
+    unsigned int get_row_meta_element_size(){
+        return sizeof(m_vct_read_only_row_attr[0]);
+    }
+    
     //! Clearing the whole BInverse container 
     void clear_matrix_b_inverse() {
         m_vct_col_attr.clear();

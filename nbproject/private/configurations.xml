@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="90">
+<configurationDescriptor version="94">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
+      <df name="analysis_outputs">
+      </df>
       <df name="build">
         <df name="CMakeFiles">
           <df name="CMakeTmp">
@@ -133,20 +135,6 @@
           <df name="CMakeFiles">
             <df name="extlp.dir">
             </df>
-            <df name="main.dir">
-            </df>
-            <df name="test1.dir">
-            </df>
-          </df>
-          <df name="input">
-            <df name="largelp">
-            </df>
-            <df name="miplib2010">
-            </df>
-            <df name="soplex">
-            </df>
-            <df name="soplex_standard">
-            </df>
           </df>
         </df>
         <df name="Testing">
@@ -201,12 +189,6 @@
         </df>
       </df>
       <df name="CMakeFiles">
-        <df name="CMakeTmp">
-          <df name="CMakeFiles">
-            <df name="cmTryCompileExec.dir">
-            </df>
-          </df>
-        </df>
         <df name="CompilerIdC">
           <in>CMakeCCompilerId.c</in>
         </df>
@@ -221,30 +203,24 @@
         <df name="images">
         </df>
       </df>
+      <df name="doxygen-html">
+        <df name="search">
+        </df>
+      </df>
       <df name="examples">
         <df name="algo">
-          <df name="CMakeFiles">
-          </df>
           <in>copy_and_sort_file.cpp</in>
           <in>phonebills.cpp</in>
           <in>phonebills_genlog.cpp</in>
           <in>sort_file.cpp</in>
         </df>
         <df name="applications">
-          <df name="CMakeFiles">
-          </df>
           <in>skew3.cpp</in>
         </df>
-        <df name="CMakeFiles">
-        </df>
         <df name="common">
-          <df name="CMakeFiles">
-          </df>
           <in>cmdline.cpp</in>
         </df>
         <df name="containers">
-          <df name="CMakeFiles">
-          </df>
           <in>copy_file.cpp</in>
           <in>deque1.cpp</in>
           <in>deque2.cpp</in>
@@ -264,9 +240,11 @@
           <in>vector_buf.cpp</in>
         </df>
         <df name="stream">
-          <df name="CMakeFiles">
-          </df>
           <in>stream1.cpp</in>
+        </df>
+      </df>
+      <df name="extlp-doc">
+        <df name="images">
         </df>
       </df>
       <df name="include">
@@ -426,8 +404,6 @@
         <df name="algo">
           <in>async_schedule.cpp</in>
         </df>
-        <df name="CMakeFiles">
-        </df>
         <df name="common">
           <in>cmdline.cpp</in>
           <in>exithandler.cpp</in>
@@ -469,15 +445,16 @@
         </df>
       </df>
       <df name="local">
-        <df name="CMakeFiles">
-        </df>
         <df name="deprecated">
           <in>ExtColVector.h</in>
           <in>ExtFixedMatrix.h</in>
           <in>ExtPackedVector.h</in>
+          <in>ExtPackedVector_1.h</in>
           <in>ExtReadMPSUtil.h</in>
           <in>ExtRowVector.h</in>
           <in>ExtStringVector.h</in>
+          <in>ExtStxxlVector.h</in>
+          <in>ExtVector.h</in>
           <in>ExtVectorPrototype.h</in>
           <in>Fraction.h</in>
           <in>LPCol.h</in>
@@ -490,18 +467,15 @@
           <in>Timer.h</in>
         </df>
         <in>Console.h</in>
+        <in>EtaVector.h</in>
         <in>ExtLPDSSet.h</in>
         <in>ExtMatrixA.h</in>
-        <in>ExtMatrixB.h</in>
         <in>ExtMatrixBInverse.h</in>
         <in>ExtNameMap.h</in>
-        <in>ExtPackedVector.h</in>
         <in>ExtReadMPSUtil.h</in>
-        <in>ExtStxxlVector.h</in>
-        <in>ExtVector.h</in>
+        <in>ExtSimplex.h</in>
         <in>ExtVectorUtil.h</in>
         <in>FixedString.h</in>
-        <in>FixedStringUtil.h</in>
         <in>GlobalDebug.h</in>
         <in>GlobalDefines.h</in>
         <in>LinkedList.h</in>
@@ -513,7 +487,6 @@
         <in>Test.h</in>
         <in>extlp.cpp</in>
         <in>mpsinput.h</in>
-        <in>notes.txt</in>
       </df>
       <df name="misc">
         <df name="cmake">
@@ -521,14 +494,8 @@
           <in>TestWindowsFSeek.c</in>
         </df>
       </df>
-      <df name="Testing">
-        <df name="Temporary">
-        </df>
-      </df>
       <df name="tests">
         <df name="algo">
-          <df name="CMakeFiles">
-          </df>
           <in>test_asch.cpp</in>
           <in>test_bad_cmp.cpp</in>
           <in>test_ksort.cpp</in>
@@ -542,11 +509,7 @@
           <in>test_stable_ksort.cpp</in>
           <in>test_stable_ksort_all_parameters.cpp</in>
         </df>
-        <df name="CMakeFiles">
-        </df>
         <df name="common">
-          <df name="CMakeFiles">
-          </df>
           <in>test_binary_buffer.cpp</in>
           <in>test_cmdline.cpp</in>
           <in>test_counting_ptr.cpp</in>
@@ -560,15 +523,11 @@
         </df>
         <df name="containers">
           <df name="btree">
-            <df name="CMakeFiles">
-            </df>
             <in>test_btree.cpp</in>
             <in>test_const_scan.cpp</in>
             <in>test_corr_insert_erase.cpp</in>
             <in>test_corr_insert_find.cpp</in>
             <in>test_corr_insert_scan.cpp</in>
-          </df>
-          <df name="CMakeFiles">
           </df>
           <in>map_test_handlers.h</in>
           <in>test_deque.cpp</in>
@@ -592,8 +551,6 @@
           <in>test_vector_sizes.cpp</in>
         </df>
         <df name="io">
-          <df name="CMakeFiles">
-          </df>
           <in>test_cancel.cpp</in>
           <in>test_io.cpp</in>
           <in>test_io_sizes.cpp</in>
@@ -601,8 +558,6 @@
           <in>test_sim_disk.cpp</in>
         </df>
         <df name="mng">
-          <df name="CMakeFiles">
-          </df>
           <in>test_aligned.cpp</in>
           <in>test_block_alloc_strategy.cpp</in>
           <in>test_block_manager.cpp</in>
@@ -618,8 +573,6 @@
           <in>test_write_pool.cpp</in>
         </df>
         <df name="stream">
-          <df name="CMakeFiles">
-          </df>
           <in>test_loop.cpp</in>
           <in>test_materialize.cpp</in>
           <in>test_naive_transpose.cpp</in>
@@ -631,8 +584,6 @@
       </df>
       <df name="tools">
         <df name="benchmarks">
-          <df name="CMakeFiles">
-          </df>
           <in>app_config.h</in>
           <in>benchmark_naive_matrix.cpp</in>
           <in>berkeley_db_benchmark.cpp</in>
@@ -642,11 +593,7 @@
           <in>stack_benchmark.cpp</in>
           <in>tpie_stack_benchmark.cpp</in>
         </df>
-        <df name="CMakeFiles">
-        </df>
         <df name="extras">
-          <df name="CMakeFiles">
-          </df>
           <in>benchmark_disk_and_flash.cpp</in>
           <in>iobench_scatter_in_place.cpp</in>
           <in>pq_param.cpp</in>
@@ -661,8 +608,6 @@
         <in>mlock.cpp</in>
         <in>stxxl_tool.cpp</in>
       </df>
-      <in>myloc.sh</in>
-      <in>slocc.sh</in>
     </df>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -707,8 +652,10 @@
           <runcommandpicklistitem>./main -t -L20 input/afiro.mps</runcommandpicklistitem>
           <runcommandpicklistitem>./main -t -L20 input/soplex/afiro.mps</runcommandpicklistitem>
           <runcommandpicklistitem>./extlp -t -L20 input/soplex/afiro.mps</runcommandpicklistitem>
+          <runcommandpicklistitem>./extlp  input/MyInput.mps</runcommandpicklistitem>
+          <runcommandpicklistitem>./extlp  input/soplex/afiro.mps</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>./extlp -t -L20 input/soplex/afiro.mps</runcommand>
+        <runcommand>./extlp  input/soplex/afiro.mps</runcommand>
         <rundir>./build/local</rundir>
         <buildfirst>false</buildfirst>
         <terminal-type>0</terminal-type>

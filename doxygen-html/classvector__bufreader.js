@@ -1,0 +1,28 @@
+var classvector__bufreader =
+[
+    [ "bids_container_iterator", "classvector__bufreader.html#a0ce669c5dc999e4032558bcf99e7a473", null ],
+    [ "block_type", "classvector__bufreader.html#ad70c0cc4eacb81f10ea837a57d2ffd7d", null ],
+    [ "buf_istream_type", "classvector__bufreader.html#ab664a9f0ed1ad646692454cb31180dd8", null ],
+    [ "bufreader_iterator", "classvector__bufreader.html#a768406feb43a712bd4864ffcad3e46e2", null ],
+    [ "value_type", "classvector__bufreader.html#a3954718654b10b36e49a88a8e0bf535e", null ],
+    [ "vector_iterator", "classvector__bufreader.html#ab34a8b4e04a6ee16f8eabdd542783ada", null ],
+    [ "vector_type", "classvector__bufreader.html#a009c95af47c7d4df4b0974330ee26188", null ],
+    [ "vector_bufreader", "classvector__bufreader.html#a333e536c45b0ccec024db1fccbd27c8c", null ],
+    [ "vector_bufreader", "classvector__bufreader.html#a4ec68ee26c0c03dc7efe757e7d808278", null ],
+    [ "~vector_bufreader", "classvector__bufreader.html#a50a3daba2b556985ec267e5784b5174d", null ],
+    [ "begin", "classvector__bufreader.html#a1a200a6be8cc8c7c343001945a47d76c", null ],
+    [ "empty", "classvector__bufreader.html#a100cbefb8d82116f38ca281bbd98952d", null ],
+    [ "end", "classvector__bufreader.html#a4d675b0b7d5ab2ef45e5b4beece519f7", null ],
+    [ "operator*", "classvector__bufreader.html#adbe33f1817f43456e5d334fafd0261e8", null ],
+    [ "operator++", "classvector__bufreader.html#ac530b72bea7a2fd6d815b382384265c2", null ],
+    [ "operator->", "classvector__bufreader.html#a6572b8d365f73ce4661e82dc84d38b80", null ],
+    [ "operator>>", "classvector__bufreader.html#ab673a8fb6af5ad7c167c7dd6b8837cbb", null ],
+    [ "rewind", "classvector__bufreader.html#a75f7d4dea94a713dd0c89c53a46523d5", null ],
+    [ "size", "classvector__bufreader.html#ac93a4b807e0a8934a41e48ece8f723e6", null ],
+    [ "vector_bufreader_iterator< vector_bufreader >", "classvector__bufreader.html#aeaa7aa3dd279854ed15101af2397990b", null ],
+    [ "m_begin", "classvector__bufreader.html#ab0db7b6184a412da7a0df5f739c321ab", null ],
+    [ "m_bufin", "classvector__bufreader.html#aee6ccd9880fe2e839ee08bd8f710bc1e", null ],
+    [ "m_end", "classvector__bufreader.html#a64c78741ba8d470e720ca235e07634a6", null ],
+    [ "m_iter", "classvector__bufreader.html#aa3e6d1542178a838e0d0670adf2f9b0c", null ],
+    [ "m_nbuffers", "classvector__bufreader.html#a12ba8be7ad4b6a5fda992474d2bb99de", null ]
+];

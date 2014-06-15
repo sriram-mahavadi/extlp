@@ -47,7 +47,7 @@ public:
     //! and initialization of B Inverse. 
     //! TODO - Need to find a proper base using pre-solve rather than Identity matrix every time.
     void init_simplex() {
-        extDataSet.setObjSense(MIN);
+        //        extDataSet.setObjSense(MAX);
         m_base_col_indices = extDataSet.A.standardize_matrix();
         extDataSet.BInverse.build_matrix_b_inverse(extDataSet.A, m_base_col_indices);
         extDataSet.A.store_row_rhs_values(m_vct_rhs);
@@ -60,19 +60,29 @@ public:
         //        debug_rhs_values();
         //        debug_objective_values();
         unsigned int status = SIMPLEX_CJZJ_UNINTIALIZED;
+        bool iterations_limit_bool = false;
+        unsigned int iterations_limit_value = 10;
+        unsigned int /*expected_io = 0,*/ expected_read_io = 0, expected_write_io = 0;
         do {
+            // Iterations limit
+            if (iterations_limit_bool && iterations_limit_value == 0)break;
+            if (iterations_limit_bool)iterations_limit_value--;
+
             stxxl::stats * Stats = stxxl::stats::get_instance();
             stxxl::stats_data stats_begin(*Stats);
 
-            status = update_simplex_iteration();
+            //            expected_io = get_expected_io_currently(extDataSet);
+            expected_read_io = get_expected_read_io_currently(extDataSet);
 
+            status = update_simplex_iteration();
+            expected_write_io = get_expected_write_io_currently(extDataSet);
             stxxl::stats_data diff_data = stxxl::stats_data(*Stats) - stats_begin;
-            print_io_statistics(diff_data, extDataSet, (m_iteration_count == 1), true);
+            print_io_statistics(diff_data, extDataSet, expected_read_io, expected_write_io, (m_iteration_count == 1), true);
             //         print_solution();
         } while (status == SIMPLEX_CJZJ_POSITIVE);
         if (status == SIMPLEX_INVALID_MIN_RATIO) {
-            DEBUG("Unbounded Solution!!!");
-            exit(0);
+            CONSOLE_PRINTLN("Objective Value: Unbounded");
+            return;
         }
         print_solution();
     }
@@ -80,6 +90,42 @@ public:
     //! Returns the dimension m from the mxm base matrix
     unsigned int get_basis_dimension() {
         return m_base_col_indices.get_size();
+    }
+    unsigned int get_expected_io_currently(ExtLPDSSet& extDataSet) {
+        return get_expected_read_io_currently(extDataSet) + get_expected_write_io_currently(extDataSet);
+        // +1 for fetching a_k
+        // +1 if a_k is split across 2 blocks
+    }
+    unsigned int get_expected_read_io_currently(ExtLPDSSet& extDataSet) {
+        unsigned int a_blocks_count = ceil((double) extDataSet.A.get_element_size()*((double) extDataSet.A.get_overall_nnz() / MATRIX_A_BLOCK_SIZE));
+        unsigned int a_col_meta_blocks_count = ceil((double) extDataSet.A.get_col_meta_element_size()*((double) extDataSet.A.get_columns_count() / MATRIX_A_COL_DATA_BLOCK_SIZE));
+        unsigned int a_row_meta_blocks_count = ceil((double) extDataSet.A.get_row_meta_element_size()*((double) extDataSet.A.get_rows_count() / MATRIX_A_ROW_DATA_BLOCK_SIZE));
+        a_blocks_count += (a_col_meta_blocks_count+a_row_meta_blocks_count);
+        unsigned int b_blocks_count = ceil((double) extDataSet.BInverse.get_element_size() * extDataSet.BInverse.get_overall_nnz() / MATRIX_B_COL_BLOCK_SIZE);
+        unsigned int b_col_meta_blocks_count = ceil((double) extDataSet.BInverse.get_col_meta_element_size()*((double) extDataSet.A.get_columns_count() / MATRIX_B_COL_DATA_BLOCK_SIZE));
+        unsigned int b_row_meta_blocks_count = ceil((double) extDataSet.BInverse.get_row_meta_element_size()*((double) extDataSet.A.get_rows_count() / MATRIX_B_ROW_DATA_BLOCK_SIZE));
+        b_blocks_count += (b_col_meta_blocks_count+b_row_meta_blocks_count);
+        
+        //        DEBUG("Element Size: "<<extDataSet.A.get_element_size());
+        //        DEBUG("A Blocks: "<<a_blocks_count);
+        //        DEBUG("B Blocks: "<<b_blocks_count);
+        //        DEBUG("A NNZ: "<<extDataSet.A.get_overall_nnz());
+        //        DEBUG("B NNZ: "<<extDataSet.BInverse.get_overall_nnz());
+        //        DEBUG("A Block: "<<(double)MATRIX_A_BLOCK_SIZE);
+        //        DEBUG("B Block: "<<MATRIX_B_COL_BLOCK_SIZE);
+        //        DEBUG("DIV A Value: "<<((double)extDataSet..get_overall_nnz()*1.0) / (((double)MATRIX_A_BLOCK_SIZE)*1.0) );
+        //        DEBUG("DIV B Value: "<<((double)extDataSet.BInverse.get_overall_nnz() / (double)MATRIX_B_COL_DATA_BLOCK_SIZE));
+        return a_blocks_count + 3 * b_blocks_count + 1 + 1;
+        // +1 for fetching a_k
+        // +1 if a_k is split across 2 blocks
+    }
+    unsigned int get_expected_write_io_currently(ExtLPDSSet& extDataSet) {
+        unsigned int b_blocks_count = ceil((double) extDataSet.BInverse.get_element_size() * extDataSet.BInverse.get_overall_nnz() / (MATRIX_B_COL_BLOCK_SIZE));
+        unsigned int b_col_meta_blocks_count = ceil((double) extDataSet.BInverse.get_col_meta_element_size()*((double) extDataSet.A.get_columns_count() / MATRIX_B_COL_DATA_BLOCK_SIZE));
+        unsigned int b_row_meta_blocks_count = ceil((double) extDataSet.BInverse.get_row_meta_element_size()*((double) extDataSet.A.get_rows_count() / MATRIX_B_ROW_DATA_BLOCK_SIZE));
+        b_blocks_count += (b_col_meta_blocks_count+b_row_meta_blocks_count);
+        return b_blocks_count + 1;
+        // +1 for chaining effect of matrix A write
     }
 
     //! Simplex iteration process
@@ -146,11 +192,11 @@ public:
                 r = row_index;
             }
             // Elimintating Cycles in Simplex - Bland Method
-            if(ratio>=0.0F && ratio==min_ratio){
+            if (ratio >= 0.0F && ratio == min_ratio) {
                 // Already existing leaving variable may have a greater index value, then replace it
                 unsigned int a_r_index = b_inverse.get_col_attr(r).get_a_col_index();
                 unsigned int a_row_index = b_inverse.get_col_attr(row_index).get_a_col_index();
-                if(a_r_index>a_row_index){
+                if (a_r_index > a_row_index) {
                     r = row_index;
                 }
             }
@@ -216,7 +262,8 @@ public:
         //        debug_base_col_indices();
         return SIMPLEX_CJZJ_POSITIVE;
     }
-    void print_io_statistics(stxxl::stats_data diff_data, ExtLPDSSet& extDataSet, bool print_header = false, bool is_objective_reqd=false) {
+    void print_io_statistics(stxxl::stats_data diff_data, ExtLPDSSet& extDataSet, unsigned int expected_read_io,
+            unsigned int expected_write_io, bool print_header = false, bool is_objective_reqd = false) {
         int width = 15;
         if (print_header) {
             std::stringstream header_stream;
@@ -239,8 +286,8 @@ public:
         statistics_stream << std::setw(width) << m_iteration_count << ", ";
         statistics_stream << std::setw(width) << diff_data.get_reads() << ", ";
         statistics_stream << std::setw(width) << diff_data.get_writes() << ", ";
-        statistics_stream << std::setw(width) << diff_data.get_reads() << ", "; // Todo Estimate
-        statistics_stream << std::setw(width) << diff_data.get_writes() << ", "; // Todo Estimate
+        statistics_stream << std::setw(width) << expected_read_io << ", "; // Todo Estimate
+        statistics_stream << std::setw(width) << expected_write_io << ", "; // Todo Estimate
         statistics_stream << std::setw(width) << extDataSet.BInverse.get_overall_nnz() << ", ";
         statistics_stream << std::setw(width) << extDataSet.BInverse.get_overall_density() << ", ";
         statistics_stream << std::setw(width) << diff_data.get_io_wait_time() << ", ";
@@ -260,7 +307,7 @@ public:
     void print_solution() {
         // objective value
         REAL z = 0.0F;
-        z=get_objective_function_value();
+        z = get_objective_function_value();
         CONSOLE_PRINTLN("Objective Value: " << z);
     }
     //////////////////////////////////////////////////////////////////////
